@@ -1,0 +1,543 @@
+---
+import { Image } from "astro:assets";
+import testimonio1 from "../assets/images/home/testimonios/testimonio_1.png";
+import testimonio2 from "../assets/images/home/testimonios/testimonio_2.png";
+import testimonio3 from "../assets/images/home/testimonios/testimonio_3.png";
+import testimonio4 from "../assets/images/home/testimonios/testimonio_4.png";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonios - Imágenes Grandes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      padding: 3rem 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003d82;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto 4rem;
+      padding: 3rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 61, 130, 0.1);
+    }
+
+    .section-title {
+      text-align: center;
+      color: #003d82;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      font-weight: 900;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    /* OPCIÓN 1: IMAGEN MASIVA CON OVERLAY */
+    .testimonial-hero {
+      position: relative;
+      height: 550px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      box-shadow: 0 16px 48px rgba(0, 61, 130, 0.2);
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .testimonial-hero:hover {
+      box-shadow: 0 24px 64px rgba(0, 61, 130, 0.3);
+    }
+
+    .hero-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .testimonial-hero:hover .hero-image img {
+      transform: scale(1.05);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 3rem;
+      color: white;
+      z-index: 2;
+    }
+
+    .hero-text {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-weight: 500;
+      max-width: 800px;
+    }
+
+    .hero-author {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-role {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* OPCIÓN 2: GRID CON IMÁGENES ENORMES */
+    .testimonials-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .testimonial-showcase {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(0, 61, 130, 0.15);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .testimonial-showcase:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 24px 56px rgba(0, 61, 130, 0.25);
+    }
+
+    .showcase-image {
+      width: 100%;
+      height: 350px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .showcase-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .testimonial-showcase:hover .showcase-image img {
+      transform: scale(1.08);
+    }
+
+    .showcase-content {
+      padding: 2.5rem 2rem;
+      background: white;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .showcase-text {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .showcase-author {
+      font-weight: 800;
+      color: #003d82;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .showcase-role {
+      font-size: 0.9rem;
+      color: #ff9900;
+      font-weight: 600;
+    }
+
+    /* OPCIÓN 3: CARRUSEL CON IMAGEN GIGANTE */
+    .carousel-large {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f3f7 100%);
+      box-shadow: 0 16px 48px rgba(0, 61, 130, 0.15);
+    }
+
+    .carousel-slide-large {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .carousel-slide-large.active {
+      display: grid;
+    }
+
+    .carousel-image-large {
+      width: 100%;
+      height: 450px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-image-large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-content-large {
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .carousel-text-large {
+      font-size: 1.2rem;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .carousel-author-large {
+      font-weight: 800;
+      color: #003d82;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .carousel-role-large {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .carousel-nav-large {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .dot-large {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(0, 61, 130, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot-large.active {
+      background: #ff9900;
+      width: 32px;
+      border-radius: 6px;
+    }
+
+    .carousel-arrow-large {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      color: #003d82;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel-arrow-large:hover {
+      background: #ff9900;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .carousel-arrow-large.prev {
+      left: 2rem;
+    }
+
+    .carousel-arrow-large.next {
+      right: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .carousel-slide-large {
+        grid-template-columns: 1fr;
+      }
+
+      .carousel-image-large {
+        height: 300px;
+      }
+
+      .carousel-content-large {
+        padding: 2rem;
+      }
+
+      .testimonial-hero {
+        height: 400px;
+      }
+
+      .showcase-image {
+        height: 250px;
+      }
+    }
+
+    .desc-box {
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border-left: 4px solid #ff9900;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Testimonios - Imágenes GRANDES</h1>
+
+  <!-- OPCIÓN 1: HERO MASIVO -->
+  <div class="section-container">
+    <h2 class="section-title">Opción 1: Imagen Masiva con Overlay</h2>
+    <p class="section-subtitle">Una sola imagen gigante que cambia de testimonial</p>
+
+    <div class="testimonial-hero">
+      <div class="hero-image">
+        <img src={testimonio1.src} alt="Testimonio">
+      </div>
+      <div class="hero-overlay">
+        <div class="hero-text">"Boston Bilingual School ha transformado la vida de nuestro hijo. Su dominio del inglés y su confianza en el aula han crecido enormemente."</div>
+        <div class="hero-author">Familia García</div>
+        <div class="hero-role">Padres de estudiante</div>
+      </div>
+    </div>
+
+    <div class="desc-box">
+      <strong>Opción 1:</strong> Imagen gigante (550px) con gradiente oscuro overlay. Muy impactante y épico. El texto aparece sobre la imagen.
+    </div>
+  </div>
+
+  <!-- OPCIÓN 2: GRID CON IMÁGENES ENORMES -->
+  <div class="section-container">
+    <h2 class="section-title">Opción 2: Grid - Imágenes Enormes (350px)</h2>
+    <p class="section-subtitle">Todos los testimonios con imágenes grandes y prominentes</p>
+
+    <div class="testimonials-showcase">
+      <div class="testimonial-showcase">
+        <div class="showcase-image">
+          <img src={testimonio1.src} alt="Familia García">
+        </div>
+        <div class="showcase-content">
+          <div class="showcase-text">"Boston Bilingual School ha transformado la vida de nuestro hijo. Su dominio del inglés y su confianza han crecido enormemente."</div>
+          <div>
+            <div class="showcase-author">Familia García</div>
+            <div class="showcase-role">Padres de estudiante</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-showcase">
+        <div class="showcase-image">
+          <img src={testimonio2.src} alt="María">
+        </div>
+        <div class="showcase-content">
+          <div class="showcase-text">"Me encanta estudiar en Boston. Los programas de robótica y ajedrez son increíbles. Aquí no solo aprendo, sino que crezco como persona."</div>
+          <div>
+            <div class="showcase-author">María, 5° grado</div>
+            <div class="showcase-role">Estudiante</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-showcase">
+        <div class="showcase-image">
+          <img src={testimonio3.src} alt="Luis">
+        </div>
+        <div class="showcase-content">
+          <div class="showcase-text">"El proyecto de ajedrez me enseñó a pensar estratégicamente. Los profesores crean un ambiente donde los errores son oportunidades."</div>
+          <div>
+            <div class="showcase-author">Luis, 3° grado</div>
+            <div class="showcase-role">Estudiante</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-showcase">
+        <div class="showcase-image">
+          <img src={testimonio4.src} alt="Dra. Rodríguez">
+        </div>
+        <div class="showcase-content">
+          <div class="showcase-text">"Como profesora, tengo todas las herramientas para desarrollar el potencial de mis estudiantes. La escuela invierte constantemente en capacitación."</div>
+          <div>
+            <div class="showcase-author">Dra. Rodríguez</div>
+            <div class="showcase-role">Docente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="desc-box">
+      <strong>Opción 2:</strong> Grid con imágenes gigantes (350px altura). Muy visual y fotográfico. Ideal para mostrar rostros y personas.
+    </div>
+  </div>
+
+  <!-- OPCIÓN 3: CARRUSEL SPLIT -->
+  <div class="section-container">
+    <h2 class="section-title">Opción 3: Carrusel Split - Imagen Gigante + Texto</h2>
+    <p class="section-subtitle">Imagen a un lado, texto al otro. Auto-rotativo</p>
+
+    <div class="carousel-large">
+      <div class="carousel-slide-large active">
+        <div class="carousel-image-large">
+          <img src={testimonio1.src} alt="Familia García">
+        </div>
+        <div class="carousel-content-large">
+          <div class="carousel-text-large">"Boston Bilingual School ha transformado la vida de nuestro hijo. Su dominio del inglés y su confianza en el aula han crecido enormemente. Los profesores son dedicados."</div>
+          <div class="carousel-author-large">Familia García</div>
+          <div class="carousel-role-large">Padres de estudiante</div>
+          <div class="carousel-nav-large">
+            <div class="dot-large active"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-slide-large">
+        <div class="carousel-image-large">
+          <img src={testimonio2.src} alt="María">
+        </div>
+        <div class="carousel-content-large">
+          <div class="carousel-text-large">"Me encanta estudiar en Boston. Los programas de robótica y ajedrez son increíbles, y mis amigos son lo mejor. Aquí no solo aprendo, sino que crezco como persona."</div>
+          <div class="carousel-author-large">María, 5° grado</div>
+          <div class="carousel-role-large">Estudiante</div>
+          <div class="carousel-nav-large">
+            <div class="dot-large"></div>
+            <div class="dot-large active"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-slide-large">
+        <div class="carousel-image-large">
+          <img src={testimonio3.src} alt="Luis">
+        </div>
+        <div class="carousel-content-large">
+          <div class="carousel-text-large">"El proyecto de ajedrez me enseñó a pensar estratégicamente. Los profesores crean un ambiente donde los errores son oportunidades de aprendizaje, no fracasos."</div>
+          <div class="carousel-author-large">Luis, 3° grado</div>
+          <div class="carousel-role-large">Estudiante</div>
+          <div class="carousel-nav-large">
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large active"></div>
+            <div class="dot-large"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-slide-large">
+        <div class="carousel-image-large">
+          <img src={testimonio4.src} alt="Dra. Rodríguez">
+        </div>
+        <div class="carousel-content-large">
+          <div class="carousel-text-large">"Como profesora, siento que tengo todas las herramientas para desarrollar el potencial de mis estudiantes. La escuela invierte en capacitación y recursos constantemente."</div>
+          <div class="carousel-author-large">Dra. Rodríguez</div>
+          <div class="carousel-role-large">Docente</div>
+          <div class="carousel-nav-large">
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large"></div>
+            <div class="dot-large active"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-arrow-large prev">←</button>
+      <button class="carousel-arrow-large next">→</button>
+    </div>
+
+    <div class="desc-box">
+      <strong>Opción 3:</strong> Carrusel con imagen gigante (450px) lado a lado con texto. Split layout. Premium y muy visual.
+    </div>
+  </div>
+
+  <script>
+    // Carousel functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide-large');
+    const dots = document.querySelectorAll('.dot-large');
+
+    function showSlide(n) {
+      slides[currentSlide].classList.remove('active');
+      dots[currentSlide].classList.remove('active');
+      currentSlide = (n + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      dots[currentSlide].classList.add('active');
+    }
+
+    document.querySelector('.carousel-arrow-large.prev').addEventListener('click', () => {
+      showSlide(currentSlide - 1);
+    });
+
+    document.querySelector('.carousel-arrow-large.next').addEventListener('click', () => {
+      showSlide(currentSlide + 1);
+    });
+
+    // Auto-play
+    setInterval(() => {
+      showSlide(currentSlide + 1);
+    }, 8000);
+  </script>
+</body>
+</html>

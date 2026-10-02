@@ -1,0 +1,261 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getTranslation } from "../i18n/translations";
+import Footer from "../components/Footer.astro";
+
+const lang = "es";
+const t = getTranslation(lang);
+---
+
+<Layout title="Admisiones - Boston Bilingual School" lang={lang}>
+	<main class="admissions-page">
+		<section class="hero-section">
+			<div class="container">
+				<h1>Proceso de Admisión 2027</h1>
+				<p>Únete a la comunidad de Boston Bilingual School</p>
+			</div>
+		</section>
+
+		<section class="process">
+			<div class="container">
+				<h2>Proceso de Admisión</h2>
+
+				<div class="steps">
+					<div class="step">
+						<div class="step-number">1</div>
+						<h3>Solicitud de Vacante</h3>
+						<p>Consulta disponibilidad de vacantes por grado y sección a través de nuestro formulario de contacto.</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">2</div>
+						<h3>Entrevista y Evaluación</h3>
+						<p>Reunión con la familia y evaluación de admisión si es requerida según el nivel solicitado.</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">3</div>
+						<h3>Documentación</h3>
+						<p>Presentación de requisitos y documentación necesaria para completar el proceso.</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">4</div>
+						<h3>Matrícula</h3>
+						<p>Firma del contrato de servicio educativo e inicio del año escolar.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="requirements">
+			<div class="container">
+				<h2>Requisitos y Documentación</h2>
+
+				<div class="requirements-grid">
+					<div class="req-card">
+						<h3>Para Traslados</h3>
+						<ul>
+							<li>✓ Libreta de notas</li>
+							<li>✓ Foto del DNI del estudiante</li>
+							<li>✓ Foto del DNI de ambos padres</li>
+							<li>✓ Constancia de no adeudo</li>
+							<li>✓ Ficha de Postulación Online</li>
+						</ul>
+					</div>
+
+					<div class="req-card">
+						<h3>Formulario Online</h3>
+						<ul>
+							<li>✓ Datos del estudiante</li>
+							<li>✓ Grado al que postula</li>
+							<li>✓ Datos de contacto padres</li>
+							<li>✓ Medio de contacto preferido</li>
+							<li>✓ Información adicional</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="cta-section">
+			<div class="container">
+				<h2>¿Listo para iniciar?</h2>
+				<p>Completa nuestro formulario de contacto y nos pondremos en comunicación contigo en breve.</p>
+				<a href="/contacto" class="cta-button">Contactar Ahora</a>
+				<a href="https://wa.me/51976586016" class="cta-button cta-button--secondary" target="_blank">WhatsApp</a>
+			</div>
+		</section>
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.admissions-page {
+		background: white;
+	}
+
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.hero-section h1 {
+		font-size: 3rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.hero-section p {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.process {
+		padding: 4rem 0;
+	}
+
+	.process h2,
+	.requirements h2,
+	.cta-section h2 {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 3rem;
+		font-weight: 800;
+	}
+
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 2rem;
+	}
+
+	.step {
+		text-align: center;
+		position: relative;
+	}
+
+	.step-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 60px;
+		background: var(--color-accent);
+		color: white;
+		border-radius: 50%;
+		font-size: 1.8rem;
+		font-weight: 800;
+		margin-bottom: 1rem;
+	}
+
+	.step h3 {
+		color: var(--color-primary);
+		margin: 0 0 0.5rem 0;
+	}
+
+	.step p {
+		color: var(--color-text-muted);
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	.requirements {
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
+	}
+
+	.requirements-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+	}
+
+	.req-card {
+		background: white;
+		padding: 2rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	}
+
+	.req-card h3 {
+		color: var(--color-primary);
+		margin-top: 0;
+		font-size: 1.3rem;
+	}
+
+	.req-card ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.req-card li {
+		padding: 0.75rem 0;
+		color: var(--color-text);
+		border-bottom: 1px solid #eee;
+	}
+
+	.req-card li:last-child {
+		border-bottom: none;
+	}
+
+	.cta-section {
+		padding: 4rem 0;
+		text-align: center;
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+	}
+
+	.cta-section p {
+		font-size: 1.1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.cta-button {
+		display: inline-block;
+		background: white;
+		color: var(--color-primary);
+		padding: 1rem 2rem;
+		border-radius: 4px;
+		text-decoration: none;
+		font-weight: 700;
+		margin: 0 0.5rem;
+		transition: all 0.3s ease;
+	}
+
+	.cta-button:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
+
+	.cta-button--secondary {
+		background: transparent;
+		border: 2px solid white;
+		color: white;
+	}
+
+	.cta-button--secondary:hover {
+		background: white;
+		color: var(--color-primary);
+	}
+
+	@media (max-width: 768px) {
+		.requirements-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-section h1 {
+			font-size: 2rem;
+		}
+
+		.cta-button {
+			display: block;
+			margin: 0.5rem auto;
+			max-width: 300px;
+		}
+	}
+</style>

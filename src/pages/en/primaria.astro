@@ -1,0 +1,182 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getTranslation } from "../../i18n/translations";
+import Footer from "../../components/Footer.astro";
+
+const lang = "en";
+const t = getTranslation(lang);
+---
+
+<Layout title="Primary - Boston Bilingual School" lang={lang}>
+	<main class="level-page">
+		<section class="hero-section">
+			<div class="container">
+				<h1>Primary Education</h1>
+				<p>Comprehensive education with emphasis on bilingualism and innovation</p>
+			</div>
+		</section>
+
+		<section class="curriculum">
+			<div class="container">
+				<h2>Curriculum</h2>
+
+				<div class="curriculum-grid">
+					<div>
+						<h3>1st and 2nd Grade</h3>
+						<ul>
+							<li>Mathematics</li>
+							<li>Communication</li>
+							<li>Science and Environment</li>
+							<li>Personal and Social Studies</li>
+							<li>Music</li>
+							<li>Robotics</li>
+							<li>English</li>
+							<li>Physical Education</li>
+							<li>Chess</li>
+							<li>Tutoring</li>
+						</ul>
+					</div>
+
+					<div>
+						<h3>3rd to 6th Grade</h3>
+						<ul>
+							<li>Mathematics</li>
+							<li>Communication</li>
+							<li>Science and Technology</li>
+							<li>Personal and Social Studies</li>
+							<li>Robotics</li>
+							<li>English</li>
+							<li>French</li>
+							<li>Physical Education</li>
+							<li>Chess</li>
+							<li>Tutoring</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="programs">
+			<div class="container">
+				<h2>Special Programs</h2>
+
+				<div class="programs-grid">
+					<article>
+						<h3>Robotics</h3>
+						<p>Regular course throughout the academic trajectory with dedicated laboratory for developing innovative technology projects.</p>
+					</article>
+
+					<article>
+						<h3>Chess</h3>
+						<p>Integrated chess program that develops strategic thinking, concentration and decision-making skills.</p>
+					</article>
+
+					<article>
+						<h3>Bilingualism</h3>
+						<p>Immersion in English from the beginning and French from 3rd grade with international certification.</p>
+					</article>
+
+					<article>
+						<h3>Complementary Activities</h3>
+						<p>Academic reinforcement, educational visits to museums and archaeological sites, preparation for competitions.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.level-page {
+		background: white;
+	}
+
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.hero-section h1 {
+		font-size: 3rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.hero-section p {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.curriculum {
+		padding: 4rem 0;
+	}
+
+	.curriculum h2,
+	.programs h2 {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 2rem;
+		font-weight: 800;
+	}
+
+	.curriculum-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+	}
+
+	.curriculum-grid h3 {
+		color: var(--color-accent);
+		margin-bottom: 1rem;
+		font-size: 1.3rem;
+	}
+
+	.curriculum-grid ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.curriculum-grid li {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid #eee;
+		color: var(--color-text);
+	}
+
+	.programs {
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
+	}
+
+	.programs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+	}
+
+	.programs-grid article {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	}
+
+	.programs-grid h3 {
+		color: var(--color-primary);
+		margin-top: 0;
+	}
+
+	@media (max-width: 768px) {
+		.curriculum-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-section h1 {
+			font-size: 2rem;
+		}
+	}
+</style>

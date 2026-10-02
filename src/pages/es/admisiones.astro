@@ -1,0 +1,455 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getTranslation } from "../../i18n/translations";
+import Footer from "../../components/Footer.astro";
+import AdmissionsFormSimple from "../../components/AdmissionsFormSimple.astro";
+
+const lang = "es";
+const t = getTranslation(lang);
+---
+
+<Layout title="Admisiones - Boston Bilingual School" lang={lang}>
+	<main class="admissions-page">
+		<section class="hero-section">
+			<div class="container">
+				<h1>Admisiones 2027</h1>
+				<p>Únete a nuestra comunidad educativa de excelencia</p>
+			</div>
+		</section>
+
+		<section class="process-section">
+			<div class="container">
+				<h2>Proceso de Admisión</h2>
+
+				<div class="process-grid">
+					<div class="process-step">
+						<div class="step-number">01</div>
+						<h3>Solicitud de Vacante</h3>
+						<p>Consulta de disponibilidad por grado y sección. Contacta con nuestro equipo para conocer los lugares disponibles.</p>
+					</div>
+
+					<div class="process-step">
+						<div class="step-number">02</div>
+						<h3>Entrevista o Evaluación</h3>
+						<p>Entrevista con la familia y/o evaluación de admisión para conocer el perfil del estudiante.</p>
+					</div>
+
+					<div class="process-step">
+						<div class="step-number">03</div>
+						<h3>Documentación</h3>
+						<p>Presentación de documentación y requisitos necesarios para completar el proceso.</p>
+					</div>
+
+					<div class="process-step">
+						<div class="step-number">04</div>
+						<h3>Matrícula</h3>
+						<p>Matrícula y firma del contrato de servicio educativo para formalizar tu ingreso.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="requirements-section">
+			<div class="container">
+				<h2>Requisitos y Documentación</h2>
+
+				<div class="requirements-content">
+					<div class="requirements-column">
+						<h3>Para Traslados</h3>
+						<p class="subtitle">Se solicita la siguiente documentación:</p>
+						<ul class="requirements-list">
+							<li>Libreta de notas</li>
+							<li>Foto del DNI del estudiante</li>
+							<li>Foto del DNI de ambos padres</li>
+							<li>Constancia de no adeudo del colegio de procedencia</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="form-section">
+			<div class="container">
+				<AdmissionsFormSimple lang="es" />
+			</div>
+		</section>
+
+		<section class="contact-cta">
+			<div class="container">
+				<h2>¿Tienes Preguntas?</h2>
+				<p>Nuestro equipo de admisiones está disponible para resolver todas tus dudas</p>
+				<div class="contact-methods">
+					<div class="contact-item">
+						<h3>Teléfono</h3>
+						<p>+51 976 586 016</p>
+					</div>
+					<div class="contact-item">
+						<h3>WhatsApp</h3>
+						<p>+51 976 586 016</p>
+					</div>
+					<div class="contact-item">
+						<h3>Email</h3>
+						<p>info@boston.edu.pe</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.admissions-page {
+		background: white;
+	}
+
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.hero-section h1 {
+		font-size: 3rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.hero-section p {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.process-section {
+		padding: 4rem 0;
+	}
+
+	.process-section h2 {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 3rem;
+		font-weight: 800;
+	}
+
+	.process-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+	}
+
+	.process-step {
+		padding: 2rem;
+		background: var(--color-bg-alt);
+		border-radius: 8px;
+		text-align: center;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		border-left: 4px solid var(--color-accent);
+	}
+
+	.process-step:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+	}
+
+	.step-number {
+		font-size: 2.5rem;
+		font-weight: 800;
+		color: var(--color-accent);
+		margin-bottom: 1rem;
+	}
+
+	.process-step h3 {
+		color: var(--color-primary);
+		margin: 1rem 0;
+		font-size: 1.2rem;
+	}
+
+	.process-step p {
+		color: var(--color-text);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.requirements-section {
+		padding: 4rem 0;
+		background: white;
+	}
+
+	.form-section {
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
+	}
+
+	.requirements-section h2 {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 3rem;
+		font-weight: 800;
+	}
+
+	.requirements-content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+	}
+
+	.requirements-column h3 {
+		color: var(--color-primary);
+		font-size: 1.3rem;
+		margin-bottom: 1rem;
+	}
+
+	.subtitle {
+		color: var(--color-accent);
+		font-weight: 600;
+		margin-bottom: 1.5rem;
+	}
+
+	.requirements-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.requirements-list li {
+		padding: 0.75rem 0 0.75rem 1.5rem;
+		color: var(--color-text);
+		position: relative;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.requirements-list li:before {
+		content: "✓";
+		position: absolute;
+		left: 0;
+		color: var(--color-accent);
+		font-weight: bold;
+	}
+
+	.form-info {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		margin-bottom: 1.5rem;
+	}
+
+	.form-info p {
+		margin: 0.75rem 0;
+		color: var(--color-text);
+		line-height: 1.6;
+	}
+
+	.form-info strong {
+		color: var(--color-primary);
+	}
+
+	.cta-button {
+		display: inline-block;
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 0.75rem 2rem;
+		border-radius: 4px;
+		text-decoration: none;
+		font-weight: 600;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		border: none;
+		cursor: pointer;
+	}
+
+	.cta-button:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(255, 153, 0, 0.3);
+	}
+
+	.contact-cta {
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.contact-cta h2 {
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 1rem;
+		font-weight: 800;
+	}
+
+	.contact-cta > div > p {
+		font-size: 1.1rem;
+		color: var(--color-text);
+		margin-bottom: 2rem;
+	}
+
+	.contact-methods {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+
+	.contact-item {
+		padding: 1.5rem;
+		background: var(--color-bg-alt);
+		border-radius: 8px;
+		border-top: 3px solid var(--color-accent);
+	}
+
+	.contact-item h3 {
+		color: var(--color-primary);
+		margin: 0 0 0.5rem 0;
+	}
+
+	.contact-item p {
+		color: var(--color-text);
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	/* Form Styles */
+	:global(.admissions-form-container) {
+		background: white;
+		padding: 2rem;
+		border-radius: 8px;
+		max-width: 600px;
+		margin: 0 auto;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	}
+
+	:global(.form-title) {
+		color: var(--color-primary);
+		font-size: 1.5rem;
+		margin-bottom: 2rem;
+		text-align: center;
+		font-weight: 700;
+	}
+
+	:global(.admissions-form) {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	:global(.form-section) {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.form-section:last-of-type) {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	:global(.section-title) {
+		color: var(--color-primary);
+		font-size: 1.1rem;
+		font-weight: 700;
+		margin: 0;
+	}
+
+	:global(.form-group) {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	:global(.form-row) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+
+	:global(.form-group label) {
+		color: var(--color-text);
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	:global(.form-group input),
+	:global(.form-group select) {
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 0.95rem;
+		font-family: inherit;
+		transition: border-color 0.3s ease;
+	}
+
+	:global(.form-group input:focus),
+	:global(.form-group select:focus) {
+		outline: none;
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+	}
+
+	:global(.form-message) {
+		padding: 1rem;
+		border-radius: 4px;
+		text-align: center;
+		font-weight: 500;
+	}
+
+	:global(.form-message--success) {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+
+	:global(.form-message--error) {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
+
+	:global(.submit-button) {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 1rem;
+		border: none;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	:global(.submit-button:hover:not(:disabled)) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(255, 153, 0, 0.3);
+	}
+
+	:global(.submit-button:disabled) {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
+	@media (max-width: 768px) {
+		.hero-section h1 {
+			font-size: 2rem;
+		}
+
+		.requirements-content {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-methods {
+			grid-template-columns: 1fr;
+		}
+
+		.process-grid {
+			grid-template-columns: 1fr;
+		}
+
+		:global(.form-row) {
+			grid-template-columns: 1fr;
+		}
+
+		:global(.admissions-form-container) {
+			padding: 1.5rem;
+		}
+	}
+</style>

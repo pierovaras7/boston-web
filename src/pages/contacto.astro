@@ -1,0 +1,257 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getTranslation } from "../i18n/translations";
+import Footer from "../components/Footer.astro";
+
+const lang = "es";
+const t = getTranslation(lang);
+---
+
+<Layout title="Contacto - Boston Bilingual School" lang={lang}>
+	<main class="contact-page">
+		<section class="hero-section">
+			<div class="container">
+				<h1>Contacto</h1>
+				<p>Comunícate con nosotros para conocer más sobre nuestro programa educativo</p>
+			</div>
+		</section>
+
+		<section class="contact-content">
+			<div class="container">
+				<div class="contact-grid">
+					<div class="contact-info">
+						<h2>Información de Contacto</h2>
+
+						<div class="info-block">
+							<h3>📍 Dirección</h3>
+							<p>Calle San Andrés 307<br/>Trujillo, La Libertad<br/>Perú</p>
+						</div>
+
+						<div class="info-block">
+							<h3>📞 Teléfono</h3>
+							<p><a href="tel:+51976586016">976 586 016</a></p>
+						</div>
+
+						<div class="info-block">
+							<h3>💬 WhatsApp</h3>
+							<p><a href="https://wa.me/51976586016" target="_blank">Contáctanos por WhatsApp</a></p>
+						</div>
+
+						<div class="info-block">
+							<h3>⏰ Horario</h3>
+							<p>Lunes a Viernes<br/>8:00 am - 5:00 pm</p>
+						</div>
+
+						<div class="info-block">
+							<h3>📧 Email</h3>
+							<p><a href="mailto:info@bostontrujillo.edu.pe">info@bostontrujillo.edu.pe</a></p>
+						</div>
+					</div>
+
+					<div class="contact-form">
+						<h2>Envíanos un Mensaje</h2>
+						<form>
+							<div class="form-group">
+								<label for="name">Nombre Completo *</label>
+								<input type="text" id="name" name="name" required />
+							</div>
+
+							<div class="form-group">
+								<label for="email">Email *</label>
+								<input type="email" id="email" name="email" required />
+							</div>
+
+							<div class="form-group">
+								<label for="phone">Teléfono</label>
+								<input type="tel" id="phone" name="phone" />
+							</div>
+
+							<div class="form-group">
+								<label for="subject">Asunto *</label>
+								<select id="subject" name="subject" required>
+									<option value="">Selecciona un asunto</option>
+									<option value="admisiones">Admisiones</option>
+									<option value="informacion">Información General</option>
+									<option value="visita">Agendar Visita</option>
+									<option value="otro">Otro</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="message">Mensaje *</label>
+								<textarea id="message" name="message" rows="5" required></textarea>
+							</div>
+
+							<button type="submit" class="submit-btn">Enviar Mensaje</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="map-section">
+			<div class="container">
+				<h2>Ubicación</h2>
+				<div class="map-container">
+					<iframe
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3897.8456742847197!2d-79.01234!3d-8.11!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d6d0000000001%3A0x0!2sBoston%20Bilingual%20School!5e0!3m2!1ses!2spe!4v1234567890123"
+						width="100%"
+						height="400"
+						style="border:0;"
+						allowfullscreen=""
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade">
+					</iframe>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.contact-page {
+		background: white;
+	}
+
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.hero-section h1 {
+		font-size: 3rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.hero-section p {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.contact-content {
+		padding: 4rem 0;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+	}
+
+	.contact-info h2,
+	.contact-form h2 {
+		color: var(--color-primary);
+		font-size: 1.8rem;
+		margin-bottom: 2rem;
+		font-weight: 800;
+	}
+
+	.info-block {
+		margin-bottom: 2rem;
+	}
+
+	.info-block h3 {
+		color: var(--color-accent);
+		margin: 0 0 0.5rem 0;
+		font-size: 1.1rem;
+	}
+
+	.info-block p {
+		margin: 0;
+		color: var(--color-text);
+		line-height: 1.6;
+	}
+
+	.info-block a {
+		color: var(--color-accent);
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.info-block a:hover {
+		text-decoration: underline;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		color: var(--color-primary);
+		font-weight: 600;
+	}
+
+	.form-group input,
+	.form-group select,
+	.form-group textarea {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-family: inherit;
+		box-sizing: border-box;
+	}
+
+	.form-group input:focus,
+	.form-group select:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+	}
+
+	.submit-btn {
+		background: var(--color-accent);
+		color: white;
+		padding: 1rem 2rem;
+		border: none;
+		border-radius: 4px;
+		font-weight: 700;
+		font-size: 1rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		width: 100%;
+	}
+
+	.submit-btn:hover {
+		opacity: 0.9;
+		transform: translateY(-2px);
+	}
+
+	.map-section {
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
+	}
+
+	.map-section h2 {
+		text-align: center;
+		color: var(--color-primary);
+		font-size: 2rem;
+		margin-bottom: 2rem;
+		font-weight: 800;
+	}
+
+	.map-container {
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	@media (max-width: 768px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.hero-section h1 {
+			font-size: 2rem;
+		}
+	}
+</style>

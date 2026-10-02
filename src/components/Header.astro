@@ -1,0 +1,194 @@
+---
+import { getTranslation } from "../i18n/translations";
+import type { Language } from "../utils/langDetector";
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = "es" } = Astro.props;
+const t = getTranslation(lang);
+
+const links = [
+  { href: "/", label: t.nav.home },
+  { href: "/sobre-nosotros", label: t.nav.about },
+  { href: "/primaria", label: t.nav.primaria },
+  { href: "/secundaria", label: t.nav.secundaria },
+  { href: "/admisiones", label: t.nav.admisiones },
+  { href: "/contacto", label: t.nav.contacto },
+];
+
+const otherLang = lang === "es" ? "en" : "es";
+const langLabel = lang === "es" ? "EN" : "ES";
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href={`/${lang}`} class="header__logo">
+      <img src="/logo.svg" alt="Boston Bilingual School" class="logo__img" />
+    </a>
+
+    <nav class="header__nav">
+      {links.map((link) => (
+        <a href={`/${lang}${link.href}`} class="nav-link">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="header__actions">
+      <a href={`/${lang}/admisiones`} class="header__cta">Admisión 2027</a>
+      <div class="header__lang-switcher" id="lang-toggle" data-lang={lang} title="Toggle language">
+        <button class="lang-btn lang-btn--es" data-lang="es">ES</button>
+        <button class="lang-btn lang-btn--en" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    background: white;
+    border-bottom: 3px solid var(--color-accent);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.75rem;
+    gap: 2rem;
+  }
+
+  .header__logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+  }
+
+  .logo__img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .header__nav {
+    display: flex;
+    gap: 2.5rem;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .header__actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .header__lang-switcher {
+    display: inline-flex;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 4px;
+    gap: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lang-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: all 0.3s ease;
+    font-family: var(--font-accent);
+  }
+
+  .lang-btn--es[data-active="true"],
+  .lang-btn--en[data-active="true"] {
+    background: white;
+    color: var(--color-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .lang-btn:hover {
+    color: var(--color-primary);
+  }
+
+  .header__cta {
+    background: linear-gradient(135deg, var(--color-accent), #ff7c00);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-family: var(--font-accent);
+  }
+
+  .header__cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
+  }
+
+  @media (max-width: 1100px) {
+    .header__nav {
+      gap: 1.5rem;
+    }
+
+    .header__inner {
+      gap: 1rem;
+    }
+
+    .logo__img {
+      height: 60px;
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .header__nav {
+      display: none;
+    }
+
+    .header__inner {
+      flex-wrap: wrap;
+    }
+
+    .header__cta {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>

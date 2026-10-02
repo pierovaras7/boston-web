@@ -1,0 +1,193 @@
+---
+import { Image } from "astro:assets";
+import { getTranslation } from "../i18n/translations";
+import alumnaLaptop from "../assets/images/home/pilares/alumna_con_laptop.jpg";
+import robotica from "../assets/images/home/pilares/robotica_con_lego.png";
+import missAlumno from "../assets/images/home/pilares/miss_y_alumno.png";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const t = getTranslation(lang);
+
+const pillars = [
+  {
+    title: t.pillars.bilingualism.title,
+    desc: t.pillars.bilingualism.desc,
+    image: missAlumno,
+    alt: "Bilingüismo - Teacher and student",
+    icon: "🌍",
+    objectPosition: "center 35%",
+  },
+  {
+    title: t.pillars.innovation.title,
+    desc: t.pillars.innovation.desc,
+    image: robotica,
+    alt: "Innovación - Robotics with Lego",
+    icon: "🚀",
+    objectPosition: "center 10%",
+  },
+  {
+    title: t.pillars.values.title,
+    desc: t.pillars.values.desc,
+    image: alumnaLaptop,
+    alt: "Valores - Student with laptop",
+    icon: "⭐",
+    objectPosition: "center 40%",
+  },
+];
+---
+
+<section class="pillars">
+  <div class="container">
+    <div class="pillars__header">
+      <h2 class="pillars__title">{t.pillars.title}</h2>
+      <p class="pillars__subtitle">{t.pillars.subtitle}</p>
+    </div>
+
+    <div class="pillars__grid">
+      {pillars.map((pillar, index) => (
+        <article class={`pillar-card pillar-card--${index}`}>
+          <div class="pillar-card__image">
+            <Image
+              src={pillar.image}
+              alt={pillar.alt}
+              width={400}
+              height={300}
+            />
+          </div>
+          <div class="pillar-card__content">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pillars {
+    padding: 5rem 0;
+    background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+  }
+
+  .pillars__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .pillars__title {
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin: 0 0 1rem 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+  }
+
+  .pillars__subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  .pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .pillar-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 61, 130, 0.08);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    border-top: 4px solid transparent;
+  }
+
+  .pillar-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 50px rgba(0, 61, 130, 0.2);
+    border-top-color: var(--color-accent);
+  }
+
+
+  .pillar-card__image {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .pillar-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Bilingüismo - imagen vertical (1075x1464) - enfoque bottom máximo */
+  .pillar-card--0 .pillar-card__image img {
+    object-position: center 95%;
+  }
+
+  /* Innovación - imagen vertical (1024x1536) - enfoque en manos/robot */
+  .pillar-card--1 .pillar-card__image img {
+    object-position: center 75%;
+  }
+
+  /* Valores - imagen horizontal (1554x1012) - enfoque en cara */
+  .pillar-card--2 .pillar-card__image img {
+    object-position: center 45%;
+  }
+
+  .pillar-card:hover .pillar-card__image img {
+    transform: scale(1.12);
+  }
+
+  .pillar-card__content {
+    padding: 2rem 1.5rem;
+  }
+
+  .pillar-card h3 {
+    color: var(--color-primary);
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+
+  .pillar-card p {
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+  }
+
+  @media (max-width: 768px) {
+    .pillars {
+      padding: 3rem 0;
+    }
+
+    .pillars__title {
+      font-size: 2rem;
+    }
+
+    .pillars__grid {
+      gap: 1.5rem;
+    }
+
+    .pillar-card__content {
+      padding: 1.5rem 1rem;
+    }
+  }
+</style>

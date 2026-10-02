@@ -1,0 +1,400 @@
+---
+import { Image } from 'astro:assets';
+import contactImage from '../assets/images/home/pilares/alumna_con_laptop.jpg';
+
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const labels = {
+  es: {
+    title: 'Envíanos un Mensaje',
+    subtitle: 'Nos encantaría escucharte. Completa el formulario y nos pondremos en contacto pronto.',
+    name: 'Nombre completo',
+    email: 'Correo electrónico',
+    phone: 'Teléfono (opcional)',
+    subject: 'Asunto',
+    message: 'Mensaje',
+    submit: 'Enviar Mensaje',
+    success: '¡Mensaje enviado! Nos contactaremos pronto.',
+    error: 'Error al enviar el mensaje. Intenta nuevamente.',
+    placeholder: {
+      name: 'Ej: Juan Pérez',
+      email: 'tu@email.com',
+      phone: '+51 976 586 016',
+      subject: 'Ej: Consulta sobre admisiones',
+      message: 'Escribe tu mensaje aquí...',
+    },
+  },
+  en: {
+    title: 'Send us a Message',
+    subtitle: "We'd love to hear from you. Fill out the form and we'll get back to you soon.",
+    name: 'Full name',
+    email: 'Email address',
+    phone: 'Phone (optional)',
+    subject: 'Subject',
+    message: 'Message',
+    submit: 'Send Message',
+    success: 'Message sent! We will contact you soon.',
+    error: 'Error sending message. Please try again.',
+    placeholder: {
+      name: 'Ex: John Doe',
+      email: 'your@email.com',
+      phone: '+51 976 586 016',
+      subject: 'Ex: Admissions inquiry',
+      message: 'Write your message here...',
+    },
+  },
+};
+
+const t = labels[lang];
+---
+
+<div class="contact-form-wrapper">
+  <div class="contact-form-image">
+    <Image src={contactImage} alt="Profesional trabajando" />
+  </div>
+
+  <div class="contact-form-container">
+    <div class="contact-form-header">
+      <h2>{t.title}</h2>
+      <p>{t.subtitle}</p>
+    </div>
+
+  <form id="contactForm" class="contact-form">
+    <div class="form-group">
+      <label for="name">{t.name} *</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder={t.placeholder.name}
+        required
+      />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">{t.email} *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder={t.placeholder.email}
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">{t.phone}</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder={t.placeholder.phone}
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">{t.subject} *</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        placeholder={t.placeholder.subject}
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="message">{t.message} *</label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder={t.placeholder.message}
+        rows="6"
+        required
+      ></textarea>
+    </div>
+
+    {/* Message */}
+    <div id="formMessage" class="form-message" style="display: none;"></div>
+
+    {/* Submit Button */}
+    <button type="submit" class="submit-button" id="submitBtn">
+      {t.submit}
+    </button>
+  </form>
+  </div>
+</div>
+
+<script define:vars={{ lang }}>
+  function initForm() {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('formMessage');
+
+    if (!form) {
+      console.error('Formulario de contacto no encontrado');
+      return;
+    }
+
+    const messages = {
+      es: {
+        success: '¡Mensaje enviado! Nos contactaremos pronto.',
+        error: 'Error al enviar el mensaje. Intenta nuevamente.',
+        sending: 'Enviando...',
+        submit: 'Enviar Mensaje',
+      },
+      en: {
+        success: 'Message sent! We will contact you soon.',
+        error: 'Error sending message. Please try again.',
+        sending: 'Sending...',
+        submit: 'Send Message',
+      },
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Formulario de contacto enviado');
+
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+      };
+
+      console.log('Datos a enviar:', data);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = messages[lang].sending;
+      messageDiv.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        console.log('Respuesta del servidor:', response.status);
+        const result = await response.json();
+        console.log('Resultado:', result);
+
+        if (response.ok) {
+          messageDiv.className = 'form-message form-message--success';
+          messageDiv.textContent = messages[lang].success;
+          form.reset();
+        } else {
+          messageDiv.className = 'form-message form-message--error';
+          messageDiv.textContent = result.error || messages[lang].error;
+        }
+
+        messageDiv.style.display = 'block';
+      } catch (error) {
+        console.error('Error en el envío:', error);
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent = messages[lang].error;
+        messageDiv.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+      }
+    });
+  }
+
+  // Ejecutar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initForm);
+  } else {
+    initForm();
+  }
+</script>
+
+<style>
+  .contact-form-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .contact-form-image {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    height: 600px;
+  }
+
+  .contact-form-image img,
+  .contact-form-image picture {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .contact-form-image img {
+    object-fit: cover;
+  }
+
+  .contact-form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-form-header {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+
+  .contact-form-header h2 {
+    color: var(--color-primary);
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+
+  .contact-form-header p {
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+    width: 100%;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+  }
+
+  .form-message {
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .form-message--success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .form-message--error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .submit-button {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 153, 0, 0.3);
+  }
+
+  .submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 968px) {
+    .contact-form-wrapper {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .contact-form-image {
+      max-height: 400px;
+    }
+
+    .contact-form-header {
+      text-align: center;
+    }
+
+    .contact-form-header h2 {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-form {
+      padding: 1.5rem;
+    }
+
+    .contact-form-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .contact-form-wrapper {
+      gap: 1.5rem;
+    }
+  }
+</style>

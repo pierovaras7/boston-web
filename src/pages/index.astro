@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroVideo from "../components/HeroVideo.astro";
+import Pillars from "../components/Pillars.astro";
+import LevelAccess from "../components/LevelAccess.astro";
+import Testimonials from "../components/Testimonials.astro";
+import BlogHighlights from "../components/BlogHighlights.astro";
+import Footer from "../components/Footer.astro";
+
+// Detectar idioma desde query param o default a "es"
+const langParam = Astro.url.searchParams.get("lang");
+const lang = (langParam === "en" || langParam === "es") ? langParam : "es";
+---
+
+<Layout title="Boston Bilingual School | Educación de Calidad" lang={lang}>
+	<main>
+		<HeroVideo lang={lang} />
+		<Pillars lang={lang} />
+		<LevelAccess lang={lang} />
+		<Testimonials lang={lang} />
+		<BlogHighlights lang={lang} />
+	</main>
+	<Footer lang={lang} />
+</Layout>

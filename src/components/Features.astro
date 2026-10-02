@@ -1,0 +1,58 @@
+---
+const features = [
+	{
+		title: "Rápido",
+		description: "Astro genera sitios estáticos ultra livianos por defecto.",
+	},
+	{
+		title: "Flexible",
+		description: "Suma React, Vue o Svelte solo donde los necesites.",
+	},
+	{
+		title: "Simple",
+		description: "Estructura de carpetas clara para crecer sin lío.",
+	},
+];
+---
+
+<section id="features" class="features">
+	<div class="container features__grid">
+		{
+			features.map((feature) => (
+				<article class="features__card">
+					<h2>{feature.title}</h2>
+					<p>{feature.description}</p>
+				</article>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.features {
+		padding-block: 3rem 5rem;
+	}
+
+	.features__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.features__card {
+		background: var(--color-bg-alt);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 0.75rem;
+		padding: 1.5rem;
+	}
+
+	.features__card h2 {
+		margin-top: 0;
+		font-size: 1.1rem;
+	}
+
+	.features__card p {
+		color: var(--color-text-muted);
+		margin-bottom: 0;
+	}
+</style>

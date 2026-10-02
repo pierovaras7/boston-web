@@ -1,0 +1,220 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+
+const lang = "es";
+---
+
+<Layout title="Preview de Footers | Boston Preuniversitario" lang={lang}>
+  <main style="background: #f5f5f5; padding: 2rem 0;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+      <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1rem; font-size: 2.5rem;">
+        Elige el Footer que Prefieres
+      </h1>
+      <p style="text-align: center; color: var(--color-text-muted); margin-bottom: 3rem; font-size: 1.1rem;">
+        Selecciona una opción y se implementará en el sitio
+      </p>
+
+      <!-- Opción 1 -->
+      <div style="background: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <div style="background: var(--color-primary); color: white; padding: 1.5rem; text-align: center;">
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.5rem;">Opción 1: Minimalista</h2>
+          <p style="margin: 0; font-size: 0.95rem; opacity: 0.9;">Simple, limpio y directo</p>
+        </div>
+        <div style="padding: 2rem;">
+          <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem; background: #fafafa;">
+            <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; font-size: 14px;">
+              <a style="color: var(--color-primary); text-decoration: none; font-weight: 600;">Inicio</a>
+              <a style="color: var(--color-primary); text-decoration: none; font-weight: 600;">Contacto</a>
+              <a style="color: var(--color-primary); text-decoration: none; font-weight: 600;">Admisiones</a>
+            </div>
+            <div style="border-top: 0.5px solid #ddd; padding-top: 1rem; text-align: center; color: var(--color-text-muted); font-size: 12px;">
+              <p style="margin: 0;">© 2024 Boston Preuniversitario. Todos los derechos reservados.</p>
+            </div>
+          </div>
+          <button onclick="selectFooter('minimalista')" style="display: block; width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+            Seleccionar esta opción
+          </button>
+        </div>
+      </div>
+
+      <!-- Opción 2 -->
+      <div style="background: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <div style="background: var(--color-primary); color: white; padding: 1.5rem; text-align: center;">
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.5rem;">Opción 2: Columnas Modernas</h2>
+          <p style="margin: 0; font-size: 0.95rem; opacity: 0.9;">Información bien organizada en 3 columnas</p>
+        </div>
+        <div style="padding: 2rem;">
+          <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem; background: #fafafa;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem;">
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Académico</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px;">
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Primaria</a></li>
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Secundaria</a></li>
+                  <li><a style="color: var(--color-text-muted); text-decoration: none;">Programas</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Institucional</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px;">
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Sobre nosotros</a></li>
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Admisiones</a></li>
+                  <li><a style="color: var(--color-text-muted); text-decoration: none;">Contacto</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Síguenos</h4>
+                <div style="display: flex; gap: 1rem; font-size: 18px;">
+                  <a style="color: var(--color-text-muted); text-decoration: none;">f</a>
+                  <a style="color: var(--color-text-muted); text-decoration: none;">@</a>
+                  <a style="color: var(--color-text-muted); text-decoration: none;">in</a>
+                </div>
+              </div>
+            </div>
+            <div style="border-top: 0.5px solid #ddd; padding-top: 1rem; text-align: center; color: var(--color-text-muted); font-size: 12px;">
+              <p style="margin: 0;">© 2024 Boston Preuniversitario | <a style="color: var(--color-text-muted); text-decoration: none;">Política de privacidad</a></p>
+            </div>
+          </div>
+          <button onclick="selectFooter('moderno')" style="display: block; width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+            Seleccionar esta opción
+          </button>
+        </div>
+      </div>
+
+      <!-- Opción 3 -->
+      <div style="background: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <div style="background: var(--color-primary); color: white; padding: 1.5rem; text-align: center;">
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.5rem;">Opción 3: Completo con Contacto</h2>
+          <p style="margin: 0; font-size: 0.95rem; opacity: 0.9;">Información detallada con datos de contacto</p>
+        </div>
+        <div style="padding: 2rem;">
+          <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem; background: #fafafa;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Boston Preuniversitario</h4>
+                <p style="margin: 0 0 1rem; font-size: 12px; color: var(--color-text-muted); line-height: 1.5;">Formando ciudadanos globales con excelencia académica y valores sólidos.</p>
+                <div style="font-size: 12px; color: var(--color-text-muted); line-height: 1.6;">
+                  <p style="margin: 0;"><strong>📍</strong> Lima, Perú</p>
+                  <p style="margin: 0;"><strong>📞</strong> +51 (1) 555-0123</p>
+                  <p style="margin: 0;"><strong>✉️</strong> info@boston.edu.pe</p>
+                </div>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Académico</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px;">
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Primaria</a></li>
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Secundaria</a></li>
+                  <li><a style="color: var(--color-text-muted); text-decoration: none;">Programas</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Institucional</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px;">
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Sobre nosotros</a></li>
+                  <li style="margin-bottom: 0.5rem;"><a style="color: var(--color-text-muted); text-decoration: none;">Admisiones</a></li>
+                  <li><a style="color: var(--color-text-muted); text-decoration: none;">Contacto</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 0.75rem; font-size: 14px; font-weight: 600; color: var(--color-primary);">Síguenos</h4>
+                <div style="display: flex; gap: 1rem; font-size: 18px;">
+                  <a style="color: var(--color-text-muted); text-decoration: none;">f</a>
+                  <a style="color: var(--color-text-muted); text-decoration: none;">@</a>
+                  <a style="color: var(--color-text-muted); text-decoration: none;">in</a>
+                  <a style="color: var(--color-text-muted); text-decoration: none;">▶</a>
+                </div>
+              </div>
+            </div>
+            <div style="border-top: 0.5px solid #ddd; padding-top: 1rem; text-align: center; color: var(--color-text-muted); font-size: 12px;">
+              <p style="margin: 0;">© 2024 Boston Preuniversitario | <a style="color: var(--color-text-muted); text-decoration: none;">Privacidad</a> • <a style="color: var(--color-text-muted); text-decoration: none;">Términos</a> • <a style="color: var(--color-text-muted); text-decoration: none;">Cookies</a></p>
+            </div>
+          </div>
+          <button onclick="selectFooter('completo')" style="display: block; width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+            Seleccionar esta opción
+          </button>
+        </div>
+      </div>
+
+      <!-- Opción 4 -->
+      <div style="background: white; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <div style="background: var(--color-primary); color: white; padding: 1.5rem; text-align: center;">
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.5rem;">Opción 4: Premium Moderno</h2>
+          <p style="margin: 0; font-size: 0.95rem; opacity: 0.9;">Elegante con gradiente y diseño premium</p>
+        </div>
+        <div style="padding: 2rem;">
+          <div style="background: linear-gradient(135deg, #001a2e 0%, #003d82 100%); color: white; border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 2rem;">
+              <div>
+                <h4 style="margin: 0 0 1rem; font-size: 14px; font-weight: 600;">Programas</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.8;">
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Primaria</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Secundaria</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Bilingüismo</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 1rem; font-size: 14px; font-weight: 600;">Comunidad</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.8;">
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Testimonios</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Blog</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Eventos</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 1rem; font-size: 14px; font-weight: 600;">Información</h4>
+                <ul style="margin: 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.8;">
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Sobre nosotros</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Admisiones 2025</a></li>
+                  <li><a style="color: rgba(255,255,255,0.8); text-decoration: none;">Contacto</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="margin: 0 0 1rem; font-size: 14px; font-weight: 600;">Conectar</h4>
+                <p style="margin: 0 0 1rem; font-size: 12px; color: rgba(255,255,255,0.7);">Síguenos en redes sociales</p>
+                <div style="display: flex; gap: 12px; font-size: 16px;">
+                  <a style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; text-decoration: none;">f</a>
+                  <a style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; text-decoration: none;">@</a>
+                  <a style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; text-decoration: none;">in</a>
+                </div>
+              </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+              <p style="margin: 0; color: rgba(255,255,255,0.7);">© 2024 Boston Preuniversitario</p>
+              <div style="display: flex; gap: 1rem; color: rgba(255,255,255,0.7);">
+                <a style="text-decoration: none; color: rgba(255,255,255,0.7);">Privacidad</a>
+                <a style="text-decoration: none; color: rgba(255,255,255,0.7);">Términos</a>
+              </div>
+            </div>
+          </div>
+          <button onclick="selectFooter('premium')" style="display: block; width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+            Seleccionar esta opción
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: white; border-radius: 12px;">
+        <p style="color: var(--color-text-muted); font-size: 0.95rem;">
+          Selecciona una opción arriba para ver una previsualización
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Layout>
+
+<script>
+  function selectFooter(option) {
+    alert(`Has seleccionado la opción: ${option}\n\nEsta opción será implementada en el sitio.`);
+    console.log(`Footer seleccionado: ${option}`);
+    // Aquí iría la lógica para implementar el footer seleccionado
+  }
+</script>
+
+<style>
+  button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.3);
+  }
+</style>

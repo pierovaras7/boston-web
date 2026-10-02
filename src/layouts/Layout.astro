@@ -1,0 +1,88 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+
+interface Props {
+	title?: string;
+	description?: string;
+	lang?: "es" | "en";
+}
+
+const {
+	title = "Boston Bilingual School",
+	description = "Formamos ciudadanos globales con excelencia académica y certificación internacional en idiomas.",
+	lang = "es",
+} = Astro.props;
+
+const langAttr = lang === "en" ? "en" : "es";
+---
+
+<script define:vars={{ lang }}>
+	// Manejar cambio de idioma con toggle switch
+	document.addEventListener('DOMContentLoaded', () => {
+		const langSwitcher = document.getElementById('lang-toggle');
+		if (langSwitcher) {
+			const currentLang = lang;
+			const esBtn = langSwitcher.querySelector('[data-lang="es"]');
+			const enBtn = langSwitcher.querySelector('[data-lang="en"]');
+
+			// Establecer estado inicial
+			if (currentLang === 'es') {
+				esBtn.setAttribute('data-active', 'true');
+				enBtn.removeAttribute('data-active');
+			} else {
+				enBtn.setAttribute('data-active', 'true');
+				esBtn.removeAttribute('data-active');
+			}
+
+			// Agregar evento a cada botón
+			[esBtn, enBtn].forEach(btn => {
+				btn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					const targetLang = btn.getAttribute('data-lang');
+					if (targetLang === currentLang) return;
+
+					// Guardar preferencia
+					localStorage.setItem('preferredLang', targetLang);
+
+					// Obtener ruta actual
+					const pathname = window.location.pathname;
+					let newPath = pathname;
+
+					// Reemplazar idioma en la ruta
+					if (currentLang === 'es') {
+						newPath = newPath.replace(/^\/es\//, '/en/');
+						if (newPath === '/es') newPath = '/en';
+					} else {
+						newPath = newPath.replace(/^\/en\//, '/es/');
+						if (newPath === '/en') newPath = '/es';
+					}
+
+					// Redirigir
+					window.location.href = newPath;
+				});
+			});
+		}
+	});
+</script>
+
+<html lang={langAttr}>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#ff9900" />
+		<title>{title}</title>
+		<style>
+			html {
+				scroll-behavior: smooth;
+			}
+		</style>
+	</head>
+	<body>
+		<Header lang={lang} />
+		<slot />
+	</body>
+</html>

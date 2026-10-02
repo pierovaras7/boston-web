@@ -1,0 +1,383 @@
+---
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const labels = {
+  es: {
+    title: 'Ficha de Postulación Online',
+    studentSection: 'Datos del Estudiante',
+    studentName: 'Nombre del estudiante',
+    studentAge: 'Edad',
+    grade: 'Grado al que postula',
+    parentSection: 'Datos del Apoderado',
+    parentName: 'Nombre completo',
+    parentPhone: 'Teléfono',
+    parentEmail: 'Correo electrónico',
+    preferredContact: 'Medio de contacto preferido',
+    phone: 'Teléfono',
+    whatsapp: 'WhatsApp',
+    email: 'Email',
+    submit: 'Enviar Postulación',
+    success: '¡Postulación recibida! Nos contactaremos pronto.',
+    error: 'Error al enviar la postulación. Intenta nuevamente.',
+  },
+  en: {
+    title: 'Online Application Form',
+    studentSection: 'Student Information',
+    studentName: 'Student name',
+    studentAge: 'Age',
+    grade: 'Grade applying for',
+    parentSection: 'Parent/Guardian Information',
+    parentName: 'Full name',
+    parentPhone: 'Phone',
+    parentEmail: 'Email address',
+    preferredContact: 'Preferred contact method',
+    phone: 'Phone',
+    whatsapp: 'WhatsApp',
+    email: 'Email',
+    submit: 'Submit Application',
+    success: 'Application received! We will contact you soon.',
+    error: 'Error sending application. Please try again.',
+  },
+};
+
+const t = labels[lang];
+---
+
+<div class="admissions-form-container">
+  <h3 class="form-title">{t.title}</h3>
+
+  <form id="admissionsForm" class="admissions-form">
+    {/* Student Section */}
+    <fieldset class="form-section">
+      <legend class="section-title">{t.studentSection}</legend>
+
+      <div class="form-group">
+        <label for="studentName">{t.studentName} *</label>
+        <input
+          type="text"
+          id="studentName"
+          name="studentName"
+          placeholder={lang === 'es' ? 'Ej: Juan Pérez' : 'Ex: John Doe'}
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentAge">{t.studentAge} *</label>
+          <input
+            type="number"
+            id="studentAge"
+            name="studentAge"
+            placeholder={lang === 'es' ? 'Ej: 10' : 'Ex: 10'}
+            min="5"
+            max="18"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="grade">{t.grade} *</label>
+          <select id="grade" name="grade" required>
+            <option value="">{lang === 'es' ? 'Seleccionar grado' : 'Select grade'}</option>
+            <option value="1">{lang === 'es' ? '1° Grado' : '1st Grade'}</option>
+            <option value="2">{lang === 'es' ? '2° Grado' : '2nd Grade'}</option>
+            <option value="3">{lang === 'es' ? '3° Grado' : '3rd Grade'}</option>
+            <option value="4">{lang === 'es' ? '4° Grado' : '4th Grade'}</option>
+            <option value="5">{lang === 'es' ? '5° Grado' : '5th Grade'}</option>
+            <option value="6">{lang === 'es' ? '6° Grado' : '6th Grade'}</option>
+            <option value="7">{lang === 'es' ? '7° Grado' : '7th Grade'}</option>
+            <option value="8">{lang === 'es' ? '8° Grado' : '8th Grade'}</option>
+            <option value="9">{lang === 'es' ? '9° Grado' : '9th Grade'}</option>
+            <option value="10">{lang === 'es' ? '10° Grado' : '10th Grade'}</option>
+            <option value="11">{lang === 'es' ? '11° Grado' : '11th Grade'}</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    {/* Parent Section */}
+    <fieldset class="form-section">
+      <legend class="section-title">{t.parentSection}</legend>
+
+      <div class="form-group">
+        <label for="parentName">{t.parentName} *</label>
+        <input
+          type="text"
+          id="parentName"
+          name="parentName"
+          placeholder={lang === 'es' ? 'Ej: Carlos García' : 'Ex: John Smith'}
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="parentPhone">{t.parentPhone} *</label>
+          <input
+            type="tel"
+            id="parentPhone"
+            name="parentPhone"
+            placeholder="+51 976 586 016"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="parentEmail">{t.parentEmail} *</label>
+          <input
+            type="email"
+            id="parentEmail"
+            name="parentEmail"
+            placeholder="correo@ejemplo.com"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="preferredContact">{t.preferredContact}</label>
+        <select id="preferredContact" name="preferredContact">
+          <option value="phone">{t.phone}</option>
+          <option value="whatsapp">{t.whatsapp}</option>
+          <option value="email">{t.email}</option>
+        </select>
+      </div>
+    </fieldset>
+
+    {/* Message */}
+    <div id="formMessage" class="form-message" style="display: none;"></div>
+
+    {/* Submit Button */}
+    <button type="submit" class="submit-button" id="submitBtn">
+      {t.submit}
+    </button>
+  </form>
+</div>
+
+<script define:vars={{ lang }}>
+  function initForm() {
+    const form = document.getElementById('admissionsForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('formMessage');
+
+    if (!form) {
+      console.error('Formulario no encontrado');
+      return;
+    }
+
+    const messages = {
+      es: {
+        success: '¡Postulación recibida! Nos contactaremos pronto.',
+        error: 'Error al enviar la postulación. Intenta nuevamente.',
+        sending: 'Enviando...',
+        submit: 'Enviar Postulación',
+      },
+      en: {
+        success: 'Application received! We will contact you soon.',
+        error: 'Error sending application. Please try again.',
+        sending: 'Sending...',
+        submit: 'Submit Application',
+      },
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Formulario enviado');
+
+      const formData = new FormData(form);
+      const data = {
+        studentName: formData.get('studentName'),
+        studentAge: formData.get('studentAge'),
+        grade: formData.get('grade'),
+        parentName: formData.get('parentName'),
+        parentPhone: formData.get('parentPhone'),
+        parentEmail: formData.get('parentEmail'),
+        preferredContact: formData.get('preferredContact'),
+        language: lang,
+      };
+
+      console.log('Datos a enviar:', data);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = messages[lang].sending;
+      messageDiv.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/admissions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        console.log('Respuesta del servidor:', response.status);
+        const result = await response.json();
+        console.log('Resultado:', result);
+
+        if (response.ok) {
+          messageDiv.className = 'form-message form-message--success';
+          messageDiv.textContent = messages[lang].success;
+          form.reset();
+        } else {
+          messageDiv.className = 'form-message form-message--error';
+          messageDiv.textContent = result.error || messages[lang].error;
+        }
+
+        messageDiv.style.display = 'block';
+      } catch (error) {
+        console.error('Error en el envío:', error);
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent = messages[lang].error;
+        messageDiv.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+      }
+    });
+  }
+
+  // Ejecutar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initForm);
+  } else {
+    initForm();
+  }
+</script>
+
+<style>
+  .admissions-form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .form-title {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .admissions-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border: none;
+  }
+
+  .form-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .section-title {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+  }
+
+  .form-message {
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .form-message--success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .form-message--error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .submit-button {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 153, 0, 0.3);
+  }
+
+  .submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .admissions-form-container {
+      padding: 1.5rem;
+    }
+  }
+</style>

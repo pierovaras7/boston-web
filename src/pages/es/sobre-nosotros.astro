@@ -1,0 +1,605 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import { Image } from "astro:assets";
+import aula from "../../assets/images/propuesta_academica/infraestructura_y_vida_bbs/instalaciones/aula_primaria.png";
+import estudiantes from "../../assets/images/propuesta_academica/primaria/marcha_de_alumnos.jpg";
+import laboratorio from "../../assets/images/propuesta_academica/infraestructura_y_vida_bbs/instalaciones/laboratorio_robotica.jpg";
+import campus from "../../assets/images/propuesta_academica/infraestructura_y_vida_bbs/instalaciones/patio.png";
+
+const lang = "es";
+---
+
+<Layout title="Sobre Nosotros - Boston Bilingual School" lang={lang}>
+	<main class="about-page">
+		<!-- Hero Section -->
+		<section class="hero-section">
+			<div class="hero-content">
+				<h1>Sobre Boston Bilingual School</h1>
+				<p>Educación de calidad con visión de ciudadanía global desde 1990</p>
+			</div>
+		</section>
+
+		<!-- History Section with Image -->
+		<section class="history-section">
+			<div class="container">
+				<div class="history-grid">
+					<div class="history-text">
+						<h2>Nuestra Historia y Propósito</h2>
+						<p>Boston Bilingual School es una institución educativa privada bilingüe preuniversitaria ubicada en una de las mejores zonas de Trujillo. Desde 1990, estamos comprometidos con la excelencia en educación.</p>
+						<p>Nuestra infraestructura está diseñada cumpliendo con las Condiciones Básicas de Calidad estipuladas por el Ministerio de Educación (MINEDU). Somos una institución inclusiva, no confesional y respetuosa de todas las creencias, declarando una postura neutral en asuntos de fe.</p>
+						<p>Nuestra identidad se define por una <strong>Visión de Ciudadanía Global</strong>: un modelo educativo interdisciplinario que integra los Temas Centrales de la UNESCO y los Objetivos de Desarrollo Sostenible (ODS).</p>
+					</div>
+					<div class="history-image">
+						<Image src={aula} alt="Aula - Boston Bilingual School" />
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Mission & Vision Cards -->
+		<section class="vision-mission">
+			<div class="container">
+				<div class="mission-vision-grid">
+					<div class="mv-card">
+						<div class="mv-icon">M</div>
+						<h3>Misión</h3>
+						<p>Somos una Institución Educativa Privada que atiende los niveles de Primaria y Secundaria. Desarrollamos competencias centradas en los enfoques transversales del Currículo Nacional, formando estudiantes listos para ser ciudadanos globales a través de una educación con estándares nacionales e internacionales.</p>
+					</div>
+
+					<div class="mv-card">
+						<div class="mv-icon">V</div>
+						<h3>Visión</h3>
+						<p>Para el 2030, Boston Bilingual School será reconocido como el colegio líder en Trujillo, distinguido por formar ciudadanos globales con dominio y certificación internacional en inglés y francés, y por preparar para el ingreso a destacadas universidades nacionales e internacionales.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Philosophy Section -->
+		<section class="philosophy-section">
+			<div class="philosophy-image-full">
+				<Image src={estudiantes} alt="Estudiantes - Boston Bilingual School" />
+			</div>
+			<div class="container">
+				<h2>Filosofía Institucional y Modelo Pedagógico</h2>
+				<p class="philosophy-intro">El enfoque pedagógico se centra en el desarrollo de competencias (Currículo Nacional del Ministerio de Educación), con énfasis en:</p>
+				<div class="philosophy-grid">
+					<div class="philosophy-item">
+						<span class="philosophy-number">01</span>
+						<h3>Excelencia Lingüística con Proyección Global</h3>
+						<p>Enseñanza avanzada de inglés y francés bajo estándares internacionales.</p>
+					</div>
+
+					<div class="philosophy-item">
+						<span class="philosophy-number">02</span>
+						<h3>Formación Preuniversitaria y Ciudadanía Global</h3>
+						<p>Preparación rigurosa para exámenes de admisión a universidades nacionales e internacionales, junto con un fuerte sentido ético y de responsabilidad social.</p>
+					</div>
+
+					<div class="philosophy-item">
+						<span class="philosophy-number">03</span>
+						<h3>Fomento de la Competitividad y el Talento</h3>
+						<p>Participación activa en concursos y olimpiadas nacionales e internacionales.</p>
+					</div>
+
+					<div class="philosophy-item">
+						<span class="philosophy-number">04</span>
+						<h3>Desarrollo Integral</h3>
+						<p>Fortalecimiento de las áreas cognoscitiva, afectiva y psicomotora de cada estudiante.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Team Section -->
+		<section class="team-section">
+			<div class="container">
+				<h2>Equipo Directivo y Docente</h2>
+				<div class="team-grid">
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Director General</h3>
+						<p class="role-name">Dr. Carlos Mendoza</p>
+					</div>
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Subdirector Académico</h3>
+						<p class="role-name">Mg. Patricia Rodríguez</p>
+					</div>
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Coordinador Primaria</h3>
+						<p class="role-name">Lic. Jorge Hernández</p>
+					</div>
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Coordinador Secundaria</h3>
+						<p class="role-name">Mg. María González</p>
+					</div>
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Coordinador Bilingüismo</h3>
+						<p class="role-name">Prof. David Torres</p>
+					</div>
+					<div class="team-member">
+						<img src="/logo.svg" alt="Boston Logo" class="team-logo" />
+						<h3>Coordinador Robótica</h3>
+						<p class="role-name">Ing. Lucas Martínez</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.about-page {
+		background: white;
+	}
+
+	/* Hero Section */
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+		color: white;
+		padding: 8rem 0 6rem;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero-section::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		right: -10%;
+		width: 500px;
+		height: 500px;
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 1;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.hero-section h1 {
+		font-size: 3.5rem;
+		margin: 0 0 1rem 0;
+		font-weight: 900;
+		letter-spacing: -1px;
+		line-height: 1.2;
+	}
+
+	.hero-section p {
+		font-size: 1.3rem;
+		margin: 0;
+		opacity: 0.95;
+		font-weight: 300;
+	}
+
+	/* History Section */
+	.history-section {
+		padding: 6rem 0;
+	}
+
+	.history-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+
+	.history-grid > * {
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.history-text h2 {
+		color: var(--color-primary);
+		font-size: 2.5rem;
+		margin: 0 0 2rem 0;
+		font-weight: 800;
+		position: relative;
+		padding-bottom: 1rem;
+	}
+
+	.history-text h2::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 60px;
+		height: 4px;
+		background: var(--color-accent);
+		border-radius: 2px;
+	}
+
+	.history-text p {
+		color: var(--color-text);
+		line-height: 1.9;
+		margin-bottom: 1.5rem;
+		font-size: 1.1rem;
+	}
+
+	.history-text strong {
+		color: var(--color-primary);
+		font-weight: 700;
+	}
+
+	.history-image {
+		position: relative;
+		border-radius: 16px;
+		overflow: hidden;
+		box-shadow: 0 20px 60px rgba(0, 61, 130, 0.2);
+		width: 100%;
+	}
+
+	.history-image img,
+	.history-image picture {
+		width: 100% !important;
+		height: auto !important;
+		display: block !important;
+		max-width: 100%;
+	}
+
+	.history-image picture img {
+		width: 100% !important;
+		height: auto !important;
+	}
+
+	/* Mission & Vision */
+	.vision-mission {
+		padding: 6rem 0;
+		background: linear-gradient(to bottom, #f5f5f5, white);
+	}
+
+	.mission-vision-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+	}
+
+	.mv-card {
+		background: linear-gradient(135deg, rgba(255, 153, 0, 0.03) 0%, rgba(255, 153, 0, 0.01) 100%);
+		padding: 3rem;
+		border-radius: 12px;
+		border: none;
+		border-top: 3px solid var(--color-accent);
+		box-shadow: none;
+		transition: all 0.3s ease;
+		position: relative;
+	}
+
+	.mv-card:hover {
+		transform: translateY(-4px);
+		background: linear-gradient(135deg, rgba(255, 153, 0, 0.06) 0%, rgba(255, 153, 0, 0.02) 100%);
+	}
+
+	.mv-icon {
+		font-size: 2.5rem;
+		font-weight: 900;
+		color: var(--color-accent);
+		margin-bottom: 1rem;
+		opacity: 0.8;
+	}
+
+	.mv-card h3 {
+		color: var(--color-primary);
+		font-size: 1.6rem;
+		margin: 0 0 1.5rem 0;
+		font-weight: 700;
+	}
+
+	.mv-card p {
+		color: var(--color-text);
+		line-height: 1.8;
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	/* Philosophy Section */
+	.philosophy-section {
+		padding: 0 0 6rem 0;
+	}
+
+	.philosophy-image-full {
+		width: 100%;
+		height: 400px;
+		overflow: hidden;
+		margin-bottom: 4rem;
+	}
+
+	.philosophy-image-full img,
+	.philosophy-image-full picture {
+		width: 100% !important;
+		height: 100% !important;
+		object-fit: cover !important;
+		display: block !important;
+	}
+
+	.philosophy-image-full picture img {
+		width: 100% !important;
+		height: 100% !important;
+		object-fit: cover !important;
+	}
+
+	.philosophy-section h2 {
+		text-align: center;
+		color: var(--color-primary);
+		font-size: 2.5rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+		position: relative;
+		padding-bottom: 1.5rem;
+	}
+
+	.philosophy-section h2::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 60px;
+		height: 4px;
+		background: var(--color-accent);
+		border-radius: 2px;
+	}
+
+	.philosophy-intro {
+		text-align: center;
+		color: var(--color-text);
+		font-size: 1.1rem;
+		margin: 0 0 3rem 0;
+		font-weight: 300;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+		line-height: 1.8;
+	}
+
+	.philosophy-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2.5rem;
+	}
+
+	.philosophy-item {
+		background: white;
+		padding: 2.5rem;
+		border-radius: 12px;
+		border-left: 4px solid var(--color-accent);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+		transition: all 0.3s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.philosophy-item::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 80px;
+		height: 80px;
+		background: linear-gradient(135deg, var(--color-accent) 0%, rgba(255, 153, 0, 0.1) 100%);
+		border-radius: 0 0 0 50px;
+		opacity: 0.3;
+	}
+
+	.philosophy-item:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 12px 30px rgba(0, 61, 130, 0.12);
+	}
+
+	.philosophy-number {
+		font-size: 3rem;
+		font-weight: 900;
+		color: var(--color-accent);
+		display: block;
+		margin-bottom: 0.5rem;
+		position: relative;
+		z-index: 1;
+	}
+
+	.philosophy-item h3 {
+		color: var(--color-primary);
+		margin: 0 0 1rem 0;
+		font-size: 1.15rem;
+		font-weight: 700;
+		position: relative;
+		z-index: 1;
+	}
+
+	.philosophy-item p {
+		color: var(--color-text);
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		position: relative;
+		z-index: 1;
+	}
+
+
+	/* Facilities Section */
+
+	.facilities-section h2 {
+		text-align: center;
+		color: var(--color-primary);
+		font-size: 2.5rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.section-subtitle {
+		text-align: center;
+		color: var(--color-text-muted);
+		font-size: 1.1rem;
+		margin: 0 0 3rem 0;
+		font-weight: 300;
+	}
+
+	.facilities-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 3rem;
+	}
+
+	.facility-card {
+		background: white;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+		transition: all 0.3s ease;
+	}
+
+	.facility-card:hover {
+		box-shadow: 0 12px 30px rgba(0, 61, 130, 0.12);
+		transform: translateY(-4px);
+	}
+
+	.facility-card img,
+	.facility-card picture {
+		width: 100% !important;
+		height: 300px !important;
+		object-fit: cover !important;
+		display: block !important;
+		max-width: 100%;
+	}
+
+	.facility-card picture img {
+		width: 100% !important;
+		height: 300px !important;
+		object-fit: cover !important;
+	}
+
+	.facility-card h3 {
+		color: var(--color-primary);
+		margin: 1.5rem;
+		margin-bottom: 0.5rem;
+		font-size: 1.3rem;
+		font-weight: 700;
+	}
+
+	.facility-card p {
+		color: var(--color-text);
+		margin: 0 1.5rem 1.5rem;
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+@media (max-width: 1024px) {
+		.history-grid,
+		.mission-vision-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.philosophy-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.facilities-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* Team Section */
+	.team-section {
+		padding: 6rem 0;
+		background: linear-gradient(to bottom, white, #f5f5f5);
+	}
+
+	.team-section h2 {
+		text-align: center;
+		color: var(--color-primary);
+		font-size: 2.5rem;
+		margin: 0 0 3rem 0;
+		font-weight: 800;
+		position: relative;
+		padding-bottom: 1.5rem;
+	}
+
+	.team-section h2::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 60px;
+		height: 4px;
+		background: var(--color-accent);
+		border-radius: 2px;
+	}
+
+	.team-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2.5rem;
+	}
+
+	.team-member {
+		background: white;
+		padding: 2rem;
+		border-radius: 12px;
+		border-left: 4px solid var(--color-accent);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+		transition: all 0.3s ease;
+		text-align: center;
+	}
+
+	.team-member:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 12px 30px rgba(0, 61, 130, 0.12);
+	}
+
+	.team-logo {
+		width: 100px;
+		height: auto;
+		margin-bottom: 1.5rem;
+	}
+
+	.team-member h3 {
+		color: var(--color-primary);
+		margin: 0 0 0.5rem 0;
+		font-size: 1rem;
+		font-weight: 700;
+	}
+
+	.role-name {
+		color: var(--color-accent);
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	@media (max-width: 1024px) {
+		.team-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.hero-section h1 {
+			font-size: 2.5rem;
+		}
+
+		.history-text h2,
+		.facilities-section h2 {
+			font-size: 2rem;
+		}
+
+		.team-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.team-section h2 {
+			font-size: 2rem;
+		}
+	}
+</style>

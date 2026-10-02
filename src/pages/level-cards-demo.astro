@@ -1,0 +1,1037 @@
+---
+import { Image } from "astro:assets";
+import primariasImg from "../assets/images/propuesta_academica/primaria/nia_primaria.jpg";
+import secundariaImg from "../assets/images/propuesta_academica/secundaria/alumnos_secundaria.png";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opciones de Tarjetas - Propuesta por Niveles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      padding: 3rem 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003d82;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+    }
+
+    .options-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .option-section {
+      margin-bottom: 4rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 61, 130, 0.1);
+    }
+
+    .option-title {
+      font-size: 1.5rem;
+      color: #003d82;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* OPCIÓN 1: Actual (referencia) */
+    .option-1 {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-1:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(0, 61, 130, 0.15);
+    }
+
+    .option-1 .card-image {
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .option-1 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-1:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-1 .card-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .option-1 .card-title {
+      font-size: 2rem;
+      color: #003d82;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .option-1 .card-desc {
+      font-size: 1rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .card-arrow {
+      font-size: 1.5rem;
+      color: #ff9900;
+    }
+
+    /* OPCIÓN 2: Overlay oscuro con texto blanco */
+    .option-2 {
+      position: relative;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      height: 400px;
+      cursor: pointer;
+    }
+
+    .option-2:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(0, 61, 130, 0.15);
+    }
+
+    .option-2 .card-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .option-2 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-2:hover .card-image img {
+      transform: scale(1.08);
+    }
+
+    .option-2::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 61, 130, 0.6);
+      transition: all 0.4s ease;
+      z-index: 2;
+    }
+
+    .option-2:hover::before {
+      background: rgba(0, 61, 130, 0.4);
+    }
+
+    .option-2 .card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      color: white;
+      text-align: center;
+      z-index: 3;
+    }
+
+    .option-2 .card-title {
+      font-size: 2rem;
+      color: white;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .option-2 .card-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0 0 1rem 0;
+    }
+
+    /* OPCIÓN 3: Borde naranja prominente */
+    .option-3 {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      border: 4px solid #ff9900;
+    }
+
+    .option-3:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(255, 153, 0, 0.3);
+    }
+
+    .option-3 .card-image {
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .option-3 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-3:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-3 .card-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.05) 0%, rgba(255, 153, 0, 0.02) 100%);
+    }
+
+    .option-3 .card-title {
+      font-size: 2rem;
+      color: #ff9900;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .option-3 .card-desc {
+      font-size: 1rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+    }
+
+    /* OPCIÓN 4: Contenido con fondo naranja */
+    .option-4 {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-4:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(0, 61, 130, 0.15);
+    }
+
+    .option-4 .card-image {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+    }
+
+    .option-4 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-4:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-4 .card-content {
+      padding: 2rem 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, #ff9900 0%, #ff7c00 100%);
+      color: white;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .option-4 .card-title {
+      font-size: 2rem;
+      color: white;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .option-4 .card-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0 0 1rem 0;
+    }
+
+    /* OPCIÓN 5: Minimal con hover */
+    .option-5 {
+      position: relative;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 61, 130, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      height: 350px;
+      cursor: pointer;
+    }
+
+    .option-5:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(0, 61, 130, 0.15);
+    }
+
+    .option-5 .card-image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .option-5 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-5:hover .card-image img {
+      transform: scale(1.1);
+    }
+
+    .option-5 .card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+      color: white;
+      text-align: center;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .option-5:hover .card-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .option-5 .card-title {
+      font-size: 2rem;
+      color: white;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .option-5 .card-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0 0 1rem 0;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-left: 3px solid #ff9900;
+      border-radius: 4px;
+    }
+
+    /* OPCIÓN 6: Badge + Premium */
+    .option-6 {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 61, 130, 0.15);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-6:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 24px 48px rgba(0, 61, 130, 0.25);
+    }
+
+    .option-6 .badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, #ff9900 0%, #ff7c00 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+    }
+
+    .option-6 .card-image {
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .option-6 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-6:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-6 .card-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .option-6 .card-title {
+      font-size: 2.2rem;
+      color: #003d82;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .option-6 .card-desc {
+      font-size: 1rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+      font-weight: 500;
+    }
+
+    /* OPCIÓN 7: Glassmorphism */
+    .option-7 {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 61, 130, 0.2);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      height: 400px;
+      cursor: pointer;
+    }
+
+    .option-7:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 24px 48px rgba(0, 61, 130, 0.3);
+    }
+
+    .option-7 .card-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .option-7 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-7:hover .card-image img {
+      transform: scale(1.08);
+    }
+
+    .option-7::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(44, 74, 117, 0.3) 100%);
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      z-index: 2;
+    }
+
+    .option-7:hover::before {
+      backdrop-filter: blur(5px);
+    }
+
+    .option-7 .card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      color: white;
+      text-align: center;
+      z-index: 3;
+    }
+
+    .option-7 .card-title {
+      font-size: 2.2rem;
+      color: white;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .option-7 .card-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0 0 1rem 0;
+      font-weight: 500;
+    }
+
+    /* OPCIÓN 8: Dual Gradient Premium */
+    .option-8 {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 61, 130, 0.12);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-8:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 28px 56px rgba(0, 61, 130, 0.2);
+    }
+
+    .option-8 .card-image {
+      width: 100%;
+      height: 260px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .option-8 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-8:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-8 .card-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      position: relative;
+    }
+
+    .option-8 .card-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #ff9900 0%, #ff7c00 50%, #003d82 100%);
+    }
+
+    .option-8 .card-title {
+      font-size: 2.2rem;
+      color: #003d82;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .option-8 .card-desc {
+      font-size: 1rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+      font-weight: 500;
+    }
+
+    /* OPCIÓN 9: Lado a Lado */
+    .option-9 {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 61, 130, 0.12);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 300px;
+    }
+
+    .option-9:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 24px 48px rgba(0, 61, 130, 0.2);
+    }
+
+    .option-9 .card-image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .option-9 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-9:hover .card-image img {
+      transform: scale(1.08);
+    }
+
+    .option-9 .card-content {
+      padding: 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+    }
+
+    .option-9 .card-title {
+      font-size: 2rem;
+      color: #003d82;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+    }
+
+    .option-9 .card-desc {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .option-9 {
+        grid-template-columns: 1fr;
+      }
+      .option-9 .card-image {
+        height: 250px;
+      }
+    }
+
+    /* OPCIÓN 10: Número Grande */
+    .option-10 {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 61, 130, 0.12);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .option-10:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 24px 48px rgba(0, 61, 130, 0.2);
+    }
+
+    .option-10 .number {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff9900 0%, #ff7c00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    .option-10 .card-image {
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .option-10 .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option-10:hover .card-image img {
+      transform: scale(1.12);
+    }
+
+    .option-10 .card-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .option-10 .card-title {
+      font-size: 2.2rem;
+      color: #003d82;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .option-10 .card-desc {
+      font-size: 1rem;
+      color: #666;
+      margin: 0 0 1.5rem 0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <h1>Opciones de Diseño - Tarjetas "Propuesta por Niveles"</h1>
+
+  <div class="options-container">
+    <!-- OPCIÓN 1 -->
+    <div class="option-section">
+      <div class="option-title">Opción 1: Actual (Clásica)</div>
+      <div class="cards-grid">
+        <div class="option-1">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-1">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Limpia y profesional, imagen clara, texto legible en todo momento. Interfaz familiar.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 2 -->
+    <div class="option-section">
+      <div class="option-title">Opción 2: Overlay Oscuro (Moderno)</div>
+      <div class="cards-grid">
+        <div class="option-2">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-2">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Muy impactante, énfasis en imagen, texto siempre visible. Aspecto más moderno y premium.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 3 -->
+    <div class="option-section">
+      <div class="option-title">Opción 3: Borde Naranja (Identidad)</div>
+      <div class="cards-grid">
+        <div class="option-3">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-3">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Fuerte branding naranja (color identidad). Muy distinctivo. Buen contraste.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 4 -->
+    <div class="option-section">
+      <div class="option-title">Opción 4: Fondo Naranja Degradado (Atrevido)</div>
+      <div class="cards-grid">
+        <div class="option-4">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-4">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Muy energético y llamativo. Destaca mucho. Comunica acción y movimiento. Muy memorable.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 5 -->
+    <div class="option-section">
+      <div class="option-title">Opción 5: Minimal con Reveal (Sofisticado)</div>
+      <div class="cards-grid">
+        <div class="option-5">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-5">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Elegante, el texto aparece al hover. Aspecto limpio. Imagen es el protagonista. Interacción clara.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 6 -->
+    <div class="option-section">
+      <div class="option-title">Opción 6: Badge Premium ⭐</div>
+      <div class="cards-grid">
+        <div class="option-6">
+          <div class="badge">1° a 6°</div>
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">Educación de calidad</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-6">
+          <div class="badge">1° a 5°</div>
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">Excelencia académica</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Badge naranja destacado. Muy premium. Diferencia clara entre niveles. Sombra más profunda. Elegante.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 7 -->
+    <div class="option-section">
+      <div class="option-title">Opción 7: Glassmorphism (Moderno Premium) ✨</div>
+      <div class="cards-grid">
+        <div class="option-7">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-7">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Efecto glassmorphism ultra moderno. Blur translúcido. Muy Premium y 2024. Elegancia sofisticada.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 8 -->
+    <div class="option-section">
+      <div class="option-title">Opción 8: Dual Gradient (Lujo) 🎨</div>
+      <div class="cards-grid">
+        <div class="option-8">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-8">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Línea de gradiente superior (naranja → azul). Fondo sutil. Muy elegante. Línea divisoria sutil premium.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 9 -->
+    <div class="option-section">
+      <div class="option-title">Opción 9: Layout Horizontal (Moderno) 🔄</div>
+      <div class="cards-grid">
+        <div class="option-9">
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-9">
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Layout lado a lado imagen-contenido. Diferente y premium. Mejor uso del espacio. Muy contemporáneo.
+      </div>
+    </div>
+
+    <!-- OPCIÓN 10 -->
+    <div class="option-section">
+      <div class="option-title">Opción 10: Número Grande (Exclusivo) 📊</div>
+      <div class="cards-grid">
+        <div class="option-10">
+          <div class="number">1</div>
+          <div class="card-image">
+            <img src={primariasImg.src} alt="Primaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Primaria</h3>
+            <p class="card-desc">1° a 6° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+        <div class="option-10">
+          <div class="number">2</div>
+          <div class="card-image">
+            <img src={secundariaImg.src} alt="Secundaria">
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Secundaria</h3>
+            <p class="card-desc">1° a 5° grado</p>
+            <div class="card-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <strong>Ventajas:</strong> Número degradado grande de fondo. Muy exclusivo y premium. Comunica orden y jerarquía. Sofisticado.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

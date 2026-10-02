@@ -1,0 +1,213 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getTranslation } from "../i18n/translations";
+import Footer from "../components/Footer.astro";
+
+const lang = "es";
+const t = getTranslation(lang);
+---
+
+<Layout title="Secundaria - Boston Bilingual School" lang={lang}>
+	<main class="level-page">
+		<section class="hero-section">
+			<div class="container">
+				<h1>Educación Secundaria</h1>
+				<p>Formación preuniversitaria de alto nivel con énfasis en certificación internacional</p>
+			</div>
+		</section>
+
+		<section class="curriculum">
+			<div class="container">
+				<h2>Plan de Estudios (1° a 5° de Secundaria)</h2>
+
+				<div class="curriculum-list">
+					<ul>
+						<li>Matemática</li>
+						<li>Comunicación</li>
+						<li>Ciencia y Tecnología</li>
+						<li>Ciencias Sociales - DPCC</li>
+						<li>Robótica</li>
+						<li>Inglés</li>
+						<li>Francés</li>
+						<li>Educación Física</li>
+						<li>Ajedrez</li>
+						<li>Tutoría</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="programs">
+			<div class="container">
+				<h2>Boston Preuniversitario</h2>
+
+				<div class="programs-grid">
+					<article>
+						<h3>📚 Preparación Intensiva</h3>
+						<p>Los estudiantes de 4to y 5to de Secundaria seleccionados mediante evaluación reciben preparación intensiva para el examen de ingreso a la UNT.</p>
+					</article>
+
+					<article>
+						<h3>🎯 Acceso a Universidades Nacionales</h3>
+						<p>Programa diseñado para asegurar ingreso a las mejores universidades del Perú, incluyendo UNT, UNMSM y más.</p>
+					</article>
+
+					<article>
+						<h3>🌎 Universidades Internacionales</h3>
+						<p>Preparación para exámenes internacionales y postulación a universidades de prestigio mundial.</p>
+					</article>
+
+					<article>
+						<h3>✨ Sin Costo Adicional</h3>
+						<p>El Boston Preuniversitario es un beneficio adicional sin costo extra para estudiantes seleccionados.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="programs">
+			<div class="container">
+				<h2>Programas Especiales</h2>
+
+				<div class="programs-grid">
+					<article>
+						<h3>🤖 Robótica</h3>
+						<p>Laboratorio dedicado para proyectos tecnológicos avanzados con aplicación en ingeniería.</p>
+					</article>
+
+					<article>
+						<h3>♟️ Ajedrez</h3>
+						<p>Desarrollo de estrategia y pensamiento lógico como parte integral del plan de estudios.</p>
+					</article>
+
+					<article>
+						<h3>🌍 Certificación Internacional</h3>
+						<p>Preparación y certificación en inglés y francés con reconocimiento global.</p>
+					</article>
+
+					<article>
+						<h3>🎒 Viajes Académicos</h3>
+						<p>Intercambios y viajes de estudio nacionales e internacionales para ampliar horizontes.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="cta-section">
+			<div class="container">
+				<h2>¿Listo para tu futuro?</h2>
+				<a href="/admisiones" class="cta-button">Inicia tu Proceso de Admisión</a>
+			</div>
+		</section>
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	.level-page {
+		background: white;
+	}
+
+	.hero-section {
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.hero-section h1 {
+		font-size: 3rem;
+		margin: 0 0 1rem 0;
+		font-weight: 800;
+	}
+
+	.hero-section p {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.curriculum {
+		padding: 4rem 0;
+	}
+
+	.curriculum h2,
+	.programs h2,
+	.cta-section h2 {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-primary);
+		margin-bottom: 2rem;
+		font-weight: 800;
+	}
+
+	.curriculum-list ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
+	}
+
+	.curriculum-list li {
+		padding: 1rem;
+		background: var(--color-bg-alt);
+		border-left: 4px solid var(--color-accent);
+		color: var(--color-text);
+		font-weight: 500;
+		border-radius: 4px;
+	}
+
+	.programs {
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
+	}
+
+	.programs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+	}
+
+	.programs-grid article {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	}
+
+	.programs-grid h3 {
+		color: var(--color-primary);
+		margin-top: 0;
+	}
+
+	.cta-section {
+		padding: 4rem 0;
+		text-align: center;
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+		color: white;
+	}
+
+	.cta-button {
+		display: inline-block;
+		background: white;
+		color: var(--color-primary);
+		padding: 1rem 2rem;
+		border-radius: 4px;
+		text-decoration: none;
+		font-weight: 700;
+		margin-top: 1rem;
+		transition: all 0.3s ease;
+	}
+
+	.cta-button:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
+
+	@media (max-width: 768px) {
+		.hero-section h1 {
+			font-size: 2rem;
+		}
+	}
+</style>
