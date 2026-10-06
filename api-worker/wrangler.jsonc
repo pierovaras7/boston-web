@@ -1,0 +1,10 @@
+{
+  "name": "boston-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "secrets": {
+    "required": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "ORIGENES_PERMITIDOS"]
+  }
+}
