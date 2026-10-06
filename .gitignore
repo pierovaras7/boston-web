@@ -30,3 +30,4 @@ api-worker/worker-configuration.d.ts
 
 # jetbrains setting folder
 .idea/
+supabase/.temp/
