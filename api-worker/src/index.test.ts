@@ -89,3 +89,24 @@ test('sin configuración no guarda', async () => {
   const r = await manejar(post('/api/contactos', datosContacto), { ...env, SUPABASE_URL: '' });
   assert.equal(r.status, 503);
 });
+
+test('rechaza cuerpo grande y tipo incorrecto', async () => {
+  const grande = await manejar(post('/api/contactos', { ...datosContacto, message: 'x'.repeat(9000) }), env);
+  assert.equal(grande.status, 413);
+  const tipo = await manejar(new Request(base + '/api/contactos', {
+    method: 'POST', headers: { Origin: origen, 'Content-Type': 'text/plain' }, body: '{}',
+  }), env);
+  assert.equal(tipo.status, 415);
+});
+
+test('ruta inexistente', async () => {
+  const r = await manejar(new Request(base + '/api/desconocida'), env);
+  assert.equal(r.status, 404);
+});
+
+test('no expone detalles internos de Supabase', async () => {
+  const fallo = crearManejador(async () => { throw new Error('database password privado'); });
+  const r = await fallo(post('/api/contactos', datosContacto), env);
+  assert.equal(r.status, 500);
+  assert.doesNotMatch(await r.text(), /database password privado/);
+});

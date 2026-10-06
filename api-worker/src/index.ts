@@ -101,7 +101,7 @@ export function crearManejador(guardar: Guardar = guardarEnSupabase) {
     if (request.method !== 'POST') {
       return respuesta(405, { ok: false, error: 'Método no permitido' }, { ...cors, Allow: 'POST, OPTIONS' });
     }
-    if (!request.headers.get('Content-Type')?.toLowerCase().startsWith('application/json')) {
+    if (request.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() !== 'application/json') {
       return respuesta(415, { ok: false, error: 'Se requiere JSON' }, cors);
     }
     if (Number(request.headers.get('Content-Length') || 0) > 8192) {

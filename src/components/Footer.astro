@@ -72,11 +72,7 @@ const email = "info@boston.edu.pe";
 			<div class="footer__bottom-content">
 				<p>&copy; {year} Boston Preuniversitario. {t.footer.allRightsReserved}</p>
 				<div class="footer__legal">
-					<a href={`/${lang}/privacy`}>{t.footer.privacy}</a>
-					<span class="footer__separator">•</span>
-					<a href={`/${lang}/terms`}>{t.footer.terms}</a>
-					<span class="footer__separator">•</span>
-					<a href={`/${lang}/cookies`}>{t.footer.cookies}</a>
+					<a href={lang === 'es' ? '/es/privacidad' : '/en/privacy'}>{lang === 'es' ? 'Uso de datos' : 'Data use'}</a>
 				</div>
 			</div>
 		</div>
