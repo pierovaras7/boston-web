@@ -30,7 +30,7 @@ const langLabel = lang === "es" ? "EN" : "ES";
 
     <nav class="header__nav">
       {links.map((link) => (
-        <a href={`/${lang}${link.href}`} class="nav-link">
+        <a href={link.href === "/secundaria" ? "/secundaria" : `/${lang}${link.href}`} class="nav-link">
           {link.label}
         </a>
       ))}
