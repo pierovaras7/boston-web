@@ -8,6 +8,8 @@ interface Props {
 
 const { lang = 'es' } = Astro.props;
 
+const apiBaseUrl = import.meta.env.PUBLIC_API_URL ?? '';
+
 const labels = {
   es: {
     title: 'Envíanos un Mensaje',
@@ -131,7 +133,7 @@ const t = labels[lang];
   </div>
 </div>
 
-<script define:vars={{ lang }}>
+<script define:vars={{ lang, apiBaseUrl }}>
   function initForm() {
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -176,8 +178,19 @@ const t = labels[lang];
       submitBtn.textContent = messages[lang].sending;
       messageDiv.style.display = 'none';
 
+      if (!apiBaseUrl) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent =
+          'El servicio de contacto aún no está configurado.';
+        messageDiv.style.display = 'block';
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+
       try {
-        const response = await fetch('/api/contact', {
+        const response = await fetch(`${apiBaseUrl}/api/contactos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

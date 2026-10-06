@@ -94,7 +94,7 @@ const categoryLabels: Record<string, Record<string, string>> = {
                   )}
                 </div>
 
-                <a href={`/${lang}/articulos/${article.slug}`} class="btn-link">
+                <a href={`/articulos/${article.id}`} class="btn-link">
                   {t.readMore}
                   <span class="arrow">→</span>
                 </a>
@@ -105,7 +105,7 @@ const categoryLabels: Record<string, Record<string, string>> = {
 
         {allArticles.length > 3 && (
           <div class="blog-footer">
-            <a href={`/${lang}/articulos`} class="btn-primary">{t.seeAll}</a>
+            <a href="/articulos" class="btn-primary">{t.seeAll}</a>
           </div>
         )}
       </>
