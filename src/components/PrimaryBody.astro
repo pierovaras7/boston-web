@@ -1,0 +1,191 @@
+---
+interface Props { lang: "es" | "en" }
+const { lang } = Astro.props;
+const contactHref = `/${lang}/contacto`;
+const copy = {
+  es: {
+    benefits: [
+      { title: "Bilingüismo", detail: "Inglés desde el inicio y francés desde 3er grado.", icon: "globe" },
+      { title: "Robótica", detail: "Innovación y tecnología desde edades tempranas.", icon: "robot" },
+      { title: "Ajedrez", detail: "Pensamiento estratégico para la vida.", icon: "chess" },
+      { title: "Formación Integral", detail: "Desarrollo académico, emocional y social.", icon: "people" },
+    ],
+    studyTitle: "Plan de Estudios",
+    studyDetail: "Una propuesta académica completa y balanceada, que potencia el talento de cada estudiante en cada etapa.",
+    grades: [
+      { title: "1° y 2° Grado", subjects: ["Matemática", "Comunicación", "Ciencia y Ambiente", "Personal Social", "Música", "Robótica", "Inglés", "Educación Física", "Ajedrez", "Tutoría"] },
+      { title: "3° a 6° Grado", subjects: ["Matemática", "Comunicación", "Ciencia y Tecnología", "Personal Social", "Robótica", "Inglés", "Francés", "Educación Física", "Ajedrez", "Tutoría"] },
+    ],
+    bannerFirst: "Aprender, crear",
+    bannerSecond: "y crecer",
+    bannerAccent: "en cada etapa",
+    bannerDetail: "Fomentamos la curiosidad, la creatividad y la confianza para un futuro sin límites.",
+    programsTitle: "Programas Especiales",
+    programsDetail: "Experiencias que enriquecen su formación y potencian sus talentos.",
+    programs: [
+      { title: "Robótica", detail: "Curso regular en toda la trayectoria escolar con laboratorio dedicado para el desarrollo de proyectos tecnológicos innovadores.", icon: "robot", image: "primaria-robotica.webp", imageHeight: 427, alt: "Estudiante de primaria trabajando con un robot educativo" },
+      { title: "Ajedrez", detail: "Programa de ajedrez integrado que desarrolla pensamiento estratégico, concentración y toma de decisiones.", icon: "chess", image: "primaria-ajedrez.webp", imageHeight: 427, alt: "Estudiantes de primaria practicando ajedrez" },
+      { title: "Bilingüismo", detail: "Inmersión en inglés desde el inicio y francés desde 3er grado con certificación internacional.", icon: "globe", image: "primaria-bilinguismo.webp", imageHeight: 800, alt: "Estudiante de primaria leyendo en el aula" },
+      { title: "Actividades Complementarias", detail: "Reforzamiento académico, visitas educativas a museos y sitios arqueológicos, preparación para concursos.", icon: "people", image: "primaria-actividades-complementarias.webp", imageHeight: 800, alt: "Ilustración fotográfica de estudiantes en una salida educativa" },
+    ],
+    ctaTitle: "Conoce más sobre nuestra propuesta en Primaria",
+    ctaDetail: "Agenda una visita y descubre todo lo que tu hijo puede lograr en el BBS.",
+    ctaButton: "Agenda una visita",
+    programAction: "Consultar sobre",
+  },
+  en: {
+    benefits: [
+      { title: "Bilingualism", detail: "English from the start and French from 3rd grade.", icon: "globe" },
+      { title: "Robotics", detail: "Innovation and technology from an early age.", icon: "robot" },
+      { title: "Chess", detail: "Strategic thinking for life.", icon: "chess" },
+      { title: "Comprehensive Education", detail: "Academic, emotional and social development.", icon: "people" },
+    ],
+    studyTitle: "Study Plan",
+    studyDetail: "A complete, balanced academic approach that helps every student develop their talents at each stage.",
+    grades: [
+      { title: "1st and 2nd Grade", subjects: ["Mathematics", "Communication", "Science and Environment", "Personal and Social Studies", "Music", "Robotics", "English", "Physical Education", "Chess", "Tutoring"] },
+      { title: "3rd to 6th Grade", subjects: ["Mathematics", "Communication", "Science and Technology", "Personal and Social Studies", "Robotics", "English", "French", "Physical Education", "Chess", "Tutoring"] },
+    ],
+    bannerFirst: "Learn, create",
+    bannerSecond: "and grow",
+    bannerAccent: "at every stage",
+    bannerDetail: "We foster curiosity, creativity and confidence for a future without limits.",
+    programsTitle: "Special Programs",
+    programsDetail: "Experiences that enrich their education and help their talents thrive.",
+    programs: [
+      { title: "Robotics", detail: "Regular course throughout the academic trajectory with a dedicated laboratory for developing innovative technology projects.", icon: "robot", image: "primaria-robotica.webp", imageHeight: 427, alt: "Primary student working with an educational robot" },
+      { title: "Chess", detail: "Integrated chess program that develops strategic thinking, concentration and decision-making skills.", icon: "chess", image: "primaria-ajedrez.webp", imageHeight: 427, alt: "Primary students playing chess" },
+      { title: "Bilingualism", detail: "Immersion in English from the beginning and French from 3rd grade with international certification.", icon: "globe", image: "primaria-bilinguismo.webp", imageHeight: 800, alt: "Primary student reading in the classroom" },
+      { title: "Complementary Activities", detail: "Academic reinforcement, educational visits to museums and archaeological sites, and preparation for competitions.", icon: "people", image: "primaria-actividades-complementarias.webp", imageHeight: 800, alt: "Illustrative photo of students on an educational outing" },
+    ],
+    ctaTitle: "Learn more about our Primary School program",
+    ctaDetail: "Schedule a visit and discover everything your child can achieve at BBS.",
+    ctaButton: "Schedule a visit",
+    programAction: "Ask about",
+  },
+} as const;
+const c = copy[lang];
+---
+
+<svg class="primary-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="primary-globe" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M4 16h24M16 4c4 3 6 7 6 12s-2 9-6 12M16 4c-4 3-6 7-6 12s2 9 6 12M6 10h20M6 22h20"/></symbol>
+  <symbol id="primary-robot" viewBox="0 0 32 32"><rect x="6" y="10" width="20" height="16" rx="3"/><path d="M16 5v5M12 5h8M2 16h4M26 16h4M11 26v3M21 26v3"/><circle cx="12" cy="17" r="1"/><circle cx="20" cy="17" r="1"/><path d="M12 22h8"/></symbol>
+  <symbol id="primary-chess" viewBox="0 0 32 32"><path d="m11 25 2-7-3-3 2-7 4-3 3 3 5 1-1 4-4 2 2 10M8 25h16l2 4H6l2-4Z"/><circle cx="17" cy="10" r="1"/></symbol>
+  <symbol id="primary-people" viewBox="0 0 32 32"><circle cx="16" cy="10" r="4"/><circle cx="6" cy="13" r="3"/><circle cx="26" cy="13" r="3"/><path d="M9 27v-3a7 7 0 0 1 14 0v3H9ZM2 25v-3a5 5 0 0 1 5-5h2M30 25v-3a5 5 0 0 0-5-5h-2"/></symbol>
+  <symbol id="primary-book" viewBox="0 0 32 32"><path d="M16 27c-3-2-7-3-12-3V6c5 0 9 1 12 3v18Zm0 0c3-2 7-3 12-3V6c-5 0-9 1-12 3v18Z"/></symbol>
+</svg>
+
+<section class="primary-benefits" aria-label={lang === "es" ? "Beneficios de Primaria" : "Primary School benefits"}>
+  <div class="container primary-benefits__grid">
+    {c.benefits.map((benefit, index) => <article class="primary-benefit" data-tone={index % 2 === 0 ? "blue" : "orange"}>
+      <div class="primary-benefit__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href={`#primary-${benefit.icon}`} /></svg></div>
+      <h2>{benefit.title}</h2>
+      <p>{benefit.detail}</p>
+    </article>)}
+  </div>
+</section>
+
+<section class="primary-study" id="plan-estudios" aria-labelledby="primary-study-title">
+  <div class="container">
+    <div class="primary-section-heading"><span class="primary-section-heading__bar"></span><h2 id="primary-study-title">{c.studyTitle}</h2><p>{c.studyDetail}</p></div>
+    <div class="primary-study__grid">
+      {c.grades.map((grade, index) => <article class="primary-study-card" data-tone={index === 0 ? "orange" : "blue"}>
+        <div class="primary-study-card__top"><h3>{grade.title}</h3><span class="primary-study-card__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#primary-book" /></svg></span></div>
+        <ul>{grade.subjects.map((subject) => <li><span>{subject}</span><span class="primary-study-card__chevron" aria-hidden="true">›</span></li>)}</ul>
+      </article>)}
+    </div>
+  </div>
+</section>
+
+<section class="primary-grow" aria-labelledby="primary-grow-title">
+  <img src="/images/primaria/primaria-banner-crecer.webp" alt="" width="1920" height="640" loading="lazy" decoding="async" />
+  <div class="primary-grow__shade" aria-hidden="true"></div>
+  <div class="container primary-grow__inner"><div class="primary-grow__copy">
+    <span class="primary-grow__bar"></span>
+    <h2 id="primary-grow-title">{c.bannerFirst}<br />{c.bannerSecond} <span>{c.bannerAccent}</span></h2>
+    <p>{c.bannerDetail}</p>
+  </div></div>
+  <svg class="primary-grow__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0 70C250 12 422 88 675 68c290-22 463-50 765-68v90H0Z" /></svg>
+</section>
+
+<section class="primary-programs" id="programas-especiales" aria-labelledby="primary-programs-title">
+  <div class="container">
+    <div class="primary-section-heading"><span class="primary-section-heading__bar"></span><h2 id="primary-programs-title">{c.programsTitle}</h2><p>{c.programsDetail}</p></div>
+    <div class="primary-programs__grid">
+      {c.programs.map((program, index) => <article class="primary-program" data-tone={index === 0 || index === 3 ? "orange" : "blue"}>
+        <img class="primary-program__image" src={`/images/primaria/${program.image}`} alt={program.alt} width="640" height={program.imageHeight} loading="lazy" decoding="async" />
+        <div class="primary-program__body"><div class="primary-program__title"><span class="primary-program__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href={`#primary-${program.icon}`} /></svg></span><h3>{program.title}</h3></div><p>{program.detail}</p><a class="primary-program__arrow" href={contactHref} aria-label={`${c.programAction} ${program.title}`}>›</a></div>
+      </article>)}
+    </div>
+  </div>
+</section>
+
+<section class="primary-cta" aria-labelledby="primary-cta-title"><div class="container"><div class="primary-cta__panel"><div class="primary-cta__copy"><span class="primary-cta__bar"></span><h2 id="primary-cta-title">{c.ctaTitle}</h2><p>{c.ctaDetail}</p></div><a href={contactHref}>{c.ctaButton} <span aria-hidden="true">→</span></a></div></div></section>
+
+<style>
+  .primary-icons{position:absolute;width:0;height:0;overflow:hidden}
+  .primary-benefits{position:relative;background:#fff;padding:22px 0 66px}
+  .primary-benefits__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .primary-benefit{min-height:206px;padding:22px 18px 20px;text-align:center;background:#fff;border:1px solid #eff3f8;border-radius:17px;box-shadow:0 12px 28px rgba(20,75,136,.08)}
+  .primary-benefit__icon,.primary-study-card__icon,.primary-program__icon{display:grid;place-items:center;border-radius:50%;flex:none}
+  .primary-benefit__icon{width:68px;height:68px;margin:0 auto 15px;background:#eaf3ff;color:#1373e1}
+  .primary-benefit[data-tone="orange"] .primary-benefit__icon{background:#fff0df;color:#ff8900}
+  .primary-benefit svg,.primary-study-card svg,.primary-program svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .primary-benefit h2{margin:0 0 8px;color:#073c7b;font-size:1.08rem;font-weight:800;line-height:1.25}
+  .primary-benefit p{margin:0 auto;max-width:24ch;color:#5b6570;font-size:.9rem;line-height:1.45}
+  .primary-study{position:relative;padding:63px 0 75px;background:linear-gradient(180deg,#f5faff 0%,#f1f8ff 54%,#fff 100%);scroll-margin-top:90px}
+  .primary-section-heading{text-align:center;margin:0 auto 34px;max-width:740px}
+  .primary-section-heading__bar,.primary-grow__bar,.primary-cta__bar{display:block;width:52px;height:4px;border-radius:3px;background:#ff9700}
+  .primary-section-heading__bar{margin:0 auto 17px}
+  .primary-section-heading h2{margin:0;color:#073c7b;font-size:clamp(2rem,3vw,2.55rem);font-weight:800;line-height:1.15}
+  .primary-section-heading p{margin:11px auto 0;color:#6d7d91;font-size:1rem;line-height:1.5}
+  .primary-study__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  .primary-study-card{padding:28px 36px 27px;border-radius:20px;background:#fff;box-shadow:0 16px 35px rgba(33,83,140,.08)}
+  .primary-study-card__top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:9px}
+  .primary-study-card h3{margin:0;color:#ff8600;font-size:1.75rem;font-weight:800;line-height:1.15}
+  .primary-study-card[data-tone="blue"] h3{color:#1879e7}
+  .primary-study-card__icon{width:66px;height:66px;background:#fff1e3;color:#ff9200}
+  .primary-study-card[data-tone="blue"] .primary-study-card__icon{background:#e8f2ff;color:#1879e7}
+  .primary-study-card ul{list-style:none;margin:0;padding:0}
+  .primary-study-card li{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid #e7ecf1;color:#4a5762;font-size:.98rem;line-height:1.3}
+  .primary-study-card li:last-child{border-bottom:0}
+  .primary-study-card__chevron{font-family:Arial,sans-serif;font-size:1.65rem;line-height:1;color:#ff9200}
+  .primary-study-card[data-tone="blue"] .primary-study-card__chevron{color:#1879e7}
+  .primary-grow{position:relative;isolation:isolate;min-height:440px;display:flex;align-items:center;overflow:hidden;background:#003c7e;color:#fff}
+  .primary-grow>img{position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+  .primary-grow__shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,#003775 0%,#00448d 31%,rgba(0,61,130,.92) 43%,rgba(0,61,130,.4) 62%,rgba(0,61,130,.04) 87%)}
+  .primary-grow__inner{width:100%;padding-top:35px;padding-bottom:68px}
+  .primary-grow__copy{max-width:590px}
+  .primary-grow__bar{margin-bottom:23px}
+  .primary-grow h2{margin:0 0 13px;font-size:clamp(2rem,3.2vw,2.85rem);font-weight:800;line-height:1.13;letter-spacing:-.035em}
+  .primary-grow h2 span{color:#ff9800}
+  .primary-grow p{max-width:530px;margin:0;color:#e9f3ff;font-size:1.12rem;line-height:1.43}
+  .primary-grow__wave{position:absolute;inset:auto 0 -1px;width:100%;height:70px}
+  .primary-programs{padding:60px 0 38px;background:#fff;scroll-margin-top:90px}
+  .primary-programs__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .primary-program{display:grid;grid-template-columns:36% minmax(0,1fr);min-height:230px;overflow:hidden;border:1px solid #edf3fb;border-radius:19px;background:#fff;box-shadow:0 14px 28px rgba(20,75,136,.09)}
+  .primary-program__image{display:block;width:100%;height:100%;min-height:230px;object-fit:cover;object-position:center}
+  .primary-program__body{position:relative;padding:20px 23px 45px}
+  .primary-program__title{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .primary-program__icon{width:53px;height:53px;color:#ff8e00;background:#fff0df}
+  .primary-program[data-tone="blue"] .primary-program__icon{color:#1879e7;background:#eaf3ff}
+  .primary-program__icon svg{width:29px;height:29px}
+  .primary-program h3{margin:0;color:#073c7b;font-size:1.15rem;font-weight:800;line-height:1.17}
+  .primary-program p{margin:0;color:#44505b;font-size:.91rem;line-height:1.44}
+  .primary-program__arrow{position:absolute;right:18px;bottom:14px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#ff9700;color:#fff;font:700 1.55rem/1 Arial,sans-serif;text-decoration:none;box-shadow:0 4px 9px rgba(255,151,0,.23)}
+  .primary-program[data-tone="blue"] .primary-program__arrow{background:#1879e7;box-shadow:0 4px 9px rgba(24,121,231,.2)}
+  .primary-program__arrow:hover{transform:translateX(2px)}
+  .primary-cta{padding:22px 0 50px;background:#fff}
+  .primary-cta__panel{position:relative;display:flex;align-items:center;justify-content:space-between;gap:30px;min-height:143px;padding:25px 52px;overflow:hidden;border-radius:19px;background:#e8f3ff}
+  .primary-cta__panel::before,.primary-cta__panel::after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(135,185,245,.22);pointer-events:none}
+  .primary-cta__panel::before{left:-112px;bottom:-125px}.primary-cta__panel::after{right:-105px;top:-125px}
+  .primary-cta__copy{position:relative;z-index:1}.primary-cta__bar{width:43px;height:3px;margin-bottom:12px}
+  .primary-cta h2{margin:0 0 6px;color:#073c7b;font-size:1.42rem;font-weight:800;line-height:1.25}
+  .primary-cta p{margin:0;color:#5a6573;font-size:.96rem}
+  .primary-cta a{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:190px;min-height:52px;padding:12px 19px;border-radius:8px;background:linear-gradient(120deg,#ffab00,#ff8700);box-shadow:0 8px 17px rgba(255,144,0,.18);color:#fff;font-family:var(--font-accent);font-size:.88rem;font-weight:700;text-decoration:none;white-space:nowrap}
+  .primary-cta a:hover{transform:translateY(-2px)}
+  @media(max-width:1000px){.primary-benefit{padding-inline:12px}.primary-benefit h2{font-size:.98rem}.primary-benefit p{font-size:.84rem}.primary-program{grid-template-columns:33% minmax(0,1fr)}.primary-program__body{padding:16px 17px 42px}.primary-program h3{font-size:1.03rem}.primary-program p{font-size:.84rem}}
+  @media(max-width:760px){.primary-benefits__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.primary-study__grid,.primary-programs__grid{grid-template-columns:1fr}.primary-program{grid-template-columns:34% minmax(0,1fr)}.primary-grow{min-height:340px}.primary-grow__copy{max-width:440px}.primary-grow__shade{background:linear-gradient(90deg,#003775 0%,rgba(0,61,130,.95) 43%,rgba(0,61,130,.28) 100%)}.primary-cta__panel{padding:25px 30px}.primary-cta h2{font-size:1.2rem}}
+  @media(max-width:540px){.primary-benefits{padding:18px 0 42px}.primary-benefits__grid{gap:12px}.primary-benefit{min-height:178px;padding:16px 10px}.primary-benefit__icon{width:54px;height:54px;margin-bottom:10px}.primary-benefit svg{width:30px;height:30px}.primary-benefit h2{font-size:.9rem}.primary-benefit p{font-size:.77rem}.primary-study{padding:50px 0}.primary-section-heading{margin-bottom:25px}.primary-section-heading h2{font-size:1.85rem}.primary-section-heading p{font-size:.91rem}.primary-study-card{padding:20px 22px}.primary-study-card h3{font-size:1.35rem}.primary-study-card__icon{width:52px;height:52px}.primary-study-card li{font-size:.88rem;min-height:40px}.primary-grow{min-height:400px;align-items:flex-end}.primary-grow>img{object-position:68% center}.primary-grow__shade{background:linear-gradient(0deg,#003775 0%,rgba(0,61,130,.95) 35%,rgba(0,61,130,.22) 100%)}.primary-grow__inner{padding-top:170px;padding-bottom:70px}.primary-grow h2{font-size:1.9rem}.primary-grow p{font-size:.96rem}.primary-programs{padding:45px 0 20px}.primary-program{grid-template-columns:34% minmax(0,1fr);min-height:205px}.primary-program__image{min-height:205px}.primary-program__icon{width:38px;height:38px}.primary-program__icon svg{width:23px;height:23px}.primary-program__title{gap:7px}.primary-program h3{font-size:.92rem}.primary-program p{font-size:.76rem}.primary-program__body{padding:13px 13px 39px}.primary-cta{padding:16px 0 35px}.primary-cta__panel{display:block;padding:23px}.primary-cta h2{font-size:1.12rem}.primary-cta p{font-size:.85rem;margin-bottom:18px}.primary-cta a{min-width:0;min-height:46px;font-size:.81rem}}
+  @media(max-width:370px){.primary-program{grid-template-columns:31% minmax(0,1fr)}.primary-program__body{padding-inline:10px}.primary-program h3{font-size:.84rem}.primary-program p{font-size:.72rem}}
+</style>
