@@ -9,6 +9,7 @@ interface Props {
 const { lang = 'es' } = Astro.props;
 
 const apiBaseUrl = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '');
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 
 const labels = {
   es: {
@@ -122,6 +123,8 @@ const t = labels[lang];
       ></textarea>
     </div>
 
+    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="contacto"></div>}
+
     {/* Message */}
     <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
 
@@ -133,7 +136,8 @@ const t = labels[lang];
   </div>
 </div>
 
-<script define:vars={{ lang, apiBaseUrl }}>
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script define:vars={{ lang, apiBaseUrl, turnstileSiteKey }}>
   function initForm() {
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -170,6 +174,7 @@ const t = labels[lang];
         subject: formData.get('subject'),
         message: formData.get('message'),
         language: lang,
+        turnstileToken: formData.get('cf-turnstile-response'),
       };
 
 
@@ -177,12 +182,20 @@ const t = labels[lang];
       submitBtn.textContent = messages[lang].sending;
       messageDiv.style.display = 'none';
 
-      if (!apiBaseUrl) {
+      if (!apiBaseUrl || !turnstileSiteKey) {
         messageDiv.className = 'form-message form-message--error';
         messageDiv.textContent =
           lang === 'es' ? 'El servicio de contacto aún no está configurado.' : 'The contact service is not configured yet.';
         messageDiv.style.display = 'block';
 
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+      if (!data.turnstileToken) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent = lang === 'es' ? 'Completa la verificación de seguridad.' : 'Complete the security check.';
+        messageDiv.style.display = 'block';
         submitBtn.disabled = false;
         submitBtn.textContent = messages[lang].submit;
         return;
@@ -214,6 +227,7 @@ const t = labels[lang];
         messageDiv.textContent = messages[lang].error;
         messageDiv.style.display = 'block';
       } finally {
+        window.turnstile?.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = messages[lang].submit;
       }
