@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { estado, estadosContacto, fecha, type Contacto, type EstadoContacto } from '../types';
 
 export function Contactos() {
   const [registros, setRegistros] = useState<Contacto[]>([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-  const [guardando, setGuardando] = useState<string | null>(null);
+  const [guardando, setGuardando] = useState<number | null>(null);
 
   const cargar = useCallback(async () => {
-    const { data, error } = await supabase().from('contactos_web').select('*')
-      .order('fecha_creacion', { ascending: false }).limit(500);
-    if (error) setError('No se pudieron cargar los contactos.');
-    else { setRegistros((data ?? []) as Contacto[]); setError(''); }
+    try {
+      const { contactos } = await api<{ contactos: Contacto[] }>('/api/contactos');
+      setRegistros(contactos);
+      setError('');
+    } catch { setError('No se pudieron cargar los contactos.'); }
     setCargando(false);
   }, []);
   useEffect(() => { void cargar(); }, [cargar]);
@@ -21,11 +22,15 @@ export function Contactos() {
     if (nuevo === contacto.estado) return;
     setGuardando(contacto.id);
     setError('');
-    const { data, error } = await supabase().from('contactos_web')
-      .update({ estado: nuevo }).eq('id', contacto.id).eq('estado', contacto.estado).select('id').maybeSingle();
-    const conflicto = Boolean(error || !data);
-    await cargar();
-    if (conflicto) setError('No se guardó el estado. Otro usuario pudo haberlo cambiado; se recargó la lista.');
+    try {
+      await api(`/api/contactos/${contacto.id}/estado`, {
+        method: 'PATCH', body: JSON.stringify({ estadoAnterior: contacto.estado, estado: nuevo }),
+      });
+      await cargar();
+    } catch {
+      await cargar();
+      setError('No se guardó el estado. Otro usuario pudo haberlo cambiado; se recargó la lista.');
+    }
     setGuardando(null);
   }
 

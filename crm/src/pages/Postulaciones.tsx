@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { estado, estadosPostulacion, fecha, grado, type Postulacion } from '../types';
 
 export function Postulaciones() {
@@ -13,12 +13,11 @@ export function Postulaciones() {
   useEffect(() => {
     let activo = true;
     async function cargar() {
-      const { data, error } = await supabase().from('postulaciones').select('*')
-        .order('fecha_creacion', { ascending: false }).limit(500);
-      if (!activo) return;
-      if (error) setError('No se pudieron cargar las postulaciones.');
-      else setRegistros((data ?? []) as Postulacion[]);
-      setCargando(false);
+      try {
+        const { postulaciones } = await api<{ postulaciones: Postulacion[] }>('/api/postulaciones');
+        if (activo) setRegistros(postulaciones);
+      } catch { if (activo) setError('No se pudieron cargar las postulaciones.'); }
+      if (activo) setCargando(false);
     }
     void cargar();
     return () => { activo = false; };

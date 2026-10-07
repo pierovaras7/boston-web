@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { estado, estadosPostulacion, fecha, grado, type EstadoPostulacion, type Historial, type Nota, type Postulacion } from '../types';
 
 export function DetallePostulacion() {
@@ -15,19 +15,14 @@ export function DetallePostulacion() {
 
   const cargar = useCallback(async () => {
     if (!id) return;
-    const cliente = supabase();
-    const [detalle, listaNotas, listaHistorial] = await Promise.all([
-      cliente.from('postulaciones').select('*').eq('id', id).single(),
-      cliente.from('notas_postulacion').select('id,contenido,usuario_id,fecha_creacion').eq('postulacion_id', id).order('fecha_creacion', { ascending: false }),
-      cliente.from('historial_postulacion').select('id,estado_anterior,estado_nuevo,usuario_id,fecha_creacion').eq('postulacion_id', id).order('fecha_creacion', { ascending: false }),
-    ]);
-    if (detalle.error || listaNotas.error || listaHistorial.error) {
-      setError('No se pudo cargar el detalle o no tienes acceso.');
-    } else {
-      setPostulacion(detalle.data as Postulacion);
-      setNotas((listaNotas.data ?? []) as Nota[]);
-      setHistorial((listaHistorial.data ?? []) as Historial[]);
+    try {
+      const datos = await api<{ postulacion: Postulacion; notas: Nota[]; historial: Historial[] }>(`/api/postulaciones/${id}`);
+      setPostulacion(datos.postulacion);
+      setNotas(datos.notas);
+      setHistorial(datos.historial);
       setError('');
+    } catch {
+      setError('No se pudo cargar el detalle o no tienes acceso.');
     }
     setCargando(false);
   }, [id]);
@@ -37,12 +32,15 @@ export function DetallePostulacion() {
     if (!postulacion || nuevo === postulacion.estado) return;
     setGuardando(true);
     setError('');
-    const { data, error } = await supabase().from('postulaciones')
-      .update({ estado: nuevo }).eq('id', postulacion.id).eq('estado', postulacion.estado)
-      .select('id').maybeSingle();
-    const conflicto = Boolean(error || !data);
-    await cargar();
-    if (conflicto) setError('No se cambió el estado. La postulación pudo haber sido modificada por otro usuario.');
+    try {
+      await api(`/api/postulaciones/${postulacion.id}/estado`, {
+        method: 'PATCH', body: JSON.stringify({ estadoAnterior: postulacion.estado, estado: nuevo }),
+      });
+      await cargar();
+    } catch {
+      await cargar();
+      setError('No se cambió el estado. La postulación pudo haber sido modificada por otro usuario.');
+    }
     setGuardando(false);
   }
 
@@ -51,10 +49,13 @@ export function DetallePostulacion() {
     if (!id || !nuevaNota.trim()) return;
     setGuardando(true);
     setError('');
-    const { error } = await supabase().from('notas_postulacion')
-      .insert({ postulacion_id: id, contenido: nuevaNota.trim() });
-    if (error) setError('No se pudo guardar la nota.');
-    else { setNuevaNota(''); await cargar(); }
+    try {
+      await api(`/api/postulaciones/${id}/notas`, {
+        method: 'POST', body: JSON.stringify({ contenido: nuevaNota.trim() }),
+      });
+      setNuevaNota('');
+      await cargar();
+    } catch { setError('No se pudo guardar la nota.'); }
     setGuardando(false);
   }
 
@@ -89,14 +90,14 @@ export function DetallePostulacion() {
             <button disabled={guardando || !nuevaNota.trim()} type="submit">Guardar nota</button>
           </form>
           {notas.length === 0 ? <p>Sin notas.</p> : <ol className="registro">{notas.map((nota) => <li key={nota.id}>
-            <p>{nota.contenido}</p><small>{fecha(nota.fecha_creacion)} · Usuario {nota.usuario_id.slice(0, 8)}</small>
+            <p>{nota.contenido}</p><small>{fecha(nota.fecha_creacion)} · {nota.usuario_email}</small>
           </li>)}</ol>}
         </div>
         <div className="panel">
           <h2>Historial de estado</h2>
           {historial.length === 0 ? <p>Sin cambios de estado.</p> : <ol className="registro">{historial.map((cambio) => <li key={cambio.id}>
-            <p>{estado(cambio.estado_anterior)} → {estado(cambio.estado_nuevo)}</p>
-            <small>{fecha(cambio.fecha_creacion)} · Usuario {cambio.usuario_id?.slice(0, 8) ?? 'eliminado'}</small>
+            <p>{cambio.estado_anterior ? estado(cambio.estado_anterior) : '—'} → {estado(cambio.estado_nuevo)}</p>
+            <small>{fecha(cambio.fecha_creacion)} · {cambio.usuario_email}</small>
           </li>)}</ol>}
         </div>
       </div>

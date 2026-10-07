@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 
 interface Totales { nuevas: number; pendientes: number; matriculadas: number; contactos: number }
 
@@ -10,21 +10,11 @@ export function Dashboard() {
 
   useEffect(() => {
     let activo = true;
-    const cliente = supabase();
     async function cargar() {
-      const consultas = await Promise.all([
-        cliente.from('postulaciones').select('*', { count: 'exact', head: true }).eq('estado', 'nuevo'),
-        cliente.from('postulaciones').select('*', { count: 'exact', head: true }).in('estado', ['contactado', 'entrevista', 'evaluacion', 'documentos_pendientes', 'aprobado']),
-        cliente.from('postulaciones').select('*', { count: 'exact', head: true }).eq('estado', 'matriculado'),
-        cliente.from('contactos_web').select('*', { count: 'exact', head: true }).eq('estado', 'nuevo'),
-      ]);
-      if (!activo) return;
-      if (consultas.some((consulta) => consulta.error)) {
-        setError('No se pudieron cargar los indicadores.');
-      } else {
-        setTotales({ nuevas: consultas[0].count ?? 0, pendientes: consultas[1].count ?? 0,
-          matriculadas: consultas[2].count ?? 0, contactos: consultas[3].count ?? 0 });
-      }
+      try {
+        const { resumen } = await api<{ resumen: Totales }>('/api/resumen');
+        if (activo) setTotales(resumen);
+      } catch { if (activo) setError('No se pudieron cargar los indicadores.'); }
     }
     void cargar();
     return () => { activo = false; };

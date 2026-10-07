@@ -7,7 +7,7 @@ export const estadosContacto = ['nuevo', 'atendido', 'cerrado'] as const;
 export type EstadoContacto = typeof estadosContacto[number];
 
 export interface Postulacion {
-  id: string;
+  id: number;
   nombre_estudiante: string;
   edad_estudiante: number;
   grado: string;
@@ -23,7 +23,7 @@ export interface Postulacion {
 }
 
 export interface Contacto {
-  id: string;
+  id: number;
   nombre: string;
   correo: string;
   telefono: string | null;
@@ -37,23 +37,23 @@ export interface Contacto {
 }
 
 export interface Nota {
-  id: string;
+  id: number;
   contenido: string;
-  usuario_id: string;
+  usuario_email: string;
   fecha_creacion: string;
 }
 
 export interface Historial {
-  id: string;
-  estado_anterior: string;
+  id: number;
+  estado_anterior: string | null;
   estado_nuevo: string;
-  usuario_id: string | null;
+  usuario_email: string;
   fecha_creacion: string;
 }
 
 export const fecha = (valor: string) => new Intl.DateTimeFormat('es-PE', {
   dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Lima',
-}).format(new Date(valor));
+}).format(new Date(valor.includes('T') ? valor : valor.replace(' ', 'T') + 'Z'));
 
 export const grado = (valor: string) => valor.replace('_', ' ').replace(/^\w/, (letra) => letra.toUpperCase());
 export const estado = (valor: string) => valor.replaceAll('_', ' ');
