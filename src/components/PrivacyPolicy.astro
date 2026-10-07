@@ -1,0 +1,110 @@
+---
+interface Props { lang: "es" | "en" }
+type Section = {
+  id: string;
+  title: string;
+  paragraphs?: string[];
+  bullets?: string[];
+  after?: string;
+  highlight?: string;
+  contact?: { before: string; label: string; after: string };
+};
+
+const { lang } = Astro.props;
+const copy: Record<"es" | "en", { eyebrow: string; title: string; accent: string; intro: string; date: string; articleLabel: string; sections: Section[] }> = {
+  es: {
+    eyebrow: "Información sobre tus datos",
+    title: "Política de",
+    accent: "privacidad",
+    intro: "Aquí explicamos qué información recibimos cuando te comunicas con Boston Bilingual School y cómo la utilizamos y protegemos.",
+    date: "Última actualización: octubre de 2026",
+    articleLabel: "Política de privacidad de Boston Bilingual School",
+    sections: [
+      { id: "responsable", title: "Responsable del tratamiento", paragraphs: ["Boston Bilingual School es responsable del tratamiento de los datos personales que recibe a través de este sitio web y de sus comunicaciones con personas interesadas mediante WhatsApp."] },
+      { id: "datos", title: "Datos que podemos recopilar", paragraphs: ["Según el canal y el motivo de la comunicación, podemos recibir:"], bullets: ["Nombre, número de teléfono y correo electrónico.", "Asunto, contenido de consultas o mensajes y la información que decidas compartir con nosotros.", "En los formularios de postulación, nombre, edad y grado al que postula el estudiante, además de los datos de contacto del padre, madre o apoderado y su medio de contacto preferido."], after: "Te pedimos que compartas únicamente la información necesaria para atender tu solicitud." },
+      { id: "canales-finalidades", title: "Canales y finalidades", paragraphs: ["Recopilamos información cuando completas formularios del sitio web o te comunicas con el colegio por WhatsApp. Utilizamos esos datos para responder consultas, brindar atención comercial e informativa sobre nuestros servicios educativos, dar seguimiento a solicitudes y mantener la comunicación relacionada con el interés o trámite que nos hayas expresado."] },
+      { id: "whatsapp", title: "WhatsApp Business Platform", paragraphs: ["Podemos usar WhatsApp Business Platform para comunicarnos contigo por ese canal. Meta es el proveedor tecnológico de la plataforma y puede tratar los datos necesarios para transmitir y gestionar los mensajes conforme a sus propios términos y políticas aplicables. Boston Bilingual School utiliza las conversaciones recibidas para las finalidades descritas en esta política."] },
+      { id: "proveedores", title: "Proveedores y comunicación de datos", highlight: "No vendemos datos personales.", paragraphs: ["Podemos compartir la información necesaria con proveedores tecnológicos que permiten operar el sitio web, almacenar solicitudes, proteger los formularios y prestar los canales de comunicación, incluidos Cloudflare y Meta cuando corresponda. También podemos comunicar datos cuando una obligación legal aplicable lo requiera."] },
+      { id: "seguridad", title: "Seguridad", paragraphs: ["Aplicamos medidas técnicas y organizativas razonables para proteger los datos frente a accesos no autorizados, pérdida, alteración o divulgación indebida. El acceso a las solicitudes se limita al personal autorizado que necesita atenderlas."] },
+      { id: "conservacion", title: "Conservación", paragraphs: ["Conservamos los datos personales únicamente durante el período necesario para responder y dar seguimiento a las consultas o solicitudes, cumplir las finalidades indicadas y atender las obligaciones aplicables. Después, los eliminamos o tratamos conforme a esas obligaciones."] },
+      { id: "derechos", title: "Tus derechos", paragraphs: ["Puedes solicitar información sobre el tratamiento de tus datos y pedir su acceso, rectificación o eliminación cuando corresponda. También puedes ejercer los demás derechos reconocidos por la normativa aplicable, incluida la oposición al tratamiento. Para atender tu solicitud, podremos pedirte información razonable para verificar tu identidad."] },
+      { id: "contacto", title: "Contacto", contact: { before: "Para consultas sobre esta política o para ejercer tus derechos, comunícate con Boston Bilingual School mediante los", label: "canales oficiales publicados en nuestra página de contacto", after: ". Indica que tu solicitud se refiere a datos personales para que podamos dirigirla al equipo correspondiente." } },
+    ],
+  },
+  en: {
+    eyebrow: "Information about your data",
+    title: "Privacy",
+    accent: "policy",
+    intro: "This policy explains what information we receive when you contact Boston Bilingual School and how we use and protect it.",
+    date: "Last updated: October 2026",
+    articleLabel: "Boston Bilingual School privacy policy",
+    sections: [
+      { id: "controller", title: "Data controller", paragraphs: ["Boston Bilingual School is responsible for the personal data it receives through this website and through WhatsApp communications with interested people."] },
+      { id: "data", title: "Information we may collect", paragraphs: ["Depending on the channel and reason for contacting us, we may receive:"], bullets: ["Your name, telephone number and email address.", "The subject and content of your inquiry or messages, and any information you choose to share with us.", "For admission forms, the student's name, age and intended grade, together with the parent or guardian's contact details and preferred contact method."], after: "Please share only the information needed for us to handle your request." },
+      { id: "channels-purposes", title: "Channels and purposes", paragraphs: ["We collect information when you complete forms on this website or contact the school through WhatsApp. We use it to answer inquiries, provide commercial and informational assistance about our educational services, follow up on requests, and communicate with people who have expressed an interest in or submitted a request to the school."] },
+      { id: "whatsapp", title: "WhatsApp Business Platform", paragraphs: ["We may use the WhatsApp Business Platform to communicate with you through that channel. Meta provides the technology for the platform and may process the data necessary to transmit and manage messages under its applicable terms and policies. Boston Bilingual School uses the conversations it receives for the purposes described in this policy."] },
+      { id: "providers", title: "Service providers and data sharing", highlight: "We do not sell personal data.", paragraphs: ["We may share information as necessary with technology providers that operate the website, store requests, protect forms and provide communication channels, including Cloudflare and Meta when applicable. We may also disclose data when required by applicable law."] },
+      { id: "security", title: "Security", paragraphs: ["We apply reasonable technical and organizational measures to protect personal data against unauthorized access, loss, alteration or improper disclosure. Access to requests is limited to authorized staff who need to handle them."] },
+      { id: "retention", title: "Retention", paragraphs: ["We keep personal data only for as long as necessary to answer and follow up on inquiries or requests, fulfill the purposes described above, and comply with applicable obligations. We then delete or otherwise handle it in accordance with those obligations."] },
+      { id: "rights", title: "Your rights", paragraphs: ["You may ask for information about how your data is processed and request access, correction or deletion where applicable. You may also exercise other rights recognized by applicable law, including the right to object to processing. We may ask for reasonable information to verify your identity before handling your request."] },
+      { id: "contact", title: "Contact", contact: { before: "For questions about this policy or to exercise your rights, contact Boston Bilingual School through the", label: "official channels listed on our contact page", after: ". Please indicate that your request concerns personal data so we can direct it to the appropriate team." } },
+    ],
+  },
+};
+const t = copy[lang];
+---
+
+<main class="privacy-page">
+    <header class="privacy-hero">
+      <div class="container privacy-hero__inner">
+        <p class="privacy-hero__eyebrow">{t.eyebrow}</p>
+        <h1>{t.title} <span>{t.accent}</span></h1>
+        <p class="privacy-hero__intro">{t.intro}</p>
+        <p class="privacy-hero__date">{t.date}</p>
+      </div>
+    </header>
+
+    <div class="container privacy-content">
+      <article aria-label={t.articleLabel}>
+        {t.sections.map((section, index) => (
+          <section aria-labelledby={section.id}>
+            <h2 id={section.id}>{index + 1}. {section.title}</h2>
+            {section.highlight && <p><strong>{section.highlight}</strong></p>}
+            {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets && <ul>{section.bullets.map((item) => <li>{item}</li>)}</ul>}
+            {section.after && <p>{section.after}</p>}
+            {section.contact && <p>{section.contact.before} <a href={`/${lang}/contacto/`}>{section.contact.label}</a>{section.contact.after}</p>}
+          </section>
+        ))}
+      </article>
+    </div>
+</main>
+
+<style>
+  .privacy-page { background: #f7faff; }
+  .privacy-hero { position: relative; overflow: hidden; color: #fff; background: linear-gradient(115deg, #00346f 0%, #003d82 66%, #0b5aa7 100%); }
+  .privacy-hero::after { content: ""; position: absolute; width: 360px; height: 360px; right: -110px; top: -150px; border-radius: 50%; background: rgba(107, 177, 255, .11); pointer-events: none; }
+  .privacy-hero__inner { position: relative; z-index: 1; padding-top: clamp(72px, 8vw, 115px); padding-bottom: clamp(80px, 8vw, 110px); }
+  .privacy-hero__eyebrow { margin: 0 0 16px; color: #cfe2fc; font-family: var(--font-accent); font-size: .8rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .privacy-hero__eyebrow::before { content: ""; display: inline-block; width: 28px; height: 3px; margin: 0 11px 3px 0; background: var(--color-accent); }
+  .privacy-hero h1 { max-width: 18ch; margin: 0 0 19px; font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.05; letter-spacing: -.045em; }
+  .privacy-hero h1 span { color: var(--color-accent); }
+  .privacy-hero__intro { max-width: 60ch; margin: 0; color: #edf5ff; font-size: clamp(1rem, 1.5vw, 1.16rem); line-height: 1.65; }
+  .privacy-hero__date { display: inline-block; margin: 27px 0 0; padding: 9px 15px; border: 1px solid rgba(255, 255, 255, .36); border-radius: 999px; color: #f5f9ff; font-size: .85rem; }
+  .privacy-content { padding-top: clamp(44px, 6vw, 76px); padding-bottom: clamp(78px, 8vw, 120px); }
+  .privacy-content article { max-width: 880px; margin: auto; padding: clamp(26px, 5vw, 64px); border: 1px solid #e4edf8; border-radius: 20px; background: #fff; box-shadow: 0 16px 45px rgba(0, 55, 115, .07); }
+  .privacy-content section + section { margin-top: 34px; padding-top: 34px; border-top: 1px solid #e6edf5; }
+  .privacy-content h2 { margin: 0 0 15px; color: #003d82; font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.25; }
+  .privacy-content p, .privacy-content li { color: #344458; font-size: 1rem; line-height: 1.75; }
+  .privacy-content p { margin: 0; }
+  .privacy-content p + p { margin-top: 13px; }
+  .privacy-content ul { margin: 14px 0; padding-left: 24px; }
+  .privacy-content li + li { margin-top: 8px; }
+  .privacy-content a { color: #0059ae; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .privacy-content a:hover, .privacy-content a:focus-visible { color: #bf5d00; }
+  @media (max-width: 600px) {
+    .privacy-hero__inner { padding-top: 64px; padding-bottom: 72px; }
+    .privacy-content article { border-radius: 14px; }
+    .privacy-content section + section { margin-top: 28px; padding-top: 28px; }
+  }
+</style>

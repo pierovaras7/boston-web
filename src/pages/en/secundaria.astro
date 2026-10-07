@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import SiteHero from "../../components/SiteHero.astro";
+import SecondaryBody from "../../components/SecondaryBody.astro";
+
+const lang = "en";
+---
+
+<Layout title="Secondary - Boston Bilingual School" lang={lang}>
+  <main class="secondary-page">
+    <SiteHero page="secundaria" lang={lang} />
+    <SecondaryBody lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>
