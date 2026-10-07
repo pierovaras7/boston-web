@@ -1,20 +1,16 @@
-# Configuración de Cloudflare
+# Recursos Cloudflare de Boston
 
-El Worker se configura en `api-worker/wrangler.jsonc`; las tres variables requeridas se guardan como **secrets**. `ORIGENES_PERMITIDOS` contiene URLs de origen completas, separadas por comas y sin `/` final. Incluye el dominio real de la web cuando exista. Para pruebas locales incluye `http://localhost:4321`.
+Cuenta `cc59789a6848596b17f242888f248698`, subdominio workers.dev `cueva-dev`:
 
-```powershell
-cd api-worker
-npm ci
-npx wrangler login
-npx wrangler secret put SUPABASE_URL
-npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
-npx wrangler secret put ORIGENES_PERMITIDOS
-npm run build
-npm run deploy
-```
+| Recurso | Nombre/valor |
+| --- | --- |
+| D1 | `boston-web-db` (`50d20d93-7b59-4bd0-8d06-448fd5f61673`) |
+| Workers | `boston-web`, `boston-api`, `boston-crm` |
+| Turnstile | `Boston Formularios`; sitekey pública `0x4AAAAAAFP7Bqih-rAwUxPE` |
+| Access | Aplicación `Boston CRM`; política `Boston CRM Administradores`; proveedor `Boston CRM One-time PIN` |
 
-Wrangler pide cada valor de forma interactiva. No pegues secretos en argumentos, archivos versionados ni logs. Para desarrollo local copia `.dev.vars.example` a `.dev.vars` y rellena sus valores; el archivo real está ignorado por Git.
+Los tres `wrangler.jsonc` contienen bindings y variables no secretas. `api-worker/wrangler.jsonc` enlaza `DB`, fija `ORIGENES_PERMITIDOS` y `TURNSTILE_HOSTNAMES`, y exige el secret `TURNSTILE_SECRET_KEY`. Para rotarlo: `cd api-worker; npx wrangler secret put TURNSTILE_SECRET_KEY` e introdúcelo de forma interactiva. Nunca pongas el secreto en Git, `PUBLIC_*`, `VITE_*` ni en argumentos de terminal. `crm/wrangler.jsonc` enlaza D1 y configura `TEAM_DOMAIN` y `POLICY_AUD` para verificar el JWT.
 
-`GET /api/salud` devuelve `{"ok":true,"servicio":"boston-api"}`. Los POST aceptan JSON hasta 8 KiB. `OPTIONS` responde a preflight únicamente para orígenes permitidos. Configura un límite de solicitudes en Cloudflare antes de abrir el formulario al tráfico público; Turnstile puede añadirse cuando haya claves.
+La web Astro necesita `PUBLIC_API_URL=https://boston-api.cueva-dev.workers.dev` y `PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAAFP7Bqih-rAwUxPE` durante el build. El CRM no necesita variables del navegador para la API.
 
-Para alojar la web y el CRM como proyectos Pages separados, sigue [despliegue](despliegue.md). Si prefieres integración Git en Pages, configura los comandos de build y sus variables públicas en la plataforma; [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/) no se convierte luego en integración Git dentro del mismo proyecto.
+Al añadir dominios propios, asígnalos a cada Worker, agrega el hostname web al widget Turnstile, actualiza `ORIGENES_PERMITIDOS` y `TURNSTILE_HOSTNAMES` de la API, reconstruye la web con la URL API definitiva y actualiza el dominio de la aplicación Access del CRM. Conserva el issuer del equipo Access y usa el AUD de la aplicación que protege el dominio. Verifica todas las rutas y formularios tras desplegar.
