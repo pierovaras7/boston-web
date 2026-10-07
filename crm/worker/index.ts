@@ -1,14 +1,16 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { z } from 'zod';
+import { ESTADOS_POSTULACION, GRADOS } from './constantes.ts';
+import type { EventoCRM, TipoEvento } from './constantes.ts';
+import { fechaValida, inicioUtcLima, limiteExclusivoUtcLima } from './fechas.ts';
+import { metricas, resumen } from './consultas.ts';
 
-type Config = { DB: D1Database; ASSETS: Fetcher; TEAM_DOMAIN: string; POLICY_AUD: string };
+type Config = { DB: D1Database; ASSETS: Fetcher; TEAM_DOMAIN: string; POLICY_AUD: string;
+  REALTIME_HUB?: DurableObjectNamespace<import('./realtime').CrmRealtimeHub> };
 type Usuario = { email: string; nombre: string; rol: 'admin' | 'usuario'; activo: number };
 export type VerificarAccess = (request: Request, env: Config) => Promise<string | null>;
 
-const estadosPostulacion = z.enum([
-  'nuevo', 'contactado', 'entrevista', 'evaluacion', 'documentos_pendientes',
-  'aprobado', 'matriculado', 'descartado',
-]);
+const estadosPostulacion = z.enum(ESTADOS_POSTULACION);
 const estadosContacto = z.enum(['nuevo', 'atendido', 'cerrado']);
 const cambioPostulacion = z.strictObject({ estadoAnterior: estadosPostulacion, estado: estadosPostulacion });
 const cambioContacto = z.strictObject({ estadoAnterior: estadosContacto, estado: estadosContacto });
@@ -47,10 +49,44 @@ function idValido(valor: string) {
   const id = Number(valor);
   return Number.isSafeInteger(id) && id > 0 ? id : null;
 }
+async function emitir(env: Config, tipo: TipoEvento, id: number) {
+  if (!env.REALTIME_HUB) return;
+  const evento: EventoCRM = { tipo, id, fecha: new Date().toISOString() };
+  try {
+    const objeto = env.REALTIME_HUB.get(env.REALTIME_HUB.idFromName('boston-school'));
+    await objeto.emitirEvento(evento);
+  } catch { console.error('No se pudo notificar cambio CRM'); }
+}
+
+function filtrosPostulaciones(url: URL) {
+  const buscar = (url.searchParams.get('buscar') ?? '').trim();
+  const estado = url.searchParams.get('estado') ?? '';
+  const grado = url.searchParams.get('grado') ?? '';
+  const desde = url.searchParams.get('desde') ?? '';
+  const hasta = url.searchParams.get('hasta') ?? '';
+  if (buscar.length > 120 || (estado && !ESTADOS_POSTULACION.includes(estado as typeof ESTADOS_POSTULACION[number])) ||
+      (grado && !GRADOS.includes(grado as typeof GRADOS[number])) ||
+      (desde && !fechaValida(desde)) || (hasta && !fechaValida(hasta)) ||
+      (desde && hasta && desde > hasta)) throw new Error('filtros');
+  const condiciones: string[] = [];
+  const parametros: string[] = [];
+  if (buscar) {
+    const patron = `%${buscar.replace(/[\\%_]/g, '\\$&')}%`;
+    condiciones.push(`(nombre_estudiante LIKE ? ESCAPE '\\' OR nombre_apoderado LIKE ? ESCAPE '\\'
+      OR telefono_apoderado LIKE ? ESCAPE '\\' OR correo_apoderado LIKE ? ESCAPE '\\')`);
+    parametros.push(patron, patron, patron, patron);
+  }
+  if (estado) { condiciones.push('estado = ?'); parametros.push(estado); }
+  if (grado) { condiciones.push('grado = ?'); parametros.push(grado); }
+  if (desde) { condiciones.push('fecha_creacion >= ?'); parametros.push(inicioUtcLima(desde)); }
+  if (hasta) { condiciones.push('fecha_creacion < ?'); parametros.push(limiteExclusivoUtcLima(hasta)); }
+  return { where: condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '', parametros };
+}
 
 export function crearManejador(verificar: VerificarAccess = verificarJwt) {
   return async (request: Request, env: Config): Promise<Response> => {
-    const { pathname } = new URL(request.url);
+    const url = new URL(request.url);
+    const { pathname } = url;
     if (!pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
     if (!env.DB) return responder(503, { ok: false, error: 'Servicio no disponible' });
     const email = await verificar(request, env);
@@ -67,25 +103,27 @@ export function crearManejador(verificar: VerificarAccess = verificarJwt) {
           email: usuario.email, nombre: usuario.nombre, rol: usuario.rol,
         } });
       }
+      if (pathname === '/api/realtime' && request.method === 'GET') {
+        if (request.headers.get('Upgrade')?.toLowerCase() !== 'websocket') {
+          return responder(426, { ok: false, error: 'Se requiere WebSocket' });
+        }
+        if (!env.REALTIME_HUB) return responder(503, { ok: false, error: 'Tiempo real no disponible' });
+        return env.REALTIME_HUB.get(env.REALTIME_HUB.idFromName('boston-school')).fetch(request);
+      }
       if (pathname === '/api/resumen' && request.method === 'GET') {
-        const [nuevas, pendientes, matriculadas, contactos] = await env.DB.batch([
-          env.DB.prepare("SELECT count(*) AS total FROM postulaciones WHERE estado = 'nuevo'"),
-          env.DB.prepare("SELECT count(*) AS total FROM postulaciones WHERE estado IN ('contactado','entrevista','evaluacion','documentos_pendientes','aprobado')"),
-          env.DB.prepare("SELECT count(*) AS total FROM postulaciones WHERE estado = 'matriculado'"),
-          env.DB.prepare("SELECT count(*) AS total FROM contactos_web WHERE estado = 'nuevo'"),
-        ]);
-        return responder(200, { ok: true, resumen: {
-          nuevas: Number((nuevas.results[0] as { total: number })?.total ?? 0),
-          pendientes: Number((pendientes.results[0] as { total: number })?.total ?? 0),
-          matriculadas: Number((matriculadas.results[0] as { total: number })?.total ?? 0),
-          contactos: Number((contactos.results[0] as { total: number })?.total ?? 0),
-        } });
+        return responder(200, { ok: true, resumen: await resumen(env.DB) });
+      }
+      if (pathname === '/api/metricas' && request.method === 'GET') {
+        return responder(200, { ok: true, metricas: await metricas(env.DB) });
       }
       if (pathname === '/api/postulaciones' && request.method === 'GET') {
+        const { where, parametros } = filtrosPostulaciones(url);
         const { results } = await env.DB.prepare(
-          'SELECT * FROM postulaciones ORDER BY fecha_creacion DESC, id DESC LIMIT 500',
-        ).all();
-        return responder(200, { ok: true, postulaciones: results });
+          `SELECT * FROM postulaciones ${where} ORDER BY fecha_creacion DESC, id DESC LIMIT 500`,
+        ).bind(...parametros).all();
+        const conteo = await env.DB.prepare(`SELECT count(*) AS total FROM postulaciones ${where}`)
+          .bind(...parametros).first<{ total: number }>();
+        return responder(200, { ok: true, postulaciones: results, total: conteo?.total ?? 0 });
       }
       if (pathname === '/api/contactos' && request.method === 'GET') {
         const { results } = await env.DB.prepare(
@@ -121,6 +159,7 @@ export function crearManejador(verificar: VerificarAccess = verificarJwt) {
             .bind(id, estadoAnterior, estado, usuario.email),
         ]);
         if (actualizacion.meta.changes !== 1) return responder(409, { ok: false, error: 'El estado cambió; recarga la postulación' });
+        await emitir(env, 'postulacion_actualizada', id);
         return responder(200, { ok: true });
       }
       const notasP = /^\/api\/postulaciones\/(\d+)\/notas$/.exec(pathname);
@@ -133,6 +172,7 @@ export function crearManejador(verificar: VerificarAccess = verificarJwt) {
         if (!existe) return responder(404, { ok: false, error: 'Postulación no encontrada' });
         await env.DB.prepare('INSERT INTO notas_postulacion (postulacion_id, usuario_email, contenido) VALUES (?, ?, ?)')
           .bind(id, usuario.email, validado.data.contenido).run();
+        await emitir(env, 'nota_creada', id);
         return responder(201, { ok: true });
       }
       const estadoC = /^\/api\/contactos\/(\d+)\/estado$/.exec(pathname);
@@ -147,11 +187,12 @@ export function crearManejador(verificar: VerificarAccess = verificarJwt) {
           'UPDATE contactos_web SET estado = ?, fecha_actualizacion = CURRENT_TIMESTAMP WHERE id = ? AND estado = ?',
         ).bind(validado.data.estado, id, validado.data.estadoAnterior).run();
         if (resultado.meta.changes !== 1) return responder(409, { ok: false, error: 'El estado cambió; recarga los contactos' });
+        await emitir(env, 'contacto_actualizado', id);
         return responder(200, { ok: true });
       }
       return responder(404, { ok: false, error: 'Ruta no encontrada' });
     } catch (error) {
-      if (error instanceof Error && ['tipo', 'grande', 'json'].includes(error.message)) {
+      if (error instanceof Error && ['tipo', 'grande', 'json', 'filtros'].includes(error.message)) {
         return responder(error.message === 'grande' ? 413 : 400, { ok: false, error: 'Solicitud inválida' });
       }
       console.error('Error interno CRM', error instanceof Error ? error.name : 'desconocido');

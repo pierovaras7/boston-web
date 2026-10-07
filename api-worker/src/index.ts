@@ -19,28 +19,41 @@ const contacto = z.strictObject({
   subject: texto(2, 150), message: texto(5, 3000),
   language: z.enum(['es', 'en']), turnstileToken: token,
 });
-type Config = { DB: D1Database; TURNSTILE_SECRET_KEY: string; ORIGENES_PERMITIDOS: string; TURNSTILE_HOSTNAMES: string };
+type Evento = { tipo: 'postulacion_creada' | 'contacto_creado'; id: number; fecha: string };
+type Config = { DB: D1Database; TURNSTILE_SECRET_KEY: string; ORIGENES_PERMITIDOS: string;
+  TURNSTILE_HOSTNAMES: string; CRM_EVENTS?: object };
 type Fila = Record<string, string | number | null>;
-export type Guardar = (tabla: 'postulaciones' | 'contactos_web', fila: Fila, env: Config) => Promise<void>;
+export type Guardar = (tabla: 'postulaciones' | 'contactos_web', fila: Fila, env: Config) => Promise<number>;
 export type Verificar = (token: string, accion: string, request: Request, env: Config) => Promise<boolean>;
 
 const guardarD1: Guardar = async (tabla, fila, env) => {
   if (tabla === 'postulaciones') {
-    await env.DB.prepare(`INSERT INTO postulaciones
+    const resultado = await env.DB.prepare(`INSERT INTO postulaciones
       (nombre_estudiante, edad_estudiante, grado, nombre_apoderado, telefono_apoderado,
        correo_apoderado, medio_contacto, idioma, origen)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
       fila.nombre_estudiante, fila.edad_estudiante, fila.grado, fila.nombre_apoderado,
       fila.telefono_apoderado, fila.correo_apoderado, fila.medio_contacto, fila.idioma, 'web',
     ).run();
+    return Number(resultado.meta.last_row_id);
   } else {
-    await env.DB.prepare(`INSERT INTO contactos_web
+    const resultado = await env.DB.prepare(`INSERT INTO contactos_web
       (nombre, correo, telefono, asunto, mensaje, idioma, origen)
       VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(
       fila.nombre, fila.correo, fila.telefono, fila.asunto, fila.mensaje, fila.idioma, 'web',
     ).run();
+    return Number(resultado.meta.last_row_id);
   }
 };
+
+async function notificar(env: Config, tipo: Evento['tipo'], id: number) {
+  if (!env.CRM_EVENTS || !Number.isSafeInteger(id) || id < 1) return;
+  try {
+    await (env.CRM_EVENTS as { emitirEvento(evento: Evento): Promise<void> })
+      .emitirEvento({ tipo, id, fecha: new Date().toISOString() });
+  }
+  catch { console.error('Formulario guardado; aviso CRM no disponible'); }
+}
 
 const verificarTurnstile: Verificar = async (valor, accion, request, env) => {
   const hosts = new Set(env.TURNSTILE_HOSTNAMES.split(',').map((h) => h.trim().toLowerCase()).filter(Boolean));
@@ -131,13 +144,14 @@ export function crearManejador(guardar: Guardar = guardarD1, verificar: Verifica
         if (!await verificar(p.turnstileToken, 'postulacion', request, env)) {
           return responder(403, { ok: false, error: 'Verificación de seguridad fallida' }, cors);
         }
-        await guardar('postulaciones', {
+        const id = await guardar('postulaciones', {
           nombre_estudiante: p.studentName, edad_estudiante: p.studentAge, grado: p.grade,
           nombre_apoderado: p.parentName, telefono_apoderado: p.parentPhone,
           correo_apoderado: p.parentEmail,
           medio_contacto: { phone: 'telefono', whatsapp: 'whatsapp', email: 'correo' }[p.preferredContact],
           idioma: p.language, origen: 'web',
         }, env);
+        await notificar(env, 'postulacion_creada', id);
       } else {
         const validado = contacto.safeParse(cuerpo);
         if (!validado.success) return responder(400, { ok: false, error: 'Datos de contacto inválidos' }, cors);
@@ -145,10 +159,11 @@ export function crearManejador(guardar: Guardar = guardarD1, verificar: Verifica
         if (!await verificar(c.turnstileToken, 'contacto', request, env)) {
           return responder(403, { ok: false, error: 'Verificación de seguridad fallida' }, cors);
         }
-        await guardar('contactos_web', {
+        const id = await guardar('contactos_web', {
           nombre: c.name, correo: c.email, telefono: c.phone || null,
           asunto: c.subject, mensaje: c.message, idioma: c.language, origen: 'web',
         }, env);
+        await notificar(env, 'contacto_creado', id);
       }
       return responder(201, { ok: true }, cors);
     } catch (error) {

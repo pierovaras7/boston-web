@@ -9,6 +9,11 @@
     "database_id": "50d20d93-7b59-4bd0-8d06-448fd5f61673",
     "migrations_dir": "migrations"
   }],
+  "services": [{
+    "binding": "CRM_EVENTS",
+    "service": "boston-crm",
+    "entrypoint": "CrmEventsService"
+  }],
   "vars": {
     "ORIGENES_PERMITIDOS": "https://boston-web.cueva-dev.workers.dev",
     "TURNSTILE_HOSTNAMES": "boston-web.cueva-dev.workers.dev"

@@ -9,7 +9,7 @@ const env = {
   ORIGENES_PERMITIDOS: 'http://localhost:4321',
 };
 const filas: Array<{ tabla: string; fila: Record<string, string | number | null> }> = [];
-const guardar: Guardar = async (tabla, fila) => { filas.push({ tabla, fila }); };
+const guardar: Guardar = async (tabla, fila) => { filas.push({ tabla, fila }); return filas.length; };
 const verificar: Verificar = async (token, accion) => token === 'token-valido' &&
   (accion === 'postulacion' || accion === 'contacto');
 const manejar = crearManejador(guardar, verificar);
@@ -72,6 +72,16 @@ test('contacto válido', async () => {
   assert.equal(r.status, 201);
   assert.equal(filas[0].tabla, 'contactos_web');
   assert.equal(filas[0].fila.telefono, null);
+});
+test('publica aviso mínimo después de guardar y conserva 201 si falla el aviso', async () => {
+  const eventos: unknown[] = [];
+  const conectado = { ...env, CRM_EVENTS: { async emitirEvento(evento: unknown) { eventos.push(evento); } } };
+  const primera = await manejar(post('/api/postulaciones', datosPostulacion), conectado);
+  assert.equal(primera.status, 201);
+  assert.deepEqual(Object.keys(eventos[0] as object).sort(), ['fecha', 'id', 'tipo']);
+  assert.equal((eventos[0] as { tipo: string }).tipo, 'postulacion_creada');
+  const fallando = { ...env, CRM_EVENTS: { async emitirEvento() { throw new Error('servicio temporalmente caído'); } } };
+  assert.equal((await manejar(post('/api/contactos', datosContacto), fallando)).status, 201);
 });
 test('contacto inválido', async () => {
   filas.length = 0;
