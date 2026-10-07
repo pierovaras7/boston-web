@@ -1,0 +1,68 @@
+---
+import { Image } from "astro:assets";
+import secondaryImage from "../assets/images/propuesta_academica/secundaria/alumna_2.png";
+import admissionsImage from "../assets/images/propuesta_academica/secundaria/alumnos_secundaria.png";
+
+interface Props {
+  page: "primaria" | "secundaria" | "admisiones" | "contacto" | "nosotros";
+  lang?: "es" | "en";
+}
+const { page, lang = "es" } = Astro.props;
+const copy = {
+  es: {
+    primaria: ["Conoce más sobre nuestra propuesta en", "Primaria", "Agenda una visita y descubre todo lo que tu hijo puede lograr en Boston.", "Agenda una visita", `/${lang}/contacto`],
+    secundaria: ["¿Listo para", "tu futuro?", "Inicia hoy tu proceso de admisión y descubre todo lo que puedes lograr en Boston.", "Inicia tu Proceso de Admisión", `/${lang}/admisiones`],
+    admisiones: ["¿Listo para dar", "el siguiente paso?", "Agenda una visita o inicia tu postulación y descubre todo lo que Boston puede ofrecer a tu familia.", "Inicia tu proceso", "#postulacion"],
+    contacto: ["¿Prefieres", "visitarnos?", "Agenda una visita y conoce de cerca el entorno educativo de Boston Bilingual School.", "Agenda una visita", "mailto:info@boston.edu.pe?subject=Solicitud%20de%20visita"],
+    nosotros: ["Conoce Boston", "Bilingual School", "Agenda una visita y descubre nuestra propuesta educativa en Trujillo.", "Agenda una visita", `/${lang}/contacto`],
+  },
+  en: {
+    primaria: ["Discover more about our", "Primary program", "Schedule a visit and see what your child can achieve at Boston.", "Schedule a visit", `/${lang}/contacto`],
+    secundaria: ["Ready for", "your future?", "Begin your admissions journey and discover what you can achieve at Boston.", "Start your application", `/${lang}/admisiones`],
+    admisiones: ["Ready for", "the next step?", "Schedule a visit or start applying to discover what Boston can offer your family.", "Start your application", "#postulacion"],
+    contacto: ["Would you like to", "visit us?", "Schedule a visit and discover the learning environment at Boston Bilingual School.", "Schedule a visit", "mailto:info@boston.edu.pe?subject=Visit%20request"],
+    nosotros: ["Discover Boston", "Bilingual School", "Schedule a visit and learn about our educational approach in Trujillo.", "Schedule a visit", `/${lang}/contacto`],
+  },
+} as const;
+const [title, accent, description, label, href] = copy[lang][page];
+const image = page === "secundaria" ? secondaryImage : page === "admisiones" ? admissionsImage : null;
+const light = page === "primaria" || page === "contacto";
+---
+
+<section class:list={["site-action", { "site-action--light": light, "site-action--photo": image }]} aria-label={title + " " + accent}>
+  {image && <div class="site-action__image"><Image src={image} alt="" loading="lazy" /></div>}
+  <div class="container site-action__inner">
+    <div class="site-action__copy">
+      <h2>{title} <span>{accent}</span></h2>
+      <p>{description}</p>
+      <div class="site-action__actions">
+        <a href={href}>{label} <span aria-hidden="true">→</span></a>
+        {page === "admisiones" && <a class="site-action__secondary" href="https://wa.me/51976586016" target="_blank" rel="noopener noreferrer">WhatsApp</a>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .site-action{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;min-height:285px;margin-top:35px;background:linear-gradient(105deg,#00346f,#0757a6);color:#fff}
+  .site-action__image{position:absolute;z-index:-2;inset:0 0 0 49%}
+  .site-action__image :global(img){width:100%;height:100%;object-fit:cover;object-position:center 35%}
+  .site-action--photo::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,#00346f 0%,#064b93 37%,rgba(0,61,130,.82) 53%,rgba(0,61,130,.08) 88%)}
+  .site-action__inner{width:100%;padding-top:45px;padding-bottom:50px}
+  .site-action__copy{max-width:560px}
+  .site-action h2{margin:0 0 10px;color:inherit;font-size:clamp(1.9rem,3vw,3rem);font-weight:900;line-height:1.12}
+  .site-action h2 span{color:var(--color-accent)}
+  .site-action p{margin:0 0 20px;font-size:1.03rem;line-height:1.5}
+  .site-action a{display:inline-flex;align-items:center;gap:14px;padding:13px 20px;border-radius:6px;background:#fff;color:var(--color-primary);font-family:var(--font-accent);font-size:.87rem;font-weight:700;text-decoration:none}
+  .site-action a:hover{transform:translateY(-2px)}
+  .site-action__actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+  .site-action__actions .site-action__secondary{border:1px solid #fff;background:transparent;color:#fff}
+  .site-action--light{width:min(1152px,calc(100% - 48px));min-height:0;margin:35px auto 75px;border-radius:18px;background:#eaf4ff;color:var(--color-primary)}
+  .site-action--light .site-action__inner{padding:36px 40px}
+  .site-action--light .site-action__copy{max-width:none;display:grid;grid-template-columns:1fr auto;column-gap:25px;align-items:center}
+  .site-action--light h2{font-size:clamp(1.45rem,2vw,2rem);grid-column:1}
+  .site-action--light p{font-size:.94rem;grid-column:1;margin-bottom:0}
+  .site-action--light .site-action__actions{grid-column:2;grid-row:1/3}
+  .site-action--light a{background:var(--color-accent);color:#fff}
+  @media(max-width:650px){.site-action{min-height:0}.site-action__inner{padding-block:55px}.site-action--photo .site-action__image{inset:0}.site-action--photo::before{background:linear-gradient(90deg,#00346f 0%,rgba(0,61,130,.94) 73%,rgba(0,61,130,.65) 100%)}.site-action--light .site-action__inner{padding:28px 23px}.site-action--light .site-action__copy{display:block}.site-action--light p{margin-bottom:17px}.site-action h2{font-size:2rem}}
+</style>

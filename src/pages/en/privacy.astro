@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Data use | Boston Bilingual School" lang="en">
+  <main class="container" style="max-width: 760px; padding: 3rem 1rem;">
+    <h1>Data submitted through forms</h1>
+    <p>An application sends the student's name, age and grade, along with the guardian's contact details, to Boston Bilingual School. The contact form sends a name, email address, optional phone number, subject and message.</p>
+    <p>The school uses this information to answer inquiries and manage admissions. Records are stored in Cloudflare D1 and available through a CRM restricted to authorized staff with Cloudflare Access. Forms are transmitted through an API on Cloudflare.</p>
+    <p>For questions about the handling of your data, write to <a href="mailto:info@boston.edu.pe">info@boston.edu.pe</a>.</p>
+  </main>
+  <Footer lang="en" />
+</Layout>

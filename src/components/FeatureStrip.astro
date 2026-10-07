@@ -1,0 +1,85 @@
+---
+interface Props {
+  page: "primaria" | "secundaria" | "admisiones" | "contacto";
+  lang?: "es" | "en";
+}
+const { page, lang = "es" } = Astro.props;
+const features = {
+  es: {
+    primaria: [
+      ["◎", "Bilingüismo", "Inglés desde el inicio y francés desde 3er grado."],
+      ["⚙", "Robótica", "Innovación y tecnología desde edades tempranas."],
+      ["♞", "Ajedrez", "Pensamiento estratégico para la vida."],
+      ["✦", "Formación Integral", "Desarrollo académico, emocional y social."],
+    ],
+    secundaria: [
+      ["▰", "Preuniversitario", "Preparación académica con visión universitaria."],
+      ["◎", "Bilingüismo", "Inglés y francés con proyección internacional."],
+      ["⚙", "Robótica", "Tecnología e innovación aplicada."],
+      ["✦", "Liderazgo", "Formación integral, autonomía y criterio."],
+    ],
+    admisiones: [
+      ["✦", "Atención personalizada", "Acompañamiento cercano durante todo el proceso."],
+      ["▤", "Proceso claro", "Etapas simples y bien definidas para postular."],
+      ["◇", "Matrícula segura", "Documentación y validación ordenada."],
+      ["◉", "Respuesta oportuna", "Nuestro equipo resuelve tus dudas con rapidez."],
+    ],
+    contacto: [
+      ["☎", "Atención directa", "Respuesta clara por teléfono para tus consultas."],
+      ["◉", "Respuesta rápida", "Contáctanos por WhatsApp de forma ágil."],
+      ["✉", "Canal formal", "Escríbenos por correo para más información."],
+      ["▣", "Horario flexible", "Te orientamos dentro de nuestro horario de atención."],
+    ],
+  },
+  en: {
+    primaria: [
+      ["◎", "Bilingualism", "English from the start and French from third grade."],
+      ["⚙", "Robotics", "Innovation and technology from an early age."],
+      ["♞", "Chess", "Strategic thinking for life."],
+      ["✦", "Whole-child learning", "Academic, emotional and social development."],
+    ],
+    secundaria: [
+      ["▰", "University preparation", "Academic preparation with a university outlook."],
+      ["◎", "Bilingualism", "English and French with international scope."],
+      ["⚙", "Robotics", "Applied technology and innovation."],
+      ["✦", "Leadership", "Independence, judgment and personal growth."],
+    ],
+    admisiones: [
+      ["✦", "Personal attention", "Close support throughout the process."],
+      ["▤", "Clear process", "Simple, well-defined steps to apply."],
+      ["◇", "Secure enrollment", "Organized documentation and validation."],
+      ["◉", "Prompt response", "Our team answers your questions quickly."],
+    ],
+    contacto: [
+      ["☎", "Direct service", "Clear answers to your questions by phone."],
+      ["◉", "Quick response", "Reach us easily via WhatsApp."],
+      ["✉", "Formal channel", "Email us for further information."],
+      ["▣", "Flexible hours", "We guide you during our opening hours."],
+    ],
+  },
+} as const;
+---
+
+<section class="feature-strip" aria-label={lang === "es" ? "Beneficios de Boston Bilingual School" : "Boston Bilingual School benefits"}>
+  <div class="container feature-strip__grid">
+    {features[lang][page].map(([icon, title, description], index) => (
+      <article class="feature-strip__card">
+        <span class:list={["feature-strip__icon", { "feature-strip__icon--orange": index % 2 === 1 }]} aria-hidden="true">{icon}</span>
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .feature-strip{position:relative;padding:10px 0 70px;background:linear-gradient(#fff,#f7fbff)}
+  .feature-strip__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .feature-strip__card{min-height:168px;padding:26px 18px 22px;text-align:center;background:#fff;border:1px solid #eff3f8;border-radius:16px;box-shadow:0 10px 28px rgba(0,57,119,.08)}
+  .feature-strip__icon{display:grid;place-items:center;width:62px;height:62px;margin:0 auto 13px;border-radius:50%;background:#e9f3ff;color:#0874dc;font-family:Arial,sans-serif;font-size:2rem;font-weight:700;line-height:1}
+  .feature-strip__icon--orange{background:#fff2e3;color:#ff8f00}
+  .feature-strip h2{margin:0 0 8px;color:var(--color-primary);font-size:1.02rem;line-height:1.25}
+  .feature-strip p{margin:0;color:#5d6672;font-size:.83rem;line-height:1.5}
+  @media(max-width:900px){.feature-strip__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:480px){.feature-strip{padding-bottom:50px}.feature-strip__grid{gap:10px}.feature-strip__card{padding:18px 10px;min-height:170px}.feature-strip__icon{width:48px;height:48px;font-size:1.55rem}.feature-strip h2{font-size:.87rem}.feature-strip p{font-size:.74rem}}
+</style>

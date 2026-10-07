@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import homeImage from "../assets/images/propuesta_academica/primaria/nia_primaria.jpg";
+import aboutImage from "../assets/images/identidad/banners/sliders_1.jpg";
+import primaryImage from "../assets/images/home/pilares/robotica_con_lego.png";
+import secondaryImage from "../assets/images/propuesta_academica/secundaria/alumnos_secundaria.png";
+import admissionsImage from "../assets/images/identidad/banners/sliders_1.jpg";
+import contactImage from "../assets/images/home/pilares/alumna_con_laptop.jpg";
+
+type Page = "inicio" | "nosotros" | "primaria" | "secundaria" | "admisiones" | "contacto";
+interface Props {
+  page: Page;
+  lang?: "es" | "en";
+}
+
+const { page, lang = "es" } = Astro.props;
+const base = `/${lang}`;
+const copy = {
+  es: {
+    inicio: { eyebrow: "Educación bilingüe para un mundo sin fronteras", title: "Formamos ciudadanos", accent: "globales", lead: "Formamos líderes globales con excelencia académica y valores sólidos.", detail: "", primary: "Admisiones 2027", primaryHref: `${base}/admisiones`, secondary: "Conoce nuestra propuesta", secondaryHref: `${base}/#programas` },
+    nosotros: { eyebrow: "Boston Bilingual School", title: "Conoce nuestra historia, propósito y", accent: "visión global", lead: "Formamos líderes globales con excelencia académica y valores sólidos.", detail: "", primary: "Conoce nuestra historia", primaryHref: "#historia", secondary: "Agenda una visita", secondaryHref: `${base}/contacto` },
+    primaria: { eyebrow: "Educación primaria", title: "Educación", accent: "Primaria", lead: "Formación integral con énfasis en bilingüismo, innovación y desarrollo humano.", detail: "Construimos bases sólidas para formar ciudadanos globales, creativos y con valores.", primary: "Conoce el programa", primaryHref: "#plan-estudios", secondary: "Agenda una visita", secondaryHref: `${base}/contacto` },
+    secundaria: { eyebrow: "Formación para grandes metas", title: "Educación", accent: "Secundaria", lead: "Formación preuniversitaria de alto nivel con énfasis en certificación internacional.", detail: "Impulsamos pensamiento crítico, liderazgo y preparación para el futuro universitario.", primary: "Conoce el programa", primaryHref: "#plan-estudios", secondary: "Agenda una visita", secondaryHref: `${base}/contacto` },
+    admisiones: { eyebrow: "Proceso de admisión 2027", title: "Admisiones", accent: "2027", lead: "Únete a una comunidad educativa bilingüe, innovadora y comprometida con formar ciudadanos globales.", detail: "Te acompañamos paso a paso para que tu proceso de ingreso sea claro, ágil y cercano.", primary: "Postula ahora", primaryHref: "#postulacion", secondary: "Agenda una visita", secondaryHref: `${base}/contacto` },
+    contacto: { eyebrow: "Estamos para ayudarte", title: "Contáctanos", accent: "", lead: "Estamos aquí para resolver tus dudas y acompañarte en lo que necesites.", detail: "Escríbenos, llámanos o agenda una visita. Nuestro equipo te responderá con cercanía y rapidez.", primary: "Enviar mensaje", primaryHref: "#formulario", secondary: "Agenda una visita", secondaryHref: "#formulario" },
+  },
+  en: {
+    inicio: { eyebrow: "Bilingual education without borders", title: "Shaping global", accent: "citizens", lead: "We develop global leaders through academic excellence and strong values.", detail: "", primary: "Admissions 2027", primaryHref: `${base}/admisiones`, secondary: "Explore our approach", secondaryHref: `${base}/#programas` },
+    nosotros: { eyebrow: "Boston Bilingual School", title: "Discover our history, purpose and", accent: "global vision", lead: "We develop global leaders through academic excellence and strong values.", detail: "", primary: "Our story", primaryHref: "#historia", secondary: "Schedule a visit", secondaryHref: `${base}/contacto` },
+    primaria: { eyebrow: "Primary education", title: "Primary", accent: "Education", lead: "A well-rounded education with a focus on bilingualism, innovation and personal growth.", detail: "Building strong foundations for creative global citizens with values.", primary: "Explore the program", primaryHref: "#plan-estudios", secondary: "Schedule a visit", secondaryHref: `${base}/contacto` },
+    secundaria: { eyebrow: "Preparing for big goals", title: "Secondary", accent: "Education", lead: "High-level university preparation with a focus on international certification.", detail: "We nurture critical thinking, leadership and readiness for university.", primary: "Explore the program", primaryHref: "#plan-estudios", secondary: "Schedule a visit", secondaryHref: `${base}/contacto` },
+    admisiones: { eyebrow: "Admissions process 2027", title: "Admissions", accent: "2027", lead: "Join an innovative bilingual community committed to developing global citizens.", detail: "We guide your family through every step of a clear, welcoming process.", primary: "Apply now", primaryHref: "#postulacion", secondary: "Schedule a visit", secondaryHref: `${base}/contacto` },
+    contacto: { eyebrow: "Here to help", title: "Contact", accent: "us", lead: "We are here to answer your questions and support your family.", detail: "Write, call or arrange a visit. Our team will respond promptly and personally.", primary: "Send a message", primaryHref: "#formulario", secondary: "Schedule a visit", secondaryHref: "#formulario" },
+  },
+} as const;
+const content = copy[lang][page];
+const image = { inicio: homeImage, nosotros: aboutImage, primaria: primaryImage, secundaria: secondaryImage, admisiones: admissionsImage, contacto: contactImage }[page];
+---
+
+<section class="site-hero" data-page={page} data-lang={lang} aria-labelledby={`${page}-hero-title`}>
+  <div class="site-hero__photo">
+    <Image src={image} alt="" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="site-hero__shade" aria-hidden="true"></div>
+  <div class="site-hero__orb" aria-hidden="true"></div>
+  <div class="container site-hero__inner">
+    <div class="site-hero__copy">
+      <p class="site-hero__eyebrow">{content.eyebrow}</p>
+      <h1 id={`${page}-hero-title`}>{content.title} {content.accent && <span>{content.accent}</span>}</h1>
+      <p class="site-hero__lead">{content.lead}</p>
+      {content.detail && <p class="site-hero__detail">{content.detail}</p>}
+      <div class="site-hero__actions">
+        <a class="site-hero__button site-hero__button--primary" href={content.primaryHref}>{content.primary}<span aria-hidden="true">→</span></a>
+        <a class="site-hero__button site-hero__button--outline" href={content.secondaryHref}>{content.secondary}</a>
+      </div>
+    </div>
+  </div>
+  <div class="site-hero__orange" aria-hidden="true"></div>
+  <div class="site-hero__dots" aria-hidden="true"></div>
+  <svg class="site-hero__wave" viewBox="0 0 1440 115" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#a9cefb" d="M0 52C245 10 398 115 675 95c296-21 431-86 765-95v115H0Z" />
+    <path fill="#fff" d="M0 78C252 43 391 122 677 108c280-14 485-78 763-72v79H0Z" />
+  </svg>
+</section>
+
+<style>
+  .site-hero{position:relative;isolation:isolate;min-height:570px;display:flex;align-items:center;background:#003d82;color:#fff;overflow:hidden}
+  .site-hero__photo{position:absolute;z-index:-3;inset:0 0 0 35%;overflow:hidden}
+  .site-hero__photo :global(img){width:100%;height:100%;object-fit:cover;object-position:center 35%}
+  .site-hero[data-page="inicio"] .site-hero__photo :global(img){object-position:center 40%}
+  .site-hero[data-page="nosotros"] .site-hero__photo :global(img),.site-hero[data-page="admisiones"] .site-hero__photo :global(img){object-position:right center;transform:scale(1.5);transform-origin:right center}
+  .site-hero[data-page="nosotros"][data-lang="es"] .site-hero__photo :global(img){transform:scale(2)}
+  .site-hero[data-page="nosotros"] h1{max-width:16ch;font-size:clamp(2.6rem,4vw,4.15rem)}
+  .site-hero[data-page="primaria"] .site-hero__photo :global(img){object-position:center 24%}
+  .site-hero__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#00346f 0%,#00468d 29%,rgba(0,61,130,.96) 39%,rgba(0,61,130,.70) 54%,rgba(0,61,130,.12) 83%)}
+  .site-hero__orb{position:absolute;z-index:-1;left:-105px;top:-180px;width:360px;height:440px;border-radius:50%;background:rgba(35,124,214,.18)}
+  .site-hero__inner{width:100%;position:relative;padding-top:80px;padding-bottom:115px}
+  .site-hero__copy{max-width:570px}
+  .site-hero__eyebrow{margin:0 0 14px;font-family:var(--font-accent);font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#dceaff}
+  .site-hero__eyebrow::before{content:"";display:inline-block;width:28px;height:3px;margin:0 12px 3px 0;background:var(--color-accent)}
+  .site-hero h1{max-width:12ch;margin:0 0 16px;font-size:clamp(2.6rem,4.3vw,4.55rem);font-weight:900;line-height:1.04;letter-spacing:-.045em;text-wrap:balance}
+  .site-hero h1 span{color:var(--color-accent)}
+  .site-hero__lead{max-width:46ch;margin:0 0 10px;font-size:clamp(1rem,1.4vw,1.3rem);font-weight:600;line-height:1.38}
+  .site-hero__detail{max-width:47ch;margin:0;color:#e2edfa;font-size:.98rem;line-height:1.5}
+  .site-hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+  .site-hero__button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 20px;border:1px solid #fff;border-radius:6px;font-family:var(--font-accent);font-size:.88rem;font-weight:700;line-height:1.2;text-decoration:none}
+  .site-hero__button--primary{border-color:var(--color-accent);background:linear-gradient(120deg,var(--color-accent),#ff8100);box-shadow:0 7px 18px rgba(255,145,0,.2)}
+  .site-hero__button:hover{transform:translateY(-2px)}
+  .site-hero__button--outline:hover{background:#fff;color:var(--color-primary)}
+  .site-hero__orange{position:absolute;right:-83px;bottom:6px;width:210px;height:140px;background:#ff9200;border-radius:100% 0 0 0;transform:rotate(-10deg)}
+  .site-hero__dots{position:absolute;right:32px;bottom:34px;width:91px;height:76px;opacity:.8;background-image:radial-gradient(#ff9200 1.5px,transparent 1.5px);background-size:14px 14px}
+  .site-hero__wave{position:absolute;right:0;bottom:-1px;left:0;width:100%;height:100px;pointer-events:none}
+  @media(max-width:900px){.site-hero{min-height:540px}.site-hero__photo{left:24%}.site-hero__shade{background:linear-gradient(90deg,#00346f 0%,rgba(0,61,130,.98) 38%,rgba(0,61,130,.48) 100%)}.site-hero__copy{max-width:520px}.site-hero__inner{padding-top:65px}}
+  @media(max-width:640px){.site-hero{min-height:630px;align-items:flex-end}.site-hero__photo{inset:0}.site-hero__photo :global(img){object-position:center 30%}.site-hero__shade{background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.97) 34%,rgba(0,61,130,.55) 72%,rgba(0,61,130,.18) 100%)}.site-hero__inner{padding-top:220px;padding-bottom:118px}.site-hero__eyebrow{font-size:.7rem}.site-hero h1{font-size:clamp(2.25rem,9vw,3.2rem);max-width:14ch}.site-hero__lead{font-size:1rem}.site-hero__detail{font-size:.9rem}.site-hero__actions{gap:10px}.site-hero__button{font-size:.78rem;padding:10px 13px;min-height:44px}.site-hero__wave{height:70px}.site-hero__orange{width:115px;height:85px;right:-35px}.site-hero__dots{right:8px;bottom:30px;width:55px}}
+  @media(max-width:390px){.site-hero__actions{flex-direction:column;align-items:stretch}.site-hero__button{justify-content:center}}
+</style>

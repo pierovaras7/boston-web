@@ -5,6 +5,9 @@ interface Props {
 
 const { lang = 'es' } = Astro.props;
 
+const apiBaseUrl = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '');
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+
 const labels = {
   es: {
     title: 'Ficha de Postulación Online',
@@ -84,17 +87,8 @@ const t = labels[lang];
           <label for="grade">{t.grade} *</label>
           <select id="grade" name="grade" required>
             <option value="">{lang === 'es' ? 'Seleccionar grado' : 'Select grade'}</option>
-            <option value="1">{lang === 'es' ? '1° Grado' : '1st Grade'}</option>
-            <option value="2">{lang === 'es' ? '2° Grado' : '2nd Grade'}</option>
-            <option value="3">{lang === 'es' ? '3° Grado' : '3rd Grade'}</option>
-            <option value="4">{lang === 'es' ? '4° Grado' : '4th Grade'}</option>
-            <option value="5">{lang === 'es' ? '5° Grado' : '5th Grade'}</option>
-            <option value="6">{lang === 'es' ? '6° Grado' : '6th Grade'}</option>
-            <option value="7">{lang === 'es' ? '7° Grado' : '7th Grade'}</option>
-            <option value="8">{lang === 'es' ? '8° Grado' : '8th Grade'}</option>
-            <option value="9">{lang === 'es' ? '9° Grado' : '9th Grade'}</option>
-            <option value="10">{lang === 'es' ? '10° Grado' : '10th Grade'}</option>
-            <option value="11">{lang === 'es' ? '11° Grado' : '11th Grade'}</option>
+            {[1, 2, 3, 4, 5, 6].map((n) => <option value={`primaria_${n}`}>{lang === 'es' ? `${n}° Primaria` : `Primary ${n}`}</option>)}
+            {[1, 2, 3, 4, 5].map((n) => <option value={`secundaria_${n}`}>{lang === 'es' ? `${n}° Secundaria` : `Secondary ${n}`}</option>)}
           </select>
         </div>
       </div>
@@ -149,8 +143,10 @@ const t = labels[lang];
       </div>
     </fieldset>
 
+    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="postulacion"></div>}
+
     {/* Message */}
-    <div id="formMessage" class="form-message" style="display: none;"></div>
+    <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
 
     {/* Submit Button */}
     <button type="submit" class="submit-button" id="submitBtn">
@@ -159,7 +155,8 @@ const t = labels[lang];
   </form>
 </div>
 
-<script define:vars={{ lang }}>
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script define:vars={{ lang, apiBaseUrl, turnstileSiteKey }}>
   function initForm() {
     const form = document.getElementById('admissionsForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -187,7 +184,6 @@ const t = labels[lang];
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      console.log('Formulario enviado');
 
       const formData = new FormData(form);
       const data = {
@@ -199,16 +195,35 @@ const t = labels[lang];
         parentEmail: formData.get('parentEmail'),
         preferredContact: formData.get('preferredContact'),
         language: lang,
+        turnstileToken: formData.get('cf-turnstile-response'),
       };
 
-      console.log('Datos a enviar:', data);
 
       submitBtn.disabled = true;
       submitBtn.textContent = messages[lang].sending;
       messageDiv.style.display = 'none';
 
+      if (!apiBaseUrl || !turnstileSiteKey) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent =
+          lang === 'es' ? 'El servicio de postulaciones aún no está configurado.' : 'The application service is not configured yet.';
+        messageDiv.style.display = 'block';
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+      if (!data.turnstileToken) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent = lang === 'es' ? 'Completa la verificación de seguridad.' : 'Complete the security check.';
+        messageDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+
       try {
-        const response = await fetch('/api/admissions', {
+        const response = await fetch(`${apiBaseUrl}/api/postulaciones`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -216,9 +231,7 @@ const t = labels[lang];
           body: JSON.stringify(data),
         });
 
-        console.log('Respuesta del servidor:', response.status);
         const result = await response.json();
-        console.log('Resultado:', result);
 
         if (response.ok) {
           messageDiv.className = 'form-message form-message--success';
@@ -230,12 +243,12 @@ const t = labels[lang];
         }
 
         messageDiv.style.display = 'block';
-      } catch (error) {
-        console.error('Error en el envío:', error);
+      } catch {
         messageDiv.className = 'form-message form-message--error';
         messageDiv.textContent = messages[lang].error;
         messageDiv.style.display = 'block';
       } finally {
+        window.turnstile?.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = messages[lang].submit;
       }

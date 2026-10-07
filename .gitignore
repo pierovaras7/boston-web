@@ -1,5 +1,8 @@
 # build output
 dist/
+dist-worker/
+**/.wrangler/
+.tmp-media/
 # generated types
 .astro/
 
@@ -16,9 +19,19 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+.env.*.local
+**/.dev.vars
+**/.env
+**/.env.production
+**/.env.local
+**/.env.*.local
+api-worker/worker-configuration.d.ts
+crm/worker-configuration.d.ts
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+supabase/.temp/

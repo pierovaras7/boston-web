@@ -1,43 +1,35 @@
-# Astro Starter Kit: Minimal
+# Boston Bilingual School
 
-```sh
-npm create astro@latest -- --template minimal
+Web Astro estática, API pública y CRM React privado, desplegados como tres Cloudflare Workers. D1 almacena los registros; Turnstile protege los formularios y Cloudflare Access protege el CRM.
+
+| Servicio | URL |
+| --- | --- |
+| Web | https://boston-web.cueva-dev.workers.dev |
+| API | https://boston-api.cueva-dev.workers.dev/api/salud |
+| CRM | https://boston-crm.cueva-dev.workers.dev |
+
+`src/` contiene la web; `api-worker/`, la API y las migraciones D1; `crm/`, React y su Worker privado. `legacy-supabase/` y `legacy-backend/` conservan implementaciones anteriores fuera de producción. `src/reference/` contiene demos no publicadas.
+
+Se requiere Node 22.12 o posterior. Verificación local:
+
+```powershell
+npm ci
+npm run build
+cd api-worker
+npm ci
+npm test
+npm run build
+cd ../crm
+npm ci
+npm test
+npm run build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Para iniciar Astro, usa `npx astro dev --background`; controla el proceso con `npx astro dev status`, `npx astro dev logs` y `npx astro dev stop`.
 
-## 🚀 Project Structure
+- [Arquitectura](docs/arquitectura.md)
+- [Configuración Cloudflare](docs/configuracion-cloudflare.md)
+- [Despliegue y pruebas](docs/despliegue.md)
+- [CRM y usuarios](docs/crm.md)
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Los dominios propios aún no están definidos. Las URLs workers.dev son las vigentes.

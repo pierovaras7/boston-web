@@ -12,7 +12,7 @@ const { lang = "es" } = Astro.props;
 const t = getTranslation(lang);
 ---
 
-<section class="level-access">
+<section id="programas" class="level-access">
   <div class="container">
     <div class="level-access__header">
       <h2 class="level-access__title">{t.levels.title}</h2>
@@ -36,7 +36,7 @@ const t = getTranslation(lang);
         </div>
       </a>
 
-      <a href={`/${lang}/secundaria`} class="level-card">
+      <a href="/secundaria" class="level-card">
         <div class="level-card__image">
           <Image
             src={secundariaImg}

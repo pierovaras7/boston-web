@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { slug: article.id },
     props: { article },
   }));
 }
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { article } = Astro.props as Props;
-const { Content } = await article.render();
+const { Content } = await render(article);
 
 const lang = 'es';
 
@@ -111,35 +111,48 @@ const breadcrumbText = lang === 'es' ? 'Volver a Noticias' : 'Back to News';
 
 <style is:global>
   .prose {
-    @apply text-gray-700;
+    color: #374151;
   }
 
   .prose h2 {
-    @apply text-2xl font-bold text-gray-900 mt-8 mb-4 pt-6 border-t border-gray-200;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 2rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
   }
 
   .prose h3 {
-    @apply text-xl font-bold text-gray-900 mt-6 mb-3;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 1.5rem 0 .75rem;
   }
 
   .prose p {
-    @apply mb-4 leading-relaxed;
+    margin-bottom: 1rem;
+    line-height: 1.625;
   }
 
   .prose ul,
   .prose ol {
-    @apply mb-4 ml-6;
+    margin: 0 0 1rem 1.5rem;
   }
 
   .prose li {
-    @apply mb-2;
+    margin-bottom: .5rem;
   }
 
   .prose strong {
-    @apply font-bold text-gray-900;
+    font-weight: 700;
+    color: #111827;
   }
 
   .prose em {
-    @apply italic text-gray-700;
+    font-style: italic;
+    color: #374151;
   }
 </style>

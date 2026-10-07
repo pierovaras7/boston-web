@@ -3,6 +3,9 @@ import Layout from "../../layouts/Layout.astro";
 import { getTranslation } from "../../i18n/translations";
 import Footer from "../../components/Footer.astro";
 import AdmissionsFormSimple from "../../components/AdmissionsFormSimple.astro";
+import SiteHero from "../../components/SiteHero.astro";
+import FeatureStrip from "../../components/FeatureStrip.astro";
+import ActionPanel from "../../components/ActionPanel.astro";
 
 const lang = "en";
 const t = getTranslation(lang);
@@ -10,12 +13,8 @@ const t = getTranslation(lang);
 
 <Layout title="Admissions - Boston Bilingual School" lang={lang}>
 	<main class="admissions-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Admissions 2027</h1>
-				<p>Join our educational community of excellence</p>
-			</div>
-		</section>
+		<SiteHero page="admisiones" lang={lang} />
+		<FeatureStrip page="admisiones" lang={lang} />
 
 		<section class="process-section">
 			<div class="container">
@@ -68,7 +67,7 @@ const t = getTranslation(lang);
 			</div>
 		</section>
 
-		<section class="form-section">
+		<section id="postulacion" class="form-section">
 			<div class="container">
 				<AdmissionsFormSimple lang="en" />
 			</div>
@@ -94,6 +93,7 @@ const t = getTranslation(lang);
 				</div>
 			</div>
 		</section>
+		<ActionPanel page="admisiones" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>

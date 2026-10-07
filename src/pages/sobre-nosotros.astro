@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import { getTranslation } from "../i18n/translations";
 import Footer from "../components/Footer.astro";
+import SiteHero from "../components/SiteHero.astro";
+import ActionPanel from "../components/ActionPanel.astro";
 
 // Detectar idioma desde query param o default a "es"
 const langParam = Astro.url.searchParams.get("lang");
@@ -11,14 +13,9 @@ const t = getTranslation(lang);
 
 <Layout title="Sobre Nosotros - Boston Bilingual School" lang={lang}>
 	<main class="about-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Sobre Boston Bilingual School</h1>
-				<p>Educación de calidad con visión de ciudadanía global desde 1990</p>
-			</div>
-		</section>
+		<SiteHero page="nosotros" lang={lang} />
 
-		<section class="content-section">
+		<section id="historia" class="content-section">
 			<div class="container">
 				<h2>Nuestra Historia y Propósito</h2>
 				<p>Boston Bilingual School es una institución educativa privada bilingüe preuniversitaria ubicada en una de las mejores zonas de Trujillo. Su infraestructura está diseñada cumpliendo con las Condiciones Básicas de Calidad estipuladas por el Ministerio de Educación (MINEDU).</p>
@@ -117,13 +114,7 @@ const t = getTranslation(lang);
 			</div>
 		</section>
 
-		<section class="cta-section">
-			<div class="container">
-				<h2>Conoce Boston Bilingual School</h2>
-				<p>Agenda una visita y descubre por qué somos la mejor opción educativa de Trujillo.</p>
-				<a href="/contacto" class="cta-button">Agendar Visita</a>
-			</div>
-		</section>
+		<ActionPanel page="nosotros" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>

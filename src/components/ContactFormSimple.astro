@@ -8,6 +8,9 @@ interface Props {
 
 const { lang = 'es' } = Astro.props;
 
+const apiBaseUrl = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '');
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+
 const labels = {
   es: {
     title: 'Envíanos un Mensaje',
@@ -120,8 +123,10 @@ const t = labels[lang];
       ></textarea>
     </div>
 
+    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="contacto"></div>}
+
     {/* Message */}
-    <div id="formMessage" class="form-message" style="display: none;"></div>
+    <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
 
     {/* Submit Button */}
     <button type="submit" class="submit-button" id="submitBtn">
@@ -131,7 +136,8 @@ const t = labels[lang];
   </div>
 </div>
 
-<script define:vars={{ lang }}>
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script define:vars={{ lang, apiBaseUrl, turnstileSiteKey }}>
   function initForm() {
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -159,7 +165,6 @@ const t = labels[lang];
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      console.log('Formulario de contacto enviado');
 
       const formData = new FormData(form);
       const data = {
@@ -168,16 +173,36 @@ const t = labels[lang];
         phone: formData.get('phone'),
         subject: formData.get('subject'),
         message: formData.get('message'),
+        language: lang,
+        turnstileToken: formData.get('cf-turnstile-response'),
       };
 
-      console.log('Datos a enviar:', data);
 
       submitBtn.disabled = true;
       submitBtn.textContent = messages[lang].sending;
       messageDiv.style.display = 'none';
 
+      if (!apiBaseUrl || !turnstileSiteKey) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent =
+          lang === 'es' ? 'El servicio de contacto aún no está configurado.' : 'The contact service is not configured yet.';
+        messageDiv.style.display = 'block';
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+      if (!data.turnstileToken) {
+        messageDiv.className = 'form-message form-message--error';
+        messageDiv.textContent = lang === 'es' ? 'Completa la verificación de seguridad.' : 'Complete the security check.';
+        messageDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = messages[lang].submit;
+        return;
+      }
+
       try {
-        const response = await fetch('/api/contact', {
+        const response = await fetch(`${apiBaseUrl}/api/contactos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -185,9 +210,7 @@ const t = labels[lang];
           body: JSON.stringify(data),
         });
 
-        console.log('Respuesta del servidor:', response.status);
         const result = await response.json();
-        console.log('Resultado:', result);
 
         if (response.ok) {
           messageDiv.className = 'form-message form-message--success';
@@ -199,12 +222,12 @@ const t = labels[lang];
         }
 
         messageDiv.style.display = 'block';
-      } catch (error) {
-        console.error('Error en el envío:', error);
+      } catch {
         messageDiv.className = 'form-message form-message--error';
         messageDiv.textContent = messages[lang].error;
         messageDiv.style.display = 'block';
       } finally {
+        window.turnstile?.reset();
         submitBtn.disabled = false;
         submitBtn.textContent = messages[lang].submit;
       }

@@ -2,21 +2,20 @@
 import Layout from "../../layouts/Layout.astro";
 import { getTranslation } from "../../i18n/translations";
 import Footer from "../../components/Footer.astro";
+import SiteHero from "../../components/SiteHero.astro";
+import FeatureStrip from "../../components/FeatureStrip.astro";
+import ActionPanel from "../../components/ActionPanel.astro";
 
 const lang = "en";
 const t = getTranslation(lang);
 ---
 
 <Layout title="Primary - Boston Bilingual School" lang={lang}>
-	<main class="level-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Primary Education</h1>
-				<p>Comprehensive education with emphasis on bilingualism and innovation</p>
-			</div>
-		</section>
+	<main class="level-page" data-level="primaria">
+		<SiteHero page="primaria" lang={lang} />
+		<FeatureStrip page="primaria" lang={lang} />
 
-		<section class="curriculum">
+		<section id="plan-estudios" class="curriculum">
 			<div class="container">
 				<h2>Curriculum</h2>
 
@@ -83,6 +82,7 @@ const t = getTranslation(lang);
 				</div>
 			</div>
 		</section>
+		<ActionPanel page="primaria" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>
