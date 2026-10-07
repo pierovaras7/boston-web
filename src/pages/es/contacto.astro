@@ -3,6 +3,9 @@ import Layout from "../../layouts/Layout.astro";
 import { getTranslation } from "../../i18n/translations";
 import Footer from "../../components/Footer.astro";
 import ContactFormSimple from "../../components/ContactFormSimple.astro";
+import SiteHero from "../../components/SiteHero.astro";
+import FeatureStrip from "../../components/FeatureStrip.astro";
+import ActionPanel from "../../components/ActionPanel.astro";
 
 const lang = "es";
 const t = getTranslation(lang);
@@ -10,15 +13,11 @@ const t = getTranslation(lang);
 
 <Layout title="Contacto - Boston Bilingual School" lang={lang}>
 	<main class="contact-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Contáctanos</h1>
-				<p>Estamos aquí para responder tus preguntas</p>
-			</div>
-		</section>
+		<SiteHero page="contacto" lang={lang} />
+		<FeatureStrip page="contacto" lang={lang} />
 
 
-		<section class="form-section">
+		<section id="formulario" class="form-section">
 			<div class="container">
 				<ContactFormSimple lang="es" />
 			</div>
@@ -43,6 +42,7 @@ const t = getTranslation(lang);
 				</div>
 			</div>
 		</section>
+		<ActionPanel page="contacto" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>

@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import { getTranslation } from "../i18n/translations";
 import Footer from "../components/Footer.astro";
 import AdmissionsFormSimple from "../components/AdmissionsFormSimple.astro";
+import SiteHero from "../components/SiteHero.astro";
+import FeatureStrip from "../components/FeatureStrip.astro";
+import ActionPanel from "../components/ActionPanel.astro";
 
 const lang = "es";
 const t = getTranslation(lang);
@@ -10,12 +13,8 @@ const t = getTranslation(lang);
 
 <Layout title="Admisiones - Boston Bilingual School" lang={lang}>
 	<main class="admissions-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Proceso de Admisión 2027</h1>
-				<p>Únete a la comunidad de Boston Bilingual School</p>
-			</div>
-		</section>
+		<SiteHero page="admisiones" lang={lang} />
+		<FeatureStrip page="admisiones" lang={lang} />
 
 		<section class="process">
 			<div class="container">
@@ -83,14 +82,7 @@ const t = getTranslation(lang);
 			<div class="container"><AdmissionsFormSimple lang="es" /></div>
 		</section>
 
-		<section class="cta-section">
-			<div class="container">
-				<h2>¿Listo para iniciar?</h2>
-				<p>Completa la ficha de postulación y nos pondremos en comunicación contigo en breve.</p>
-				<a href="#postulacion" class="cta-button">Postular Ahora</a>
-				<a href="https://wa.me/51976586016" class="cta-button cta-button--secondary" target="_blank">WhatsApp</a>
-			</div>
-		</section>
+		<ActionPanel page="admisiones" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>

@@ -2,21 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import { getTranslation } from "../i18n/translations";
 import Footer from "../components/Footer.astro";
+import SiteHero from "../components/SiteHero.astro";
+import FeatureStrip from "../components/FeatureStrip.astro";
+import ActionPanel from "../components/ActionPanel.astro";
 
 const lang = "es";
 const t = getTranslation(lang);
 ---
 
 <Layout title="Primaria - Boston Bilingual School" lang={lang}>
-	<main class="level-page">
-		<section class="hero-section">
-			<div class="container">
-				<h1>Educación Primaria</h1>
-				<p>Formación integral con énfasis en bilingüismo e innovación</p>
-			</div>
-		</section>
+	<main class="level-page" data-level="primaria">
+		<SiteHero page="primaria" lang={lang} />
+		<FeatureStrip page="primaria" lang={lang} />
 
-		<section class="curriculum">
+		<section id="plan-estudios" class="curriculum">
 			<div class="container">
 				<h2>Plan de Estudios</h2>
 
@@ -84,12 +83,7 @@ const t = getTranslation(lang);
 			</div>
 		</section>
 
-		<section class="cta-section">
-			<div class="container">
-				<h2>¿Interesado en Primaria?</h2>
-				<a href="/admisiones" class="cta-button">Conoce Nuestro Proceso de Admisión</a>
-			</div>
-		</section>
+		<ActionPanel page="primaria" lang={lang} />
 	</main>
 	<Footer lang={lang} />
 </Layout>

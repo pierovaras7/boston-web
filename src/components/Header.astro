@@ -18,8 +18,9 @@ const links = [
   { href: "/contacto", label: t.nav.contacto },
 ];
 
-const otherLang = lang === "es" ? "en" : "es";
-const langLabel = lang === "es" ? "EN" : "ES";
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const hrefFor = (href: string) => href === "/secundaria" ? href : `/${lang}${href === "/" ? "" : href}`;
+const isActive = (href: string) => currentPath === hrefFor(href) || currentPath === href;
 ---
 
 <header class="header">
@@ -28,20 +29,26 @@ const langLabel = lang === "es" ? "EN" : "ES";
       <img src="/logo.svg" alt="Boston Bilingual School" class="logo__img" />
     </a>
 
-    <nav class="header__nav">
+    <nav class="header__nav" aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}>
       {links.map((link) => (
-        <a href={link.href === "/secundaria" ? "/secundaria" : `/${lang}${link.href}`} class="nav-link">
+        <a href={hrefFor(link.href)} class:list={["nav-link", { "nav-link--active": isActive(link.href) }]} aria-current={isActive(link.href) ? "page" : undefined}>
           {link.label}
         </a>
       ))}
     </nav>
 
     <div class="header__actions">
-      <a href={`/${lang}/admisiones`} class="header__cta">Admisión 2027</a>
+      <a href={`/${lang}/admisiones`} class="header__cta">{lang === "es" ? "Admisión 2027" : "Admissions 2027"} <span aria-hidden="true">→</span></a>
       <div class="header__lang-switcher" id="lang-toggle" data-lang={lang} title="Toggle language">
         <button class="lang-btn lang-btn--es" data-lang="es">ES</button>
         <button class="lang-btn lang-btn--en" data-lang="en">EN</button>
       </div>
+      <details class="header__mobile">
+        <summary aria-label={lang === "es" ? "Abrir menú" : "Open menu"}><span></span><span></span><span></span></summary>
+        <nav aria-label={lang === "es" ? "Navegación móvil" : "Mobile navigation"}>
+          {links.map((link) => <a href={hrefFor(link.href)} aria-current={isActive(link.href) ? "page" : undefined}>{link.label}</a>)}
+        </nav>
+      </details>
     </div>
   </div>
 </header>
@@ -49,7 +56,7 @@ const langLabel = lang === "es" ? "EN" : "ES";
 <style>
   .header {
     background: white;
-    border-bottom: 3px solid var(--color-accent);
+    border-bottom: 1px solid #edf2f8;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -99,6 +106,8 @@ const langLabel = lang === "es" ? "EN" : "ES";
     color: var(--color-accent);
     border-bottom-color: var(--color-accent);
   }
+  .nav-link--active{color:var(--color-primary);border-bottom-color:var(--color-accent);font-weight:700}
+  .header__mobile{display:none}
 
   .header__actions {
     display: flex;
@@ -177,18 +186,27 @@ const langLabel = lang === "es" ? "EN" : "ES";
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     .header__nav {
       display: none;
     }
+    .header__mobile{display:block;position:relative}
+    .header__mobile summary{display:flex;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;cursor:pointer;list-style:none}
+    .header__mobile summary::-webkit-details-marker{display:none}
+    .header__mobile summary span{display:block;width:23px;height:2px;border-radius:2px;background:var(--color-primary)}
+    .header__mobile nav{position:absolute;right:-12px;top:48px;display:grid;min-width:210px;padding:9px;background:#fff;border:1px solid #e1e9f3;border-radius:10px;box-shadow:0 14px 35px rgba(0,45,95,.16)}
+    .header__mobile nav a{padding:10px 12px;text-decoration:none;font-size:.9rem;color:var(--color-primary);border-radius:6px}
+    .header__mobile nav a[aria-current="page"],.header__mobile nav a:hover{background:#eff6ff}
+  }
+  @media (max-width: 600px) {
 
     .header__inner {
-      flex-wrap: wrap;
+      gap: 12px;
     }
-
-    .header__cta {
-      padding: 0.6rem 1rem;
-      font-size: 0.8rem;
-    }
+    .logo__img{height:52px}
+    .header__actions{gap:7px}
+    .header__lang-switcher{padding:2px}
+    .lang-btn{padding:5px 7px;font-size:10px}
+    .header__cta{display:none}
   }
 </style>

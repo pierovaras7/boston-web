@@ -9,6 +9,8 @@
 	--color-primary: #003d82;
 	--color-secondary: #1e5ba8;
 	--max-width: 1200px;
+	--radius-card: 16px;
+	--shadow-card: 0 12px 32px rgba(0, 55, 115, 0.09);
 
 	--font-heading: 'Montserrat', sans-serif;
 	--font-body: 'Inter', sans-serif;
@@ -122,6 +124,74 @@ a {
 
 .btn-secondary:active {
 	transform: translateY(0);
+}
+
+/* Shared page rhythm and surfaces, used by the existing page templates. */
+body main :is(.curriculum,.programs,.process,.process-section,.requirements,.requirements-section,.contact-content,.form-section,.history-section,.content-section,.vision-mission,.philosophy,.values){scroll-margin-top:100px}
+body main.level-page :is(.curriculum,.programs),
+body main.admissions-page :is(.process,.requirements,.form-section),
+body main.contact-page :is(.contact-content,.map-section),
+body main.about-page :is(.content-section,.vision-mission,.philosophy,.values){padding-block:clamp(64px,6vw,90px)}
+body main.level-page .curriculum,
+body main.admissions-page .process{background:linear-gradient(180deg,#f5faff 0%,#fff 100%)}
+body main.level-page .curriculum-grid>div,
+body main.level-page .curriculum-list,
+body main.level-page .programs-grid article,
+body main.admissions-page :is(.step,.req-card),
+body main.contact-page .info-block{
+	background:#fff;
+	border:1px solid #edf2f8;
+	border-radius:var(--radius-card);
+	box-shadow:var(--shadow-card);
+}
+body main.level-page .curriculum-grid>div{padding:30px}
+body main.level-page .curriculum-grid li{padding-block:10px}
+body main.level-page .programs-grid article{padding:28px;min-height:190px}
+body main.level-page .programs-grid{gap:18px}
+body main.level-page .programs{background:#fff}
+body main.level-page[data-level="primaria"] .programs-grid article,
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article{overflow:hidden;padding:0 0 24px}
+body main.level-page[data-level="primaria"] .programs-grid article::before,
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article::before{content:"";display:block;height:180px;margin-bottom:19px;background-size:cover;background-position:center}
+body main.level-page[data-level="primaria"] .programs-grid article :is(h3,p),
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article :is(h3,p){margin-inline:22px}
+body main.level-page[data-level="primaria"] .programs-grid article:nth-child(1)::before,
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article:nth-child(1)::before{background-image:url("../assets/images/propuesta_academica/programas/robotica.png")}
+body main.level-page[data-level="primaria"] .programs-grid article:nth-child(2)::before,
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article:nth-child(2)::before{background-image:url("../assets/images/propuesta_academica/programas/ajedrez.png")}
+body main.level-page[data-level="primaria"] .programs-grid article:nth-child(3)::before{background-image:url("../assets/images/propuesta_academica/primaria/nia_boston_libr.png")}
+body main.level-page[data-level="primaria"] .programs-grid article:nth-child(4)::before{background-image:url("../assets/images/propuesta_academica/primaria/marcha_de_alumnos.jpg")}
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article:nth-child(3)::before{background-image:url("../assets/images/propuesta_academica/secundaria/alumna_secundaria_1.png")}
+body main.level-page[data-level="secundaria"] .programs + .programs .programs-grid article:nth-child(4)::before{background-image:url("../assets/images/propuesta_academica/primaria/marcha_de_alumnos.jpg")}
+body main.level-page .curriculum-list{padding:26px}
+body main.level-page .curriculum-list ul{gap:0}
+body main.level-page .curriculum-list li{margin:0;background:#fff;border-left:0;border-bottom:1px solid #e6edf7;border-radius:0;color:var(--color-primary);font-weight:700;text-align:center}
+body main.admissions-page .step{padding:26px;text-align:left}
+body main.admissions-page .step-number{display:block;width:auto;height:auto;margin-bottom:10px;background:none;color:var(--color-accent);font-size:2.3rem;line-height:1;border-radius:0}
+body main.admissions-page .step h3{font-size:1.12rem}
+body main.admissions-page .requirements{background:#f5faff}
+body main.admissions-page .req-card{padding:32px}
+body main.contact-page .contact-info{display:grid;gap:12px}
+body main.contact-page .info-block{padding:18px 22px;margin:0}
+body main :is(input,select,textarea){border-radius:6px}
+body main :is(.curriculum,.programs,.process,.requirements,.map-section) h2{letter-spacing:-.035em}
+body main :is(.curriculum,.programs,.process,.requirements,.map-section) h2::after{content:"";display:block;width:42px;height:3px;margin:14px auto 0;background:var(--color-accent);border-radius:3px}
+body main.level-page .cta-section,
+body main.admissions-page .cta-section,
+body main.about-page .cta-section{background:linear-gradient(105deg,#00346f 0%,#0757a6 100%);color:#fff}
+body main.level-page .cta-section h2,
+body main.admissions-page .cta-section h2,
+body main.about-page .cta-section h2{color:#fff}
+body main.level-page .cta-button,
+body main.admissions-page .cta-button,
+body main.about-page .cta-button{border-radius:6px}
+body main.level-page[data-level="primaria"] .cta-section{margin:30px auto 70px;width:min(1120px,calc(100% - 48px));padding:46px 24px;border-radius:18px;background:#eaf4ff;color:var(--color-primary)}
+body main.level-page[data-level="primaria"] .cta-section h2{color:var(--color-primary)}
+body main.level-page[data-level="primaria"] .cta-button{background:var(--color-accent);color:#fff}
+@media(max-width:600px){
+	body main.level-page .curriculum-grid>div{padding:22px}
+	body main.level-page .curriculum-list{padding:14px}
+	body main.admissions-page .step{padding:22px}
 }
 
 /* Opción 7: Premium Gradient Azul (Información/Contacto) */
