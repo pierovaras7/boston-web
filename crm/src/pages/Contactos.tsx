@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../lib/api';
+import { useRealtimeCRM } from '../Realtime';
 import { estado, estadosContacto, fecha, type Contacto, type EstadoContacto } from '../types';
 
 export function Contactos() {
@@ -7,6 +8,7 @@ export function Contactos() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
   const [guardando, setGuardando] = useState<number | null>(null);
+  const { revision } = useRealtimeCRM();
 
   const cargar = useCallback(async () => {
     try {
@@ -16,7 +18,7 @@ export function Contactos() {
     } catch { setError('No se pudieron cargar los contactos.'); }
     setCargando(false);
   }, []);
-  useEffect(() => { void cargar(); }, [cargar]);
+  useEffect(() => { void cargar(); }, [cargar, revision]);
 
   async function cambiar(contacto: Contacto, nuevo: EstadoContacto) {
     if (nuevo === contacto.estado) return;
@@ -35,7 +37,9 @@ export function Contactos() {
   }
 
   return <section>
-    <h1>Contactos web</h1>
+    <div className="encabezado-pagina"><div><p className="ceja">CONSULTAS</p><h1>Contactos</h1>
+      <p className="subtitulo">Personas que solicitaron información al colegio.</p></div>
+      <span className="contador-cabecera">{registros.length} {registros.length === 1 ? 'contacto' : 'contactos'}</span></div>
     {error && <p className="alerta" role="alert">{error}</p>}
     {cargando ? <p>Cargando...</p> : <div className="tabla-scroll"><table>
       <thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Asunto y mensaje</th><th>Fecha</th><th>Estado</th></tr></thead>
@@ -47,7 +51,7 @@ export function Contactos() {
           {estadosContacto.map((valor) => <option key={valor} value={valor}>{estado(valor)}</option>)}
         </select></td>
       </tr>)}</tbody>
-    </table>{registros.length === 0 && <p className="vacio">Todavía no hay consultas.</p>}</div>}
+    </table>{registros.length === 0 && <div className="estado-vacio"><strong>Todavía no hay consultas.</strong><p>Los mensajes nuevos aparecerán aquí.</p></div>}</div>}
     <p className="ayuda">Se muestran los 500 contactos más recientes.</p>
   </section>;
 }

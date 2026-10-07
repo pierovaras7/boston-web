@@ -1,52 +1,78 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../lib/api';
-import { estado, estadosPostulacion, fecha, grado, type Postulacion } from '../types';
+import { Icono } from '../Icono';
+import { useRealtimeCRM } from '../Realtime';
+import { estado, estadosPostulacion, fecha, grado, grados, type Postulacion } from '../types';
 
 export function Postulaciones() {
+  const [parametros, setParametros] = useSearchParams();
+  const parametrosActuales = useRef(new URLSearchParams(parametros));
+  const buscar = parametros.get('buscar') ?? '';
+  const filtroEstado = parametros.get('estado') ?? '';
+  const filtroGrado = parametros.get('grado') ?? '';
+  const desde = parametros.get('desde') ?? '';
+  const hasta = parametros.get('hasta') ?? '';
   const [registros, setRegistros] = useState<Postulacion[]>([]);
-  const [busqueda, setBusqueda] = useState('');
-  const [filtro, setFiltro] = useState('todos');
+  const [total, setTotal] = useState(0);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const { revision } = useRealtimeCRM();
+  const activos = [buscar, filtroEstado, filtroGrado, desde, hasta].filter(Boolean).length;
+  function cambiar(clave: string, valor: string) {
+    const copia = new URLSearchParams(parametrosActuales.current);
+    if (valor) copia.set(clave, valor); else copia.delete(clave);
+    parametrosActuales.current = copia;
+    setParametros(copia, { replace: true });
+  }
 
   useEffect(() => {
-    let activo = true;
-    async function cargar() {
-      try {
-        const { postulaciones } = await api<{ postulaciones: Postulacion[] }>('/api/postulaciones');
-        if (activo) setRegistros(postulaciones);
-      } catch { if (activo) setError('No se pudieron cargar las postulaciones.'); }
-      if (activo) setCargando(false);
-    }
-    void cargar();
-    return () => { activo = false; };
-  }, []);
-
-  const visibles = useMemo(() => registros.filter((p) => {
-    const coincideEstado = filtro === 'todos' || p.estado === filtro;
-    const texto = `${p.nombre_estudiante} ${p.nombre_apoderado} ${p.telefono_apoderado} ${p.correo_apoderado}`.toLocaleLowerCase('es');
-    return coincideEstado && texto.includes(busqueda.trim().toLocaleLowerCase('es'));
-  }), [registros, busqueda, filtro]);
+    const controlador = new AbortController();
+    setCargando(true);
+    const temporizador = setTimeout(() => {
+      void api<{ postulaciones: Postulacion[]; total: number }>(`/api/postulaciones?${parametros.toString()}`,
+        { signal: controlador.signal })
+        .then((datos) => { setRegistros(datos.postulaciones); setTotal(datos.total); setError(''); })
+        .catch(() => { if (!controlador.signal.aborted) setError('No se pudieron cargar las postulaciones.'); })
+        .finally(() => { if (!controlador.signal.aborted) setCargando(false); });
+    }, buscar ? 280 : 0);
+    return () => { clearTimeout(temporizador); controlador.abort(); };
+  }, [parametros, revision, buscar]);
 
   return <section>
-    <h1>Postulaciones</h1>
-    <div className="controles">
-      <label>Buscar estudiante, apoderado, teléfono o correo<input type="search" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} /></label>
-      <label>Estado<select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
-        <option value="todos">Todos</option>
-        {estadosPostulacion.map((valor) => <option key={valor} value={valor}>{estado(valor)}</option>)}
-      </select></label>
-    </div>
+    <div className="encabezado-pagina"><div><p className="ceja">ADMISIONES</p><h1>Postulaciones</h1>
+      <p className="subtitulo">Organiza y da seguimiento a cada solicitud.</p></div>
+      <span className="contador-cabecera">{total} {total === 1 ? 'postulación' : 'postulaciones'}</span></div>
+    <div className="panel filtros"><div className="filtros-principales">
+      <label className="campo-busqueda"><span>Buscar</span><span className="entrada-con-icono"><Icono nombre="buscar" />
+        <input type="search" placeholder="Buscar por estudiante, apoderado o teléfono…" value={buscar}
+          onChange={(e) => cambiar('buscar', e.target.value)} /></span></label>
+      <label><span>Estado</span><select value={filtroEstado} onChange={(e) => cambiar('estado', e.target.value)}>
+        <option value="">Todos los estados</option>{estadosPostulacion.map((valor) =>
+          <option key={valor} value={valor}>{estado(valor)}</option>)}</select></label>
+      <label><span>Grado</span><select value={filtroGrado} onChange={(e) => cambiar('grado', e.target.value)}>
+        <option value="">Todos los grados</option>{grados.map((valor) =>
+          <option key={valor} value={valor}>{grado(valor)}</option>)}</select></label>
+    </div><div className="filtros-fechas"><label><span>Desde</span><input type="date" value={desde}
+      max={hasta || undefined} onChange={(e) => cambiar('desde', e.target.value)} /></label>
+      <label><span>Hasta</span><input type="date" value={hasta} min={desde || undefined}
+        onChange={(e) => cambiar('hasta', e.target.value)} /></label>
+      <div className="filtro-acciones">{activos > 0 && <span className="filtros-activos">{activos} {activos === 1 ? 'filtro activo' : 'filtros activos'}</span>}
+        <button type="button" className="boton-texto" disabled={!activos} onClick={() => {
+          parametrosActuales.current = new URLSearchParams(); setParametros({});
+        }}>Limpiar filtros</button></div>
+    </div></div>
     {error && <p className="alerta" role="alert">{error}</p>}
-    {cargando ? <p>Cargando...</p> : <div className="tabla-scroll"><table>
-      <thead><tr><th>Estudiante</th><th>Grado</th><th>Apoderado</th><th>Teléfono</th><th>Fecha</th><th>Estado</th></tr></thead>
-      <tbody>{visibles.map((p) => <tr key={p.id}>
-        <td><Link to={`/postulaciones/${p.id}`}>{p.nombre_estudiante}</Link></td>
+    <div className="tabla-scroll"><table><thead><tr><th>Estudiante</th><th>Grado</th><th>Apoderado</th><th>Teléfono</th><th>Ingreso</th><th>Estado</th><th><span className="sr-only">Detalle</span></th></tr></thead>
+      <tbody>{!cargando && registros.map((p) => <tr key={p.id}>
+        <td><Link className="enlace-fuerte" to={`/postulaciones/${p.id}`}>{p.nombre_estudiante}</Link></td>
         <td>{grado(p.grado)}</td><td>{p.nombre_apoderado}</td><td>{p.telefono_apoderado}</td>
-        <td>{fecha(p.fecha_creacion)}</td><td><span className="estado">{estado(p.estado)}</span></td>
-      </tr>)}</tbody>
-    </table>{visibles.length === 0 && <p className="vacio">Sin resultados.</p>}</div>}
-    <p className="ayuda">Se muestran las 500 postulaciones más recientes.</p>
+        <td className="fecha-tabla">{fecha(p.fecha_creacion)}</td>
+        <td><span className={`badge badge-${p.estado}`}>{estado(p.estado)}</span></td>
+        <td><Link className="abrir-fila" to={`/postulaciones/${p.id}`} aria-label={`Abrir postulación de ${p.nombre_estudiante}`}><Icono nombre="flecha" /></Link></td>
+      </tr>)}</tbody></table>
+      {cargando && <p className="vacio">Cargando postulaciones…</p>}
+      {!cargando && !registros.length && <div className="estado-vacio"><Icono nombre="postulaciones" /><strong>No hay postulaciones para mostrar</strong><p>{activos ? 'Prueba con otros filtros.' : 'Las nuevas solicitudes aparecerán aquí.'}</p></div>}
+    </div><p className="ayuda">{total > 500 ? 'Se muestran las 500 más recientes de la selección.' : 'Fechas según la hora de Lima.'}</p>
   </section>;
 }

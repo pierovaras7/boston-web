@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
+import { Icono } from '../Icono';
+import { useRealtimeCRM } from '../Realtime';
 import { estado, estadosPostulacion, fecha, grado, type EstadoPostulacion, type Historial, type Nota, type Postulacion } from '../types';
 
 export function DetallePostulacion() {
@@ -12,6 +14,7 @@ export function DetallePostulacion() {
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const { revision } = useRealtimeCRM();
 
   const cargar = useCallback(async () => {
     if (!id) return;
@@ -26,7 +29,7 @@ export function DetallePostulacion() {
     }
     setCargando(false);
   }, [id]);
-  useEffect(() => { void cargar(); }, [cargar]);
+  useEffect(() => { void cargar(); }, [cargar, revision]);
 
   async function cambiarEstado(nuevo: EstadoPostulacion) {
     if (!postulacion || nuevo === postulacion.estado) return;
@@ -60,11 +63,11 @@ export function DetallePostulacion() {
   }
 
   return <section>
-    <p><Link to="/postulaciones">← Volver a postulaciones</Link></p>
+    <p><Link className="volver" to="/postulaciones"><Icono nombre="volver" /> Volver a postulaciones</Link></p>
     {cargando && <p>Cargando...</p>}
     {error && <p className="alerta" role="alert">{error}</p>}
     {postulacion && <>
-      <div className="titulo-detalle"><h1>{postulacion.nombre_estudiante}</h1><label>Estado
+      <div className="titulo-detalle"><div><p className="ceja">FICHA DE POSTULACIÓN · #{postulacion.id}</p><h1>{postulacion.nombre_estudiante}</h1><span className={`badge badge-${postulacion.estado}`}>{estado(postulacion.estado)}</span></div><label>Estado actual
         <select value={postulacion.estado} disabled={guardando} onChange={(e) => { void cambiarEstado(e.target.value as EstadoPostulacion); }}>
           {estadosPostulacion.map((valor) => <option key={valor} value={valor}>{estado(valor)}</option>)}
         </select></label></div>

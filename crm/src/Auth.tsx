@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { api } from './lib/api';
+import { Icono } from './Icono';
+import { RealtimeProvider, useRealtimeCRM } from './Realtime';
 
 interface Usuario { email: string; nombre: string; rol: 'admin' | 'usuario' }
 const Contexto = createContext<Usuario | null>(null);
@@ -28,17 +30,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function Privado() {
+  return <RealtimeProvider><MarcoCRM /></RealtimeProvider>;
+}
+
+function MarcoCRM() {
   const usuario = useUsuario();
+  const { conexion } = useRealtimeCRM();
+  const enlaces = [
+    { a: '/', nombre: 'Inicio', icono: 'inicio' },
+    { a: '/postulaciones', nombre: 'Postulaciones', icono: 'postulaciones' },
+    { a: '/contactos', nombre: 'Contactos', icono: 'contactos' },
+    { a: '/metricas', nombre: 'Métricas', icono: 'metricas' },
+  ] as const;
   return <div className="aplicacion">
-    <header className="barra">
-      <Link className="marca" to="/">Boston CRM</Link>
-      <nav aria-label="Principal">
-        <Link to="/">Inicio</Link>
-        <Link to="/postulaciones">Postulaciones</Link>
-        <Link to="/contactos">Contactos</Link>
-      </nav>
-      <div className="usuario"><span>{usuario?.nombre}</span><a href="/cdn-cgi/access/logout">Salir</a></div>
-    </header>
-    <main className="contenido"><Outlet /></main>
+    <aside className="lateral">
+      <Link className="marca" to="/"><span className="marca-icono">B</span><span><strong>Boston</strong><small>Bilingual School</small></span></Link>
+      <div className="lateral-etiqueta">ESPACIO DE TRABAJO</div>
+      <nav aria-label="Principal">{enlaces.map((enlace) =>
+        <NavLink key={enlace.a} end={enlace.a === '/'} to={enlace.a}>
+          <Icono nombre={enlace.icono} /><span>{enlace.nombre}</span>
+        </NavLink>)}</nav>
+      <div className="lateral-pie"><span className={`punto-conexion ${conexion === 'en-vivo' ? 'activo' : ''}`} />
+        {conexion === 'en-vivo' ? 'Actualización en vivo' : 'Reconectando…'}</div>
+    </aside>
+    <div className="area-principal">
+      <header className="barra"><span className="barra-titulo">Admisiones <span>/ CRM</span></span>
+        <div className="usuario"><span className="avatar">{usuario?.nombre?.charAt(0).toUpperCase()}</span>
+          <span className="usuario-nombre">{usuario?.nombre}</span><a href="/cdn-cgi/access/logout">Salir</a></div></header>
+      <main className="contenido"><Outlet /></main>
+    </div>
   </div>;
 }
