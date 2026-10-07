@@ -1,5 +1,8 @@
 # build output
 dist/
+dist-worker/
+**/.wrangler/
+.tmp-media/
 # generated types
 .astro/
 
@@ -24,6 +27,7 @@ pnpm-debug.log*
 **/.env.local
 **/.env.*.local
 api-worker/worker-configuration.d.ts
+crm/worker-configuration.d.ts
 
 # macOS-specific files
 .DS_Store
