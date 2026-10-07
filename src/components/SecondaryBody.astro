@@ -1,0 +1,175 @@
+---
+interface Props { lang: "es" | "en" }
+const { lang } = Astro.props;
+const admissionHref = `/${lang}/admisiones`;
+const contactHref = `/${lang}/contacto`;
+const copy = {
+  es: {
+    benefits: [
+      { icon: "cap", title: "Preuniversitario", detail: "Preparación académica con visión universitaria." },
+      { icon: "globe", title: "Bilingüismo", detail: "Inglés y francés con proyección internacional." },
+      { icon: "robot", title: "Robótica", detail: "Tecnología e innovación aplicada." },
+      { icon: "people", title: "Liderazgo", detail: "Formación integral, autonomía y criterio." },
+    ],
+    studyTitle: "Plan de Estudios (1° a 5° de Secundaria)",
+    studyDetail: "Una propuesta sólida para fortalecer el rendimiento académico y la proyección universitaria.",
+    subjects: [
+      { icon: "calculator", label: "Matemática" }, { icon: "chat", label: "Comunicación" },
+      { icon: "flask", label: "Ciencia y Tecnología" }, { icon: "people", label: "Ciencias Sociales - DPCC" },
+      { icon: "gear", label: "Robótica" }, { icon: "book", label: "Inglés" },
+      { icon: "french", label: "Francés" }, { icon: "run", label: "Educación Física" },
+      { icon: "chess", label: "Ajedrez" }, { icon: "people", label: "Tutoría" },
+    ],
+    preTitle: "Boston Preuniversitario",
+    preDetail: "Ventajas adicionales para estudiantes seleccionados de 4to y 5to de Secundaria.",
+    pre: [
+      { icon: "files", title: "Preparación Intensiva", detail: "Los estudiantes de 4to y 5to de Secundaria seleccionados mediante evaluación reciben preparación intensiva para el examen de ingreso a la UNT." },
+      { icon: "target", title: "Acceso a Universidades Nacionales", detail: "Programa diseñado para asegurar ingreso a las mejores universidades del Perú, incluyendo UNT, UNMSM y más." },
+      { icon: "globe", title: "Universidades Internacionales", detail: "Preparación para exámenes internacionales y postulación a universidades de prestigio mundial." },
+      { icon: "star", title: "Sin Costo Adicional", detail: "El Boston Preuniversitario es un beneficio adicional sin costo extra para estudiantes seleccionados." },
+    ],
+    programsTitle: "Programas Especiales",
+    programsDetail: "Experiencias que amplían habilidades, perspectiva global y desarrollo del talento.",
+    programs: [
+      { title: "Robótica", detail: "Laboratorio dedicado para proyectos tecnológicos avanzados con aplicación en ingeniería.", image: "secundaria-robotica.webp", height: 480, alt: "Estudiante de secundaria trabajando con un robot educativo" },
+      { title: "Ajedrez", detail: "Desarrollo de estrategia y pensamiento lógico como parte integral del plan de estudios.", image: "secundaria-ajedrez.webp", height: 480, alt: "Estudiantes practicando ajedrez" },
+      { title: "Certificación Internacional", detail: "Preparación y certificación en inglés y francés con reconocimiento global.", image: "secundaria-certificacion.webp", height: 960, alt: "Imagen ilustrativa de estudiante con material de idiomas" },
+      { title: "Viajes Académicos", detail: "Intercambios y viajes de estudio nacionales e internacionales para ampliar horizontes.", image: "secundaria-viajes-academicos.webp", height: 960, alt: "Imagen ilustrativa de estudiantes en visita académica en Cusco" },
+    ],
+    ctaFirst: "¿Listo para", ctaAccent: "tu futuro?",
+    ctaDetail: "Inicia hoy tu proceso de admisión y descubre todo lo que puedes lograr en Boston.",
+    ctaButton: "Inicia tu Proceso de Admisión", programAction: "Consultar sobre",
+  },
+  en: {
+    benefits: [
+      { icon: "cap", title: "University preparation", detail: "Academic preparation with a university outlook." },
+      { icon: "globe", title: "Bilingualism", detail: "English and French with international scope." },
+      { icon: "robot", title: "Robotics", detail: "Applied technology and innovation." },
+      { icon: "people", title: "Leadership", detail: "Independence, judgment and personal growth." },
+    ],
+    studyTitle: "Study Plan (1st to 5th Year of Secondary)",
+    studyDetail: "A strong academic program that develops achievement and prepares students for university.",
+    subjects: [
+      { icon: "calculator", label: "Mathematics" }, { icon: "chat", label: "Communication" },
+      { icon: "flask", label: "Science and Technology" }, { icon: "people", label: "Social Sciences - Citizenship" },
+      { icon: "gear", label: "Robotics" }, { icon: "book", label: "English" },
+      { icon: "french", label: "French" }, { icon: "run", label: "Physical Education" },
+      { icon: "chess", label: "Chess" }, { icon: "people", label: "Tutoring" },
+    ],
+    preTitle: "Boston Pre-University",
+    preDetail: "Additional advantages for selected 4th and 5th year Secondary students.",
+    pre: [
+      { icon: "files", title: "Intensive Preparation", detail: "Selected 4th and 5th year Secondary students receive intensive preparation for the UNT entrance exam following an evaluation." },
+      { icon: "target", title: "Access to National Universities", detail: "A program designed to support admission to leading Peruvian universities, including UNT, UNMSM and more." },
+      { icon: "globe", title: "International Universities", detail: "Preparation for international examinations and applications to prestigious universities worldwide." },
+      { icon: "star", title: "No Additional Cost", detail: "Boston Pre-University is an additional benefit at no extra cost for selected students." },
+    ],
+    programsTitle: "Special Programs",
+    programsDetail: "Experiences that broaden skills, global perspective and talent development.",
+    programs: [
+      { title: "Robotics", detail: "A dedicated laboratory for advanced technology projects with applications in engineering.", image: "secundaria-robotica.webp", height: 480, alt: "Secondary student working with an educational robot" },
+      { title: "Chess", detail: "Strategy and logical thinking as an integral part of the study plan.", image: "secundaria-ajedrez.webp", height: 480, alt: "Students playing chess" },
+      { title: "International Certification", detail: "Preparation and certification in English and French with global recognition.", image: "secundaria-certificacion.webp", height: 960, alt: "Illustrative image of a student with language study material" },
+      { title: "Academic Trips", detail: "Exchanges and study trips within Peru and abroad to broaden horizons.", image: "secundaria-viajes-academicos.webp", height: 960, alt: "Illustrative image of students on an academic visit in Cusco" },
+    ],
+    ctaFirst: "Ready for", ctaAccent: "your future?",
+    ctaDetail: "Begin your admissions journey today and discover everything you can achieve at Boston.",
+    ctaButton: "Start your application", programAction: "Ask about",
+  },
+} as const;
+const c = copy[lang];
+---
+
+<svg class="secondary-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="secondary-cap" viewBox="0 0 32 32"><path d="m2 12 14-7 14 7-14 7-14-7Zm6 4v7c5 4 11 4 16 0v-7M30 12v11"/></symbol>
+  <symbol id="secondary-globe" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M4 16h24M16 4c4 3 6 7 6 12s-2 9-6 12M16 4c-4 3-6 7-6 12s2 9 6 12M6 10h20M6 22h20"/></symbol>
+  <symbol id="secondary-robot" viewBox="0 0 32 32"><rect x="6" y="10" width="20" height="16" rx="3"/><path d="M16 5v5M12 5h8M2 16h4M26 16h4M11 26v3M21 26v3"/><circle cx="12" cy="17" r="1"/><circle cx="20" cy="17" r="1"/><path d="M12 22h8"/></symbol>
+  <symbol id="secondary-people" viewBox="0 0 32 32"><circle cx="16" cy="10" r="4"/><circle cx="6" cy="13" r="3"/><circle cx="26" cy="13" r="3"/><path d="M9 27v-3a7 7 0 0 1 14 0v3H9ZM2 25v-3a5 5 0 0 1 5-5h2M30 25v-3a5 5 0 0 0-5-5h-2"/></symbol>
+  <symbol id="secondary-calculator" viewBox="0 0 32 32"><rect x="6" y="3" width="20" height="26" rx="2"/><path d="M10 8h12M10 13h3M16 13h3M22 13h.2M10 18h3M16 18h3M22 18h.2M10 23h3M16 23h3M22 23h.2"/></symbol>
+  <symbol id="secondary-chat" viewBox="0 0 32 32"><path d="M5 7h22v16H13l-7 5v-5H5V7Z"/><path d="M10 13h12M10 18h8"/></symbol>
+  <symbol id="secondary-flask" viewBox="0 0 32 32"><path d="M12 3h8M14 3v10L6 27h20l-8-14V3M10 21h12"/></symbol>
+  <symbol id="secondary-gear" viewBox="0 0 32 32"><path d="m13 3 1 3h4l1-3 4 2-1 3 3 3 3-1 2 4-3 2v4l3 1-2 4-3-1-3 3 1 3-4 2-1-3h-4l-1 3-4-2 1-3-3-3-3 1-2-4 3-1v-4l-3-2 2-4 3 1 3-3-1-3 4-2Z"/><circle cx="16" cy="16" r="4"/></symbol>
+  <symbol id="secondary-book" viewBox="0 0 32 32"><path d="M16 27c-3-2-7-3-12-3V6c5 0 9 1 12 3v18Zm0 0c3-2 7-3 12-3V6c-5 0-9 1-12 3v18Z"/></symbol>
+  <symbol id="secondary-french" viewBox="0 0 32 32"><path d="M6 5v22M26 5v22M6 5h20v22H6Z"/><path d="M13 5v22M20 5v22"/></symbol>
+  <symbol id="secondary-run" viewBox="0 0 32 32"><circle cx="21" cy="5" r="2"/><path d="m13 12 6-3 4 4 4 1M17 13l-2 6 6 3-2 7M15 19l-5 3-4 6M10 9l3 3-5 3"/></symbol>
+  <symbol id="secondary-chess" viewBox="0 0 32 32"><path d="m11 25 2-7-3-3 2-7 4-3 3 3 5 1-1 4-4 2 2 10M8 25h16l2 4H6l2-4Z"/><circle cx="17" cy="10" r="1"/></symbol>
+  <symbol id="secondary-files" viewBox="0 0 32 32"><path d="M7 3h15l4 4v18H7V3Zm15 0v5h4M4 8H2v21h20v-2M11 13h11M11 18h11"/></symbol>
+  <symbol id="secondary-target" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="2"/><path d="m16 16 11-11"/></symbol>
+  <symbol id="secondary-star" viewBox="0 0 32 32"><path d="m16 3 4 9 10 1-8 7 2 10-8-5-8 5 2-10-8-7 10-1 4-9Z"/></symbol>
+</svg>
+
+<section class="secondary-benefits" aria-label={lang === "es" ? "Beneficios de Secundaria" : "Secondary School benefits"}>
+  <div class="container secondary-benefits__grid">{c.benefits.map((item, index) => <article class="secondary-benefit" data-tone={index % 2 ? "orange" : "blue"}><span class="secondary-benefit__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href={`#secondary-${item.icon}`} /></svg></span><h2>{item.title}</h2><p>{item.detail}</p></article>)}</div>
+  <svg class="secondary-benefits__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#f5faff" d="M0 12C205 50 306 76 524 78c270 1 373-70 618-59 122 6 220 30 298 53v8H0Z" /></svg>
+</section>
+
+<section class="secondary-study" id="plan-estudios" aria-labelledby="secondary-study-title"><div class="container"><div class="secondary-heading"><span></span><h2 id="secondary-study-title">{c.studyTitle}</h2><p>{c.studyDetail}</p></div><div class="secondary-study__panel">{c.subjects.map((subject,index) => <div class="secondary-subject" data-tone={[0,2,4,6,7].includes(index) ? "blue" : "orange"}><span class="secondary-subject__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href={`#secondary-${subject.icon}`} /></svg></span><h3>{subject.label}</h3></div>)}</div></div></section>
+
+<section class="secondary-pre" aria-labelledby="secondary-pre-title"><div class="container"><div class="secondary-heading"><span></span><h2 id="secondary-pre-title">{c.preTitle}</h2><p>{c.preDetail}</p></div><div class="secondary-pre__grid">{c.pre.map((item,index) => <article class="secondary-pre-card" data-tone={[0,2].includes(index) ? "green" : index === 1 ? "red" : "orange"}><span class="secondary-pre-card__icon"><svg viewBox="0 0 32 32" aria-hidden="true"><use href={`#secondary-${item.icon}`} /></svg></span><h3>{item.title}</h3><p>{item.detail}</p></article>)}</div></div></section>
+
+<section class="secondary-programs" id="programas-especiales" aria-labelledby="secondary-programs-title"><div class="container"><div class="secondary-heading"><span></span><h2 id="secondary-programs-title">{c.programsTitle}</h2><p>{c.programsDetail}</p></div><div class="secondary-programs__grid">{c.programs.map((item,index) => <article class="secondary-program"><img src={`/images/secundaria/${item.image}`} alt={item.alt} width="720" height={item.height} loading="lazy" decoding="async" /><div class="secondary-program__body"><h3>{item.title}</h3><p>{item.detail}</p><a href={contactHref} aria-label={`${c.programAction} ${item.title}`} data-tone={index === 0 ? "blue" : "orange"}>›</a></div></article>)}</div></div></section>
+
+<section class="secondary-cta" aria-labelledby="secondary-cta-title"><img src="/images/secundaria/secundaria-cta.webp" alt="" width="1920" height="640" loading="lazy" decoding="async" /><div class="secondary-cta__shade" aria-hidden="true"></div><svg class="secondary-cta__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V39c-166 28-288-19-463-12-166 7-266 47-434 25C329 24 190 62 0 47Z" fill="#f7fbff" /></svg><div class="container secondary-cta__inner"><div class="secondary-cta__copy"><h2 id="secondary-cta-title">{c.ctaFirst} <span>{c.ctaAccent}</span></h2><p>{c.ctaDetail}</p><a href={admissionHref}>{c.ctaButton} <span aria-hidden="true">→</span></a></div></div></section>
+
+<style>
+  :global(main.secondary-page){overflow-x:clip}
+  .secondary-icons{position:absolute;width:0;height:0;overflow:hidden}
+  .secondary-benefits{position:relative;background:#fff;padding:22px 0 73px}
+  .secondary-benefits__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;position:relative;z-index:1}
+  .secondary-benefit{min-height:205px;padding:23px 17px 20px;text-align:center;border:1px solid #edf3fb;border-radius:17px;background:#fff;box-shadow:0 12px 28px rgba(28,77,133,.09)}
+  .secondary-benefit__icon,.secondary-subject__icon,.secondary-pre-card__icon{display:grid;place-items:center;border-radius:50%;flex:none}
+  .secondary-benefit__icon{width:69px;height:69px;margin:0 auto 15px;background:#eaf3ff;color:#1676e3}
+  .secondary-benefit[data-tone="orange"] .secondary-benefit__icon{background:#fff0df;color:#ff8900}
+  .secondary-benefit svg,.secondary-subject svg,.secondary-pre-card svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .secondary-benefit h2{margin:0 0 8px;color:#073c7b;font-size:1.07rem;font-weight:800;line-height:1.22}
+  .secondary-benefit p{margin:0 auto;max-width:24ch;color:#5b6570;font-size:.88rem;line-height:1.45}
+  .secondary-benefits__wave{position:absolute;inset:auto 0 -1px;width:100%;height:76px;pointer-events:none}
+  .secondary-study,.secondary-pre{background:linear-gradient(180deg,#f5faff 0%,#f1f8ff 64%,#fff 100%)}
+  .secondary-study{padding:55px 0 80px;scroll-margin-top:90px}
+  .secondary-heading{max-width:830px;margin:0 auto 31px;text-align:center}
+  .secondary-heading>span{display:block;width:52px;height:4px;margin:0 auto 17px;background:#ff9700;border-radius:3px}
+  .secondary-heading h2{margin:0;color:#073c7b;font-size:clamp(1.85rem,3vw,2.55rem);font-weight:800;line-height:1.2}
+  .secondary-heading p{margin:10px auto 0;color:#6d7d91;font-size:1rem;line-height:1.45}
+  .secondary-study__panel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:28px 20px;border-radius:19px;background:#fff;box-shadow:0 15px 35px rgba(27,74,128,.09)}
+  .secondary-subject{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:185px;padding:10px 12px;text-align:center;border-right:1px solid #dce7f4}
+  .secondary-subject:nth-child(5n){border-right:0}.secondary-subject:nth-child(-n+5){border-bottom:1px solid #e5edf6}
+  .secondary-subject__icon{width:66px;height:66px;margin-bottom:11px;background:#eaf3ff;color:#1374e4}
+  .secondary-subject[data-tone="orange"] .secondary-subject__icon{background:#fff1e2;color:#ff9400}
+  .secondary-subject h3{margin:0;color:#073c7b;font-size:.96rem;font-weight:800;line-height:1.2}
+  .secondary-pre{padding:52px 0 62px}
+  .secondary-pre__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .secondary-pre-card{min-height:365px;padding:23px 22px;border:1px solid #edf2f8;border-radius:17px;background:#fff;box-shadow:0 12px 29px rgba(27,74,128,.09)}
+  .secondary-pre-card__icon{width:60px;height:60px;margin-bottom:13px;background:#e8f8f2;color:#1da879}
+  .secondary-pre-card[data-tone="red"] .secondary-pre-card__icon{background:#fff0f2;color:#ff4d64}
+  .secondary-pre-card[data-tone="orange"] .secondary-pre-card__icon{background:#fff2e5;color:#ff9600}
+  .secondary-pre-card__icon svg{width:29px;height:29px}
+  .secondary-pre-card h3{margin:0 0 12px;color:#073c7b;font-size:1.13rem;font-weight:800;line-height:1.2}
+  .secondary-pre-card p{margin:0;color:#535c66;font-size:.87rem;line-height:1.48}
+  .secondary-programs{position:relative;padding:52px 0 68px;background:linear-gradient(180deg,#fff,#f7fbff 100%);scroll-margin-top:90px}
+  .secondary-programs::before,.secondary-programs::after{content:"";position:absolute;z-index:0;width:170px;height:140px;border-radius:50%;opacity:.5;pointer-events:none}.secondary-programs::before{left:-100px;top:95px;background:#c6ddff}.secondary-programs::after{right:-115px;top:122px;background:#ffb65d}
+  .secondary-programs .container{position:relative;z-index:1}
+  .secondary-programs__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .secondary-program{overflow:hidden;border:1px solid #edf2fa;border-radius:17px;background:#fff;box-shadow:0 14px 29px rgba(20,71,133,.1)}
+  .secondary-program>img{display:block;width:100%;height:240px;object-fit:cover;object-position:center 40%}
+  .secondary-program:nth-child(3)>img{object-position:center 34%}.secondary-program:nth-child(4)>img{object-position:center 38%}
+  .secondary-program__body{position:relative;min-height:225px;padding:19px 19px 48px}
+  .secondary-program h3{margin:0 0 8px;color:#073c7b;font-size:1.13rem;font-weight:800;line-height:1.2}
+  .secondary-program p{margin:0;color:#4f5964;font-size:.87rem;line-height:1.42}
+  .secondary-program a{position:absolute;right:16px;bottom:14px;display:grid;place-items:center;width:33px;height:33px;border-radius:50%;background:#ff9700;color:#fff;font:700 1.5rem/1 Arial,sans-serif;text-decoration:none;box-shadow:0 4px 9px rgba(255,151,0,.25)}
+  .secondary-program a[data-tone="blue"]{background:#1879e7;box-shadow:0 4px 9px rgba(24,121,231,.22)}
+  .secondary-program a:hover{transform:translateX(2px)}
+  .secondary-cta{position:relative;isolation:isolate;display:flex;align-items:center;min-height:395px;overflow:hidden;background:#003d82;color:#fff}
+  .secondary-cta>img{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
+  .secondary-cta__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#00346f 0%,#00468e 30%,rgba(0,61,130,.92) 43%,rgba(0,61,130,.33) 63%,rgba(0,61,130,.04) 90%)}
+  .secondary-cta__wave{position:absolute;z-index:2;top:-1px;left:0;width:100%;height:65px;pointer-events:none}
+  .secondary-cta::before,.secondary-cta::after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%}.secondary-cta::before{width:260px;height:260px;left:-165px;bottom:-110px;background:rgba(21,125,225,.22)}.secondary-cta::after{width:230px;height:230px;right:-130px;bottom:-150px;background:#ff9200}
+  .secondary-cta__inner{width:100%;padding-block:60px}
+  .secondary-cta__copy{max-width:610px}.secondary-cta h2{margin:0 0 12px;font-size:clamp(2.1rem,3.4vw,3.2rem);font-weight:900;line-height:1.12}.secondary-cta h2 span{color:#ff9700}
+  .secondary-cta p{max-width:560px;margin:0 0 24px;color:#edf5ff;font-size:1.15rem;line-height:1.42}
+  .secondary-cta a{display:inline-flex;align-items:center;gap:13px;min-height:52px;padding:13px 20px;border-radius:7px;background:#fff;color:#064887;font-family:var(--font-accent);font-size:.89rem;font-weight:700;text-decoration:none;box-shadow:0 6px 17px rgba(0,0,0,.11)}
+  .secondary-cta a:hover{transform:translateY(-2px)}
+  @media(max-width:1000px){.secondary-benefit{padding-inline:11px}.secondary-benefit h2{font-size:.96rem}.secondary-benefit p{font-size:.81rem}.secondary-pre-card{padding:21px 16px}.secondary-pre-card h3{font-size:1.02rem}.secondary-pre-card p{font-size:.8rem}.secondary-program>img{height:180px}.secondary-program__body{padding:15px 15px 43px;min-height:215px}.secondary-program h3{font-size:1rem}.secondary-program p{font-size:.79rem}}
+  @media(max-width:900px){.secondary-benefits__grid,.secondary-pre__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-pre-card{min-height:250px}.secondary-study__panel{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-subject,.secondary-subject:nth-child(5n){border-right:1px solid #dce7f4;border-bottom:1px solid #e5edf6}.secondary-subject:nth-child(even){border-right:0}.secondary-subject:nth-last-child(-n+2){border-bottom:0}.secondary-programs__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-program>img{height:220px}.secondary-program__body{min-height:180px}.secondary-cta{min-height:360px}}
+  @media(max-width:540px){.secondary-benefits{padding:18px 0 55px}.secondary-benefits__grid{gap:12px}.secondary-benefit{min-height:178px;padding:16px 10px}.secondary-benefit__icon{width:54px;height:54px;margin-bottom:10px}.secondary-benefit svg{width:29px;height:29px}.secondary-benefit h2{font-size:.88rem}.secondary-benefit p{font-size:.76rem}.secondary-study{padding:28px 0 45px}.secondary-heading h2{font-size:1.78rem}.secondary-heading p{font-size:.9rem}.secondary-study__panel{padding:15px 10px}.secondary-subject{min-height:120px;padding:10px 8px}.secondary-subject__icon{width:52px;height:52px}.secondary-subject svg{width:28px;height:28px}.secondary-subject h3{font-size:.77rem}.secondary-pre{padding:40px 0}.secondary-pre__grid{gap:12px}.secondary-pre-card{min-height:0;padding:17px 13px}.secondary-pre-card__icon{width:49px;height:49px}.secondary-pre-card h3{font-size:.87rem}.secondary-pre-card p{font-size:.75rem}.secondary-programs{padding:42px 0 48px}.secondary-programs__grid{gap:12px}.secondary-program>img{height:135px}.secondary-program__body{min-height:210px;padding:12px 11px 42px}.secondary-program h3{font-size:.84rem}.secondary-program p{font-size:.73rem}.secondary-program a{width:29px;height:29px}.secondary-cta{min-height:480px;align-items:flex-end}.secondary-cta>img{object-position:70% center}.secondary-cta__shade{background:linear-gradient(0deg,#00346f 3%,rgba(0,61,130,.94) 38%,rgba(0,61,130,.08) 100%)}.secondary-cta__inner{padding-top:235px;padding-bottom:55px}.secondary-cta h2{font-size:1.85rem}.secondary-cta p{font-size:.93rem}}
+  @media(max-width:360px){.secondary-programs__grid{grid-template-columns:1fr}.secondary-program>img{height:175px}.secondary-program__body{min-height:150px}}
+</style>
