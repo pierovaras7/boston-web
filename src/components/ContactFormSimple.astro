@@ -126,7 +126,7 @@ const t = labels[lang];
       ></textarea>
     </div>
 
-    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="contacto"></div>}
+    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="contacto" data-size="flexible"></div>}
 
     {/* Message */}
     <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
@@ -564,5 +564,11 @@ const t = labels[lang];
     .contact-form-wrapper--landing .contact-form-container {
       padding: 29px 22px;
     }
+  }
+  @media (max-width: 420px) {
+    .contact-form-wrapper--landing .contact-form-container{width:calc(100% + 12px);margin-inline:-6px;padding:26px 18px 30px}
+    .contact-form-wrapper--landing .contact-form-header h2{font-size:1.7rem}
+    .contact-form-wrapper--landing .form-group input,
+    .contact-form-wrapper--landing .form-group textarea{font-size:1rem}
   }
 </style>

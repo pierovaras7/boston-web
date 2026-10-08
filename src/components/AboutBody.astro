@@ -1,22 +1,67 @@
 ---
+import ImageBandShade from "./ImageBandShade.astro";
 import { Image } from "astro:assets";
 import classroom from "../assets/images/propuesta_academica/infraestructura_y_vida_bbs/instalaciones/aula_primaria.png";
 
-const principles = [
-  { number: "01", icon: "globe", title: "Apertura al mundo y a una formación global", description: "Formamos estudiantes con perspectiva internacional y competencias para un mundo sin fronteras." },
-  { number: "02", icon: "values", title: "Formación en valores para una sociedad mejor", description: "Promovemos el respeto, la empatía, la responsabilidad y la honestidad como base para una convivencia positiva y un impacto real en la comunidad." },
-  { number: "03", icon: "idea", title: "Fomento de la creatividad y el talento", description: "Impulsamos el pensamiento crítico, la innovación y el desarrollo de múltiples inteligencias." },
-  { number: "04", icon: "school", title: "Excelencia integral", description: "Trabajamos para que cada estudiante alcance su máximo potencial académico, personal y social." },
-];
+interface Props { lang?: "es" | "en" }
+const { lang = "es" } = Astro.props;
+const copy = {
+  es: {
+    historyTitle: ["Nuestra Historia y", "Propósito"],
+    historyParagraphs: [
+      "Boston Bilingual School es una institución educativa privada bilingüe preuniversitaria ubicada en una de las mejores zonas de Trujillo. Desde 1990, estamos comprometidos con la excelencia en educación.",
+      "Nuestra infraestructura cumple las Condiciones Básicas de Calidad del Ministerio de Educación (MINEDU). Somos una institución inclusiva, no confesional y respetuosa de todas las creencias.",
+    ],
+    historyIdentityBefore: "Nuestra identidad se define por una", historyIdentityStrong: "Visión de Ciudadanía Global", historyIdentityAfter: ": un modelo educativo interdisciplinario que integra los Temas Centrales de la UNESCO y los Objetivos de Desarrollo Sostenible (ODS).",
+    classroomAlt: "Aula de primaria de Boston Bilingual School", noteStrong: "Un entorno de", noteText: "aprendizaje moderno para una formación global y con valores.",
+    missionVisionLabel: "Misión y visión", missionTitle: "Misión", missionText: "Somos una Institución Educativa Privada que atiende los niveles de Primaria y Secundaria. Desarrollamos competencias centradas en los enfoques transversales del Currículo Nacional, formando estudiantes listos para ser ciudadanos globales a través de una educación con estándares nacionales e internacionales.",
+    visionTitle: "Visión", visionText: "Para el 2030, Boston Bilingual School será reconocido como el colegio líder en Trujillo, distinguido por formar ciudadanos globales con dominio y certificación internacional en inglés y francés, y por preparar para el ingreso a destacadas universidades nacionales e internacionales.",
+    diversityAlt: "Grupo de estudiantes con uniformes escolares y banderas internacionales", diversityTitle: ["Diversidad cultural", "para un futuro sin fronteras"],
+    philosophyTitle: ["Filosofía Institucional y", "Modelo Pedagógico"], philosophyIntro: "En Boston Bilingual School creemos en una educación que transforma. Nuestro enfoque pedagógico se centra en el desarrollo de competencias y guía cada etapa de la formación de nuestros estudiantes.",
+    principles: [
+      { title: "Apertura al mundo y a una formación global", description: "Formamos estudiantes con perspectiva internacional y competencias para un mundo sin fronteras." },
+      { title: "Formación en valores para una sociedad mejor", description: "Promovemos el respeto, la empatía, la responsabilidad y la honestidad como base para una convivencia positiva y un impacto real en la comunidad." },
+      { title: "Fomento de la creatividad y el talento", description: "Impulsamos el pensamiento crítico, la innovación y el desarrollo de múltiples inteligencias." },
+      { title: "Excelencia integral", description: "Trabajamos para que cada estudiante alcance su máximo potencial académico, personal y social." },
+    ],
+    teamTitle: ["Equipo Directivo y", "Docente"], teamIntro: "Un equipo de líderes y educadores comprometidos con la formación de ciudadanos globales.",
+    teamRoles: ["Director General", "Subdirector Académico", "Coordinador Primaria", "Coordinador Secundaria", "Coordinador Bilingüismo", "Coordinador Robótica"],
+    portraitOf: "Retrato de", portraitPendingOf: "Retrato pendiente de", photoPending: "FOTO PENDIENTE",
+  },
+  en: {
+    historyTitle: ["Our History and", "Purpose"],
+    historyParagraphs: [
+      "Boston Bilingual School is a private bilingual school with a pre-university focus, located in one of Trujillo's best areas. Since 1990, we have been committed to educational excellence.",
+      "Our facilities meet the Basic Quality Conditions established by Peru's Ministry of Education (MINEDU). We are an inclusive, non-denominational school that respects all beliefs.",
+    ],
+    historyIdentityBefore: "Our identity is defined by a", historyIdentityStrong: "Vision of Global Citizenship", historyIdentityAfter: ": an interdisciplinary educational model that incorporates UNESCO's central themes and the Sustainable Development Goals (SDGs).",
+    classroomAlt: "Boston Bilingual School primary classroom", noteStrong: "A modern", noteText: "learning environment for a global education grounded in values.",
+    missionVisionLabel: "Mission and vision", missionTitle: "Mission", missionText: "We are a private educational institution serving primary and secondary students. We develop competencies based on the cross-cutting approaches of the National Curriculum, preparing students to become global citizens through education aligned with national and international standards.",
+    visionTitle: "Vision", visionText: "By 2030, Boston Bilingual School will be recognized as Trujillo's leading school, known for developing global citizens with internationally certified proficiency in English and French and preparing them for admission to outstanding national and international universities.",
+    diversityAlt: "Students in school uniforms holding international flags", diversityTitle: ["Cultural diversity", "for a future without borders"],
+    philosophyTitle: ["Institutional Philosophy and", "Educational Model"], philosophyIntro: "At Boston Bilingual School, we believe education transforms lives. Our educational approach focuses on developing competencies and guides every stage of our students' learning.",
+    principles: [
+      { title: "Openness to the world and global learning", description: "We prepare students with an international outlook and the skills to thrive in a world without borders." },
+      { title: "Values for a better society", description: "We promote respect, empathy, responsibility and honesty as the foundation for positive relationships and a meaningful impact on the community." },
+      { title: "Creativity and talent", description: "We encourage critical thinking, innovation and the development of diverse abilities." },
+      { title: "Well-rounded excellence", description: "We help every student reach their full academic, personal and social potential." },
+    ],
+    teamTitle: ["Leadership and", "Teaching Team"], teamIntro: "Leaders and educators committed to developing global citizens.",
+    teamRoles: ["General Director", "Academic Deputy Director", "Primary Coordinator", "Secondary Coordinator", "Bilingualism Coordinator", "Robotics Coordinator"],
+    portraitOf: "Portrait of", portraitPendingOf: "Portrait pending for", photoPending: "PHOTO PENDING",
+  },
+} as const;
+const t = copy[lang];
+const principles = t.principles.map((item, i) => ({ ...item, number: `0${i + 1}`, icon: ["globe", "values", "idea", "school"][i] }));
 
 // Retratos pendientes de verificación. Cada ficha tiene su ruta final reservada.
 const team = [
-  { role: "Director General", name: "Dr. Carlos Mendoza", photo: null as string | null, expectedPhoto: "/images/equipo/director-general.webp" },
-  { role: "Subdirector Académico", name: "Mg. Patricia Rodríguez", photo: null as string | null, expectedPhoto: "/images/equipo/subdirector-academico.webp" },
-  { role: "Coordinador Primaria", name: "Lic. Jorge Hernández", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-primaria.webp" },
-  { role: "Coordinador Secundaria", name: "Mg. María González", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-secundaria.webp" },
-  { role: "Coordinador Bilingüismo", name: "Prof. David Torres", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-bilinguismo.webp" },
-  { role: "Coordinador Robótica", name: "Ing. Lucas Martínez", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-robotica.webp" },
+  { name: "Dr. Carlos Mendoza", photo: null as string | null, expectedPhoto: "/images/equipo/director-general.webp" },
+  { name: "Mg. Patricia Rodríguez", photo: null as string | null, expectedPhoto: "/images/equipo/subdirector-academico.webp" },
+  { name: "Lic. Jorge Hernández", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-primaria.webp" },
+  { name: "Mg. María González", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-secundaria.webp" },
+  { name: "Prof. David Torres", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-bilinguismo.webp" },
+  { name: "Ing. Lucas Martínez", photo: null as string | null, expectedPhoto: "/images/equipo/coordinador-robotica.webp" },
 ];
 ---
 
@@ -24,47 +69,47 @@ const team = [
   <section id="historia" class="history" aria-labelledby="history-title">
     <div class="about-wrap history__layout">
       <div class="history__copy">
-        <h2 id="history-title">Nuestra Historia y<br /><span>Propósito</span></h2>
+        <h2 id="history-title">{t.historyTitle[0]}<br /><span>{t.historyTitle[1]}</span></h2>
         <div class="orange-rule" aria-hidden="true"></div>
-        <p>Boston Bilingual School es una institución educativa privada bilingüe preuniversitaria ubicada en una de las mejores zonas de Trujillo. Desde 1990, estamos comprometidos con la excelencia en educación.</p>
-        <p>Nuestra infraestructura cumple las Condiciones Básicas de Calidad del Ministerio de Educación (MINEDU). Somos una institución inclusiva, no confesional y respetuosa de todas las creencias.</p>
-        <p>Nuestra identidad se define por una <strong>Visión de Ciudadanía Global</strong>: un modelo educativo interdisciplinario que integra los Temas Centrales de la UNESCO y los Objetivos de Desarrollo Sostenible (ODS).</p>
+        <p>{t.historyParagraphs[0]}</p>
+        <p>{t.historyParagraphs[1]}</p>
+        <p>{t.historyIdentityBefore} <strong>{t.historyIdentityStrong}</strong>{t.historyIdentityAfter}</p>
       </div>
       <div class="history__visual">
         <div class="history__backdrop" aria-hidden="true"></div>
         <div class="history__dots" aria-hidden="true"></div>
-        <Image class="history__image" src={classroom} alt="Aula de primaria de Boston Bilingual School" widths={[560, 960, 1280]} sizes="(max-width: 800px) 100vw, 50vw" loading="lazy" />
+        <Image class="history__image" src={classroom} alt={t.classroomAlt} widths={[560, 960, 1280]} sizes="(max-width: 800px) 100vw, 50vw" loading="lazy" />
         <div class="history__note">
           <span class="history__note-icon" aria-hidden="true">
             <svg viewBox="0 0 36 36" fill="none"><path d="m3 14 15-7 15 7-15 7L3 14Z"/><path d="M10 18v7c4.6 3.7 11.4 3.7 16 0v-7M32 15v9"/></svg>
           </span>
-          <p><strong>Un entorno de</strong><br />aprendizaje moderno para una formación global y con valores.</p>
+          <p><strong>{t.noteStrong}</strong><br />{t.noteText}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="mission-vision" aria-label="Misión y visión">
+  <section class="mission-vision" aria-label={t.missionVisionLabel}>
     <div class="about-wrap mission-vision__grid">
       <article class="mission-card mission-card--mission">
         <div class="mission-card__top"><span class="mission-card__letter">M</span><span class="mission-card__icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="12"/><circle cx="20" cy="20" r="6"/><circle cx="20" cy="20" r="1.5" fill="currentColor" stroke="none"/><path d="m20 20 14-14m-7 0h7v7"/></svg></span></div>
-        <h2>Misión</h2>
-        <p>Somos una Institución Educativa Privada que atiende los niveles de Primaria y Secundaria. Desarrollamos competencias centradas en los enfoques transversales del Currículo Nacional, formando estudiantes listos para ser ciudadanos globales a través de una educación con estándares nacionales e internacionales.</p>
+        <h2>{t.missionTitle}</h2>
+        <p>{t.missionText}</p>
       </article>
       <article class="mission-card mission-card--vision">
         <div class="mission-card__top"><span class="mission-card__letter">V</span><span class="mission-card__icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M3 20s6-10 17-10 17 10 17 10-6 10-17 10S3 20 3 20Z"/><circle cx="20" cy="20" r="5"/></svg></span></div>
-        <h2>Visión</h2>
-        <p>Para el 2030, Boston Bilingual School será reconocido como el colegio líder en Trujillo, distinguido por formar ciudadanos globales con dominio y certificación internacional en inglés y francés, y por preparar para el ingreso a destacadas universidades nacionales e internacionales.</p>
+        <h2>{t.visionTitle}</h2>
+        <p>{t.visionText}</p>
       </article>
     </div>
   </section>
 
   <section class="diversity" aria-labelledby="diversity-title">
-    <img src="/images/nosotros/diversidad-cultural.webp" alt="Grupo de estudiantes con uniformes escolares y banderas internacionales" width="1920" height="686" loading="lazy" decoding="async" />
-    <div class="diversity__shade" aria-hidden="true"></div>
+    <img src="/images/nosotros/diversidad-cultural.webp" alt={t.diversityAlt} width="1920" height="686" loading="lazy" decoding="async" />
+    <ImageBandShade mobile="side" />
     <div class="about-wrap diversity__content">
       <p class="diversity__eyebrow">Boston Bilingual School</p>
-      <h2 id="diversity-title">Diversidad cultural<br />para un futuro sin fronteras</h2>
+      <h2 id="diversity-title">{t.diversityTitle[0]}<br />{t.diversityTitle[1]}</h2>
       <div class="orange-rule" aria-hidden="true"></div>
     </div>
   </section>
@@ -72,8 +117,8 @@ const team = [
   <section class="philosophy" aria-labelledby="philosophy-title">
     <div class="about-wrap">
       <div class="philosophy__heading">
-        <h2 id="philosophy-title">Filosofía Institucional y <span>Modelo Pedagógico</span></h2>
-        <p>En Boston Bilingual School creemos en una educación que transforma. Nuestro enfoque pedagógico se centra en el desarrollo de competencias y guía cada etapa de la formación de nuestros estudiantes.</p>
+        <h2 id="philosophy-title">{t.philosophyTitle[0]} <span>{t.philosophyTitle[1]}</span></h2>
+        <p>{t.philosophyIntro}</p>
       </div>
       <div class="philosophy__grid">
         {principles.map((principle) => (
@@ -96,16 +141,16 @@ const team = [
   <section class="team" aria-labelledby="team-title">
     <div class="about-wrap">
       <div class="team__heading">
-        <div><h2 id="team-title">Equipo Directivo y <span>Docente</span></h2><div class="orange-rule" aria-hidden="true"></div></div>
-        <p>Un equipo de líderes y educadores comprometidos con la formación de ciudadanos globales.</p>
+        <div><h2 id="team-title">{t.teamTitle[0]} <span>{t.teamTitle[1]}</span></h2><div class="orange-rule" aria-hidden="true"></div></div>
+        <p>{t.teamIntro}</p>
       </div>
       <div class="team__grid">
-        {team.map((person) => (
+        {team.map((person, i) => (
           <article class="team-card">
             <div class="team-card__photo" data-portrait-slot={person.expectedPhoto}>
-              {person.photo ? <img src={person.photo} alt={`Retrato de ${person.name}`} width="240" height="240" loading="lazy" /> : <span class="team-card__placeholder" role="img" aria-label={`Retrato pendiente de ${person.name}`}><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="18" r="8"/><path d="M9 43c1-10 7-15 15-15s14 5 15 15"/></svg><small>FOTO PENDIENTE</small></span>}
+              {person.photo ? <img src={person.photo} alt={`${t.portraitOf} ${person.name}`} width="240" height="240" loading="lazy" /> : <span class="team-card__placeholder" role="img" aria-label={`${t.portraitPendingOf} ${person.name}`}><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="18" r="8"/><path d="M9 43c1-10 7-15 15-15s14 5 15 15"/></svg><small>{t.photoPending}</small></span>}
             </div>
-            <div class="team-card__copy"><p>{person.role}</p><h3>{person.name}</h3></div>
+            <div class="team-card__copy"><p>{t.teamRoles[i]}</p><h3>{person.name}</h3></div>
             <span class="team-card__plus" aria-hidden="true">+</span>
           </article>
         ))}
@@ -153,9 +198,8 @@ const team = [
   .mission-card h2{font-size:2rem;margin-bottom:17px}
   .mission-card p{max-width:58ch;margin-bottom:0;font-size:1.02rem;line-height:1.72;color:#58616b}
 
-  .diversity{position:relative;min-height:388px;display:flex;align-items:center;isolation:isolate;overflow:hidden;color:white;clip-path:polygon(0 3%,27% 0,72% 3%,100% 0,100% 97%,72% 100%,24% 96%,0 100%)}
+  .diversity{position:relative;min-height:388px;display:flex;align-items:center;isolation:isolate;overflow:hidden;color:white}
   .diversity :global(img){position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover;object-position:center 48%}
-  .diversity__shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(0,36,80,.95) 0%,rgba(0,43,89,.86) 27%,rgba(0,54,109,.27) 67%,rgba(0,50,95,.02) 100%)}
   .diversity__content{padding-block:68px}
   .diversity__eyebrow{font-family:var(--font-accent);font-size:.86rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:21px}
   .diversity h2{max-width:700px;color:white;font-size:clamp(2.2rem,3.2vw,3.4rem);margin-bottom:19px}
@@ -190,5 +234,13 @@ const team = [
 
   @media(max-width:1000px){.history__layout{gap:36px}.history__copy p{font-size:.96rem}.history__visual{min-height:470px}.history__image{height:425px}.team__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:800px){.history{padding-top:62px}.history__layout{grid-template-columns:1fr;gap:30px}.history__copy{max-width:740px}.history__visual{width:min(100%,690px);margin:auto}.mission-vision__grid{grid-template-columns:1fr;gap:20px}.mission-card{padding:28px;min-height:0}.philosophy__grid{gap:20px}.principle-card{padding:24px;min-height:255px}.team__heading{align-items:flex-start;flex-direction:column;gap:10px}}
-  @media(max-width:640px){.about-wrap{width:min(100% - 36px,1200px)}.history{padding:52px 0 30px}.history h2{font-size:2.45rem}.history__copy p{font-size:.96rem;line-height:1.7}.history__visual{min-height:360px;padding:14px 0 16px 12px}.history__image{height:340px;border-radius:33px}.history__note{left:-3px;bottom:-10px;width:min(315px,88%);min-height:78px;padding:10px 13px;gap:10px;border-radius:16px}.history__note-icon{width:48px;height:48px}.history__note-icon svg{width:31px}.history__note p{font-size:.78rem}.history__dots{right:-8px;top:-13px;width:86px;height:80px;background-size:15px 15px}.mission-vision{padding:36px 0}.mission-vision__grid{grid-template-columns:1fr;gap:18px}.mission-card{min-height:0;padding:26px 28px 32px;border-radius:26px}.mission-card__letter,.mission-card__icon{width:58px;height:58px}.mission-card__letter{font-size:2.7rem}.mission-card__icon svg{width:34px}.mission-card h2{font-size:1.8rem}.mission-card p{font-size:.95rem}.diversity{min-height:340px}.diversity__shade{background:linear-gradient(90deg,rgba(0,36,80,.94),rgba(0,43,89,.68) 70%,rgba(0,54,109,.35))}.diversity__eyebrow{font-size:.7rem}.diversity h2{font-size:2.25rem}.philosophy{padding:48px 0}.philosophy h2{font-size:2.15rem}.philosophy__heading p{font-size:.94rem}.philosophy__grid{grid-template-columns:1fr;gap:16px}.principle-card{min-height:210px;padding:25px 25px 25px 29px}.principle-card__number{font-size:2.9rem}.principle-card__icon{width:58px;height:58px;right:18px;top:18px}.principle-card__icon svg{width:30px}.principle-card h3{font-size:1.02rem}.principle-card p{font-size:.92rem}.team{padding:32px 0 64px}.team h2{font-size:2.15rem}.team__heading p{font-size:.94rem}.team__grid{grid-template-columns:1fr;gap:15px}.team-card{min-height:112px;padding-left:110px}.team-card__photo{width:88px;height:88px}}
+  @media(max-width:640px){.about-wrap{width:min(100% - 36px,1200px)}.history{padding:52px 0 30px}.history h2{font-size:2.45rem}.history__copy p{font-size:.96rem;line-height:1.7}.history__visual{min-height:360px;padding:14px 0 16px 12px}.history__image{height:340px;border-radius:33px}.history__note{left:-3px;bottom:-10px;width:min(315px,88%);min-height:78px;padding:10px 13px;gap:10px;border-radius:16px}.history__note-icon{width:48px;height:48px}.history__note-icon svg{width:31px}.history__note p{font-size:.78rem}.history__dots{right:-8px;top:-13px;width:86px;height:80px;background-size:15px 15px}.mission-vision{padding:36px 0}.mission-vision__grid{grid-template-columns:1fr;gap:18px}.mission-card{min-height:0;padding:26px 28px 32px;border-radius:26px}.mission-card__letter,.mission-card__icon{width:58px;height:58px}.mission-card__letter{font-size:2.7rem}.mission-card__icon svg{width:34px}.mission-card h2{font-size:1.8rem}.mission-card p{font-size:.95rem}.diversity{min-height:340px}.diversity__eyebrow{font-size:.7rem}.diversity h2{font-size:2.25rem}.philosophy{padding:48px 0}.philosophy h2{font-size:2.15rem}.philosophy__heading p{font-size:.94rem}.philosophy__grid{grid-template-columns:1fr;gap:16px}.principle-card{min-height:210px;padding:25px 25px 25px 29px}.principle-card__number{font-size:2.9rem}.principle-card__icon{width:58px;height:58px;right:18px;top:18px}.principle-card__icon svg{width:30px}.principle-card h3{font-size:1.02rem}.principle-card p{font-size:.92rem}.team{padding:32px 0 64px}.team h2{font-size:2.15rem}.team__heading p{font-size:.94rem}.team__grid{grid-template-columns:1fr;gap:15px}.team-card{min-height:112px;padding-left:110px}.team-card__photo{width:88px;height:88px}}
+  @media(max-width:420px){
+    .history h2{font-size:clamp(2rem,9vw,2.35rem)}
+    .philosophy h2,.team h2{font-size:clamp(1.8rem,8vw,2.1rem)}
+    .diversity h2{font-size:clamp(1.9rem,8vw,2.2rem)}
+    .history__visual{min-height:335px}
+    .history__image{height:315px}
+    .team-card{padding-left:104px;padding-right:20px}
+  }
 </style>

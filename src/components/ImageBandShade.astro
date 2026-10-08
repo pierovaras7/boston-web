@@ -1,0 +1,26 @@
+---
+interface Props { mobile?: "bottom" | "side" }
+const { mobile = "bottom" } = Astro.props;
+---
+
+<div class:list={["image-band-shade", { "image-band-shade--side": mobile === "side" }]} aria-hidden="true"></div>
+
+<style>
+  .image-band-shade {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #003b7b 0%, #003b7b 38%, rgba(0, 59, 123, 0) 56%);
+  }
+
+  @media (max-width: 640px) {
+    .image-band-shade {
+      background: linear-gradient(0deg, #003b7b 0%, #003b7b 48%, rgba(0, 59, 123, 0) 72%);
+    }
+
+    .image-band-shade--side {
+      background: linear-gradient(90deg, #003b7b 0%, #003b7b 62%, rgba(0, 59, 123, 0) 82%);
+    }
+  }
+</style>

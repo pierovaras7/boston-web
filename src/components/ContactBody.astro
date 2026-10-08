@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import contactImage from "../assets/images/home/pilares/alumna_con_laptop.jpg";
+import contactImage from "../assets/images/contacto/estudiante-sonriente-aula-moderna.png";
 import ContactFormSimple from "./ContactFormSimple.astro";
 
 interface Props { lang: "es" | "en" }
@@ -203,4 +203,11 @@ const t = copy[lang];
   .contact-channel:focus-visible,.contact-visit__copy a:focus-visible{outline:3px solid #ff9900;outline-offset:4px}
   @media(max-width:900px){.contact-benefits__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-main__grid{grid-template-columns:1fr}.contact-support{min-height:0}.contact-channels__grid,.contact-hours__grid{gap:14px}.contact-channel strong{font-size:1rem}.contact-visit__copy{padding:40px}}
   @media(max-width:640px){.contact-benefits__grid{gap:12px}.contact-benefit{padding:18px 12px;min-height:205px}.contact-round-icon{width:54px;height:54px}.contact-round-icon svg{width:28px;height:28px}.contact-benefit h2{font-size:.85rem}.contact-benefit p{font-size:.75rem}.contact-main{padding-bottom:40px}.contact-support{padding:29px 22px}.contact-support__intro h2{font-size:2rem}.contact-support__intro p{font-size:.95rem}.contact-support__portrait{width:250px;height:240px}.contact-support__portrait :global(img){width:190px;height:190px}.contact-channels{padding:45px 0}.contact-channels__grid,.contact-hours__grid{grid-template-columns:1fr}.contact-channel{min-height:190px;padding:20px}.contact-hours{padding:45px 0}.contact-visit{padding:35px 0}.contact-visit__banner{min-height:430px;align-items:flex-end}.contact-visit__banner>img{object-position:74% center}.contact-visit__shade{inset:0;width:100%;border-radius:0;background:linear-gradient(0deg,#00346f 0%,rgba(0,61,130,.95) 44%,rgba(0,61,130,.05) 100%)}.contact-visit__orange{right:-80px;top:-180px}.contact-visit__copy{padding:190px 25px 33px}.contact-visit__copy h2{font-size:1.9rem}}
+  @media(max-width:420px){
+    .contact-benefit{min-height:0}
+    .contact-support__intro h2{font-size:clamp(1.8rem,8vw,2rem)}
+    .contact-support__portrait{max-width:100%}
+    .contact-channel strong{overflow-wrap:anywhere}
+    .contact-visit__copy{padding-inline:18px}
+  }
 </style>

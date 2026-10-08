@@ -98,7 +98,7 @@ const pillars = [
 
   .pillars__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 2.5rem;
   }
 
@@ -189,5 +189,10 @@ const pillars = [
     .pillar-card__content {
       padding: 1.5rem 1rem;
     }
+  }
+  @media (max-width: 420px) {
+    .pillars__title{font-size:clamp(1.8rem,8vw,2rem)}
+    .pillars__header{margin-bottom:2rem}
+    .pillar-card__image{height:230px}
   }
 </style>

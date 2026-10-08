@@ -13,31 +13,85 @@ import newsRobotics from '../assets/images/home/pilares/robotica_con_lego.png';
 import newsTrip from '../assets/images/propuesta_academica/primaria/marcha_de_alumnos.jpg';
 import newsBilingual from '../assets/images/propuesta_academica/primaria/nia_boston_libr.png';
 
-const pillars = [
-  { title: 'Bilingüismo', description: 'Enseñanza de inglés y francés con enfoque en certificación internacional, desde Primaria hasta Secundaria.', image: pillarBilingual, icon: 'globe', href: '/es/primaria', alt: 'Docente de Boston acompaña a un alumno' },
-  { title: 'Innovación', description: 'Laboratorios de Robótica y Ajedrez integrados al plan de estudios regular, con enfoque en pensamiento crítico.', image: pillarInnovation, icon: 'light', href: '/es/primaria', alt: 'Estudiantes de Boston construyen robots' },
-  { title: 'Formación en Valores', description: 'Línea axiológica compuesta por Lealtad, Respeto, Responsabilidad, Integridad, Excelencia y más.', image: pillarValues, icon: 'people', href: '/es/sobre-nosotros', alt: 'Estudiante de Boston trabaja con una laptop' },
-] as const;
-
-const testimonials = [
-  { image: familyPhoto1, alt: 'Madre y estudiante de Boston', quote: 'Boston Bilingual School ha transformado la vida de nuestro hijo. Su dominio del inglés y su confianza en el aula han crecido enormemente. Los profesores son dedicados y el ambiente es inspirador.', author: 'Familia García', role: 'Padres de estudiante' },
-  { image: familyPhoto2, alt: 'Madre e hijo de la comunidad Boston', quote: 'Me encanta estudiar en Boston. Los programas de robótica y ajedrez son increíbles, y mis amigos son lo mejor. Aquí no solo aprendo, sino que crezco como persona.', author: 'María, 5° grado', role: 'Estudiante' },
-  { image: familyPhoto3, alt: 'Madre y alumno de secundaria', quote: 'El proyecto de ajedrez me enseñó a pensar estratégicamente. Los profesores crean un ambiente donde los errores son oportunidades de aprendizaje.', author: 'Luis, 3° grado', role: 'Estudiante' },
-  { image: familyPhoto4, alt: 'Madre e hija de la comunidad Boston', quote: 'Como profesora, siento que tengo todas las herramientas para desarrollar el potencial de mis estudiantes. La escuela invierte en capacitación y recursos constantemente.', author: 'Dra. Rodríguez', role: 'Docente' },
-] as const;
-
-const news = [
-  { category: 'Concurso', date: '14 de septiembre de 2024', title: 'Estudiantes de Boston ganan Olimpiada de Robótica 2024', summary: 'Nuestros alumnos de primaria obtuvieron el primer lugar en la competencia nacional de robótica.', image: newsRobotics, href: '/articulos/olimpiada-robotica-2024', alt: 'Estudiantes desarrollan un proyecto de robótica', tone: 'green' },
-  { category: 'Evento', date: '9 de septiembre de 2024', title: 'Viaje de Estudio a la Amazonía Peruana', summary: 'Nuestros estudiantes de secundaria exploraron la biodiversidad y culturas amazónicas.', image: newsTrip, href: '/articulos/viaje-estudio-naturaleza', alt: 'Estudiantes de Boston participan en una actividad cultural', tone: 'purple' },
-  { category: 'Educativo', date: '31 de agosto de 2024', title: 'Bilingüismo como Herramienta para la Ciudadanía Global', summary: 'Cómo nuestro enfoque bilingüe prepara a los estudiantes para un mundo global.', image: newsBilingual, href: '/articulos/bilingüismo-ciudadania-global', alt: 'Estudiante de Boston leyendo en el aula', tone: 'orange' },
-] as const;
+interface Props { lang?: 'es' | 'en' }
+const { lang = 'es' } = Astro.props;
+const base = `/${lang}`;
+const copy = {
+  es: {
+    pillarsTitle: ['Pilares', 'Educativos'], pillarsIntro: 'Tres pilares que definen nuestra excelencia educativa y guían cada experiencia de aprendizaje.', pillarsLink: 'Conoce más sobre nuestro enfoque', learnAbout: 'Conoce más sobre',
+    pillars: [
+      { title: 'Bilingüismo', description: 'Enseñanza de inglés y francés con enfoque en certificación internacional, desde Primaria hasta Secundaria.', alt: 'Docente de Boston acompaña a un alumno' },
+      { title: 'Innovación', description: 'Laboratorios de Robótica y Ajedrez integrados al plan de estudios regular, con enfoque en pensamiento crítico.', alt: 'Estudiantes de Boston construyen robots' },
+      { title: 'Formación en Valores', description: 'Línea axiológica compuesta por Lealtad, Respeto, Responsabilidad, Integridad, Excelencia y más.', alt: 'Estudiante de Boston trabaja con una laptop' },
+    ],
+    programsEyebrow: 'NUESTROS PROGRAMAS', programsTitle: ['Un camino,', 'dos grandes', 'etapas'], programsIntro: 'Acompañamos cada etapa del desarrollo con una propuesta educativa integral, bilingüe y con visión global.', programsLink: 'Conoce nuestros programas',
+    programs: [
+      { title: 'Primaria', years: '1.º a 6.º grado', label: 'Conoce Primaria, de 1.º a 6.º grado', alt: 'Alumna de Primaria en su salón' },
+      { title: 'Secundaria', years: '1.º a 5.º grado', label: 'Conoce Secundaria, de 1.º a 5.º grado', alt: 'Estudiantes de Secundaria en clase' },
+    ],
+    testimonialsEyebrow: 'TESTIMONIOS', testimonialsTitle: ['Historias que', 'nos', 'inspiran'], selectTestimonial: 'Seleccionar testimonio', showTestimonial: 'Mostrar testimonio', previousTestimonial: 'Testimonio anterior', nextTestimonial: 'Testimonio siguiente',
+    testimonials: [
+      { alt: 'Madre y estudiante de Boston', quote: 'Boston Bilingual School ha transformado la vida de nuestro hijo. Su dominio del inglés y su confianza en el aula han crecido enormemente. Los profesores son dedicados y el ambiente es inspirador.', author: 'Familia García', role: 'Padres de estudiante' },
+      { alt: 'Madre e hijo de la comunidad Boston', quote: 'Me encanta estudiar en Boston. Los programas de robótica y ajedrez son increíbles, y mis amigos son lo mejor. Aquí no solo aprendo, sino que crezco como persona.', author: 'María, 5° grado', role: 'Estudiante' },
+      { alt: 'Madre y alumno de secundaria', quote: 'El proyecto de ajedrez me enseñó a pensar estratégicamente. Los profesores crean un ambiente donde los errores son oportunidades de aprendizaje.', author: 'Luis, 3° grado', role: 'Estudiante' },
+      { alt: 'Madre e hija de la comunidad Boston', quote: 'Como profesora, siento que tengo todas las herramientas para desarrollar el potencial de mis estudiantes. La escuela invierte en capacitación y recursos constantemente.', author: 'Dra. Rodríguez', role: 'Docente' },
+    ],
+    newsEyebrow: 'ACTUALIDAD BBS', newsTitle: ['Blog / Noticias', 'Destacadas'], newsIntro: 'Conoce las últimas noticias, logros y experiencias de nuestra comunidad.', newsLink: 'Ver todas las noticias', readMore: 'Leer más',
+    news: [
+      { category: 'Concurso', date: '14 de septiembre de 2024', dateTime: '2024-09-14', title: 'Estudiantes de Boston ganan Olimpiada de Robótica 2024', summary: 'Nuestros alumnos de primaria obtuvieron el primer lugar en la competencia nacional de robótica.', alt: 'Estudiantes desarrollan un proyecto de robótica' },
+      { category: 'Evento', date: '9 de septiembre de 2024', dateTime: '2024-09-09', title: 'Viaje de Estudio a la Amazonía Peruana', summary: 'Nuestros estudiantes de secundaria exploraron la biodiversidad y culturas amazónicas.', alt: 'Estudiantes de Boston participan en una actividad cultural' },
+      { category: 'Educativo', date: '31 de agosto de 2024', dateTime: '2024-08-31', title: 'Bilingüismo como Herramienta para la Ciudadanía Global', summary: 'Cómo nuestro enfoque bilingüe prepara a los estudiantes para un mundo global.', alt: 'Estudiante de Boston leyendo en el aula' },
+    ],
+    statsLabel: 'Boston Bilingual School en cifras', stats: [
+      { value: '+15 años', label: 'formando líderes globales' }, { value: '+1,200', label: 'estudiantes en nuestra comunidad' },
+      { value: '2 idiomas', label: 'inglés y francés' }, { value: 'Excelencia', label: 'académica y valores sólidos' },
+    ],
+  },
+  en: {
+    pillarsTitle: ['Educational', 'Pillars'], pillarsIntro: 'Three pillars define our educational excellence and guide every learning experience.', pillarsLink: 'Learn more about our approach', learnAbout: 'Learn more about',
+    pillars: [
+      { title: 'Bilingualism', description: 'English and French instruction focused on international certification, from Primary through Secondary School.', alt: 'Boston teacher supporting a student' },
+      { title: 'Innovation', description: 'Robotics and chess labs are part of the regular curriculum, with a focus on critical thinking.', alt: 'Boston students building robots' },
+      { title: 'Values Education', description: 'Our guiding values include loyalty, respect, responsibility, integrity and excellence.', alt: 'Boston student working on a laptop' },
+    ],
+    programsEyebrow: 'OUR PROGRAMS', programsTitle: ['One path,', 'two important', 'stages'], programsIntro: 'We support every stage of development with a comprehensive, bilingual education and a global outlook.', programsLink: 'Explore our programs',
+    programs: [
+      { title: 'Primary', years: 'Grades 1–6', label: 'Explore Primary, grades 1 through 6', alt: 'Primary student in her classroom' },
+      { title: 'Secondary', years: 'Grades 1–5', label: 'Explore Secondary, grades 1 through 5', alt: 'Secondary students in class' },
+    ],
+    testimonialsEyebrow: 'TESTIMONIALS', testimonialsTitle: ['Stories that', 'truly', 'inspire'], selectTestimonial: 'Select a testimonial', showTestimonial: 'Show testimonial', previousTestimonial: 'Previous testimonial', nextTestimonial: 'Next testimonial',
+    testimonials: [
+      { alt: 'Mother and Boston student', quote: "Boston Bilingual School has transformed our son's life. His English skills and confidence in the classroom have grown tremendously. The teachers are dedicated and the atmosphere is inspiring.", author: 'García Family', role: 'Student’s parents' },
+      { alt: 'Mother and son from the Boston community', quote: 'I love studying at Boston. The robotics and chess programs are amazing, and my friends are the best. Here I do more than learn: I grow as a person.', author: 'María, grade 5', role: 'Student' },
+      { alt: 'Mother and secondary student', quote: 'Chess taught me to think strategically. The teachers create an environment where mistakes become opportunities to learn.', author: 'Luis, grade 3', role: 'Student' },
+      { alt: 'Mother and daughter from the Boston community', quote: 'As a teacher, I have the tools to help my students reach their potential. The school continually invests in training and resources.', author: 'Dr. Rodríguez', role: 'Teacher' },
+    ],
+    newsEyebrow: 'BBS UPDATES', newsTitle: ['Blog / Featured', 'News'], newsIntro: 'Discover the latest news, achievements and experiences from our community.', newsLink: 'See all news', readMore: 'Read more',
+    news: [
+      { category: 'Competition', date: 'September 14, 2024', dateTime: '2024-09-14', title: 'Boston Students Win the 2024 Robotics Olympiad', summary: 'Our primary students won first place in a national robotics competition.', alt: 'Students working on a robotics project' },
+      { category: 'Event', date: 'September 9, 2024', dateTime: '2024-09-09', title: 'Study Trip to the Peruvian Amazon', summary: 'Our secondary students explored Amazonian biodiversity and cultures.', alt: 'Boston students taking part in a cultural activity' },
+      { category: 'Education', date: 'August 31, 2024', dateTime: '2024-08-31', title: 'Bilingualism as a Tool for Global Citizenship', summary: 'How our bilingual approach prepares students for a global world.', alt: 'Boston student reading in class' },
+    ],
+    statsLabel: 'Boston Bilingual School in numbers', stats: [
+      { value: '15+ years', label: 'developing global leaders' }, { value: '1,200+', label: 'students in our community' },
+      { value: '2 languages', label: 'English and French' }, { value: 'Excellence', label: 'in academics and values' },
+    ],
+  },
+} as const;
+const t = copy[lang];
+const pillars = t.pillars.map((item, i) => ({ ...item, image: [pillarBilingual, pillarInnovation, pillarValues][i], icon: ['globe', 'light', 'people'][i], href: i === 2 ? `${base}/sobre-nosotros` : `${base}/primaria` }));
+const testimonials = t.testimonials.map((item, i) => ({ ...item, image: [familyPhoto1, familyPhoto2, familyPhoto3, familyPhoto4][i] }));
+const newsSlugs = lang === 'es'
+  ? ['olimpiada-robotica-2024', 'viaje-estudio-naturaleza', 'bilingüismo-ciudadania-global']
+  : ['robotics-olympiad-2024', 'amazon-study-trip', 'bilingualism-global-citizenship'];
+const news = t.news.map((item, i) => ({ ...item, image: [newsRobotics, newsTrip, newsBilingual][i], href: `/articulos/${newsSlugs[i]}`, tone: ['green', 'purple', 'orange'][i] }));
 ---
 
 <section class="hb-pillars" id="pilares" aria-labelledby="pillars-title">
   <div class="hb-wrap">
     <div class="hb-section-head">
-      <h2 id="pillars-title">Pilares <span>Educativos</span></h2>
-      <div class="hb-head-aside"><p>Tres pilares que definen nuestra excelencia educativa y guían cada experiencia de aprendizaje.</p><a href="/es/sobre-nosotros">Conoce más sobre nuestro enfoque <span aria-hidden="true">→</span></a></div>
+      <h2 id="pillars-title">{t.pillarsTitle[0]} <span>{t.pillarsTitle[1]}</span></h2>
+      <div class="hb-head-aside"><p>{t.pillarsIntro}</p><a href={`${base}/sobre-nosotros`}>{t.pillarsLink} <span aria-hidden="true">→</span></a></div>
     </div>
     <div class="hb-pillar-grid">
       {pillars.map((pillar) => <article class="hb-pillar-card">
@@ -48,7 +102,7 @@ const news = [
             {pillar.icon === 'people' && <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="11" r="4"/><path d="M8 26v-3a8 8 0 0 1 16 0v3H8ZM7 13a3 3 0 1 0 0-6M4 24v-3a6 6 0 0 1 4-5M25 13a3 3 0 1 1 0-6M28 24v-3a6 6 0 0 0-4-5"/></svg>}
           </span>
           <div class="hb-pillar-text"><h3>{pillar.title}</h3><p>{pillar.description}</p></div>
-          <a class="hb-round-link hb-pillar-link" href={pillar.href} aria-label={`Conoce más sobre ${pillar.title}`}>→</a>
+          <a class="hb-round-link hb-pillar-link" href={pillar.href} aria-label={`${t.learnAbout} ${pillar.title}`}>→</a>
         </div>
         <div class="hb-pillar-photo"><Image src={pillar.image} alt={pillar.alt} widths={[480, 800]} sizes="(max-width: 760px) 100vw, 33vw" loading="lazy" /></div>
       </article>)}
@@ -59,19 +113,19 @@ const news = [
 <section class="hb-programs" id="programas" aria-labelledby="programs-title">
   <div class="hb-wrap hb-program-layout">
     <div class="hb-program-copy">
-      <p class="hb-eyebrow">NUESTROS PROGRAMAS</p>
-      <h2 id="programs-title">Un camino,<br />dos grandes<br /><span>etapas</span></h2>
-      <p>Acompañamos cada etapa del desarrollo con una propuesta educativa integral, bilingüe y con visión global.</p>
-      <a class="hb-orange-button" href="/es/primaria">Conoce nuestros programas <span aria-hidden="true">→</span></a>
+      <p class="hb-eyebrow">{t.programsEyebrow}</p>
+      <h2 id="programs-title">{t.programsTitle[0]}<br />{t.programsTitle[1]}<br /><span>{t.programsTitle[2]}</span></h2>
+      <p>{t.programsIntro}</p>
+      <a class="hb-orange-button" href={`${base}/primaria`}>{t.programsLink} <span aria-hidden="true">→</span></a>
     </div>
     <div class="hb-program-cards">
-      <a class="hb-program-card hb-program-primary" href="/es/primaria" aria-label="Conoce Primaria, de 1.º a 6.º grado">
-        <Image src={primaryPhoto} alt="Alumna de Primaria en su salón" widths={[400, 800]} sizes="(max-width: 760px) 100vw, 27vw" loading="lazy" />
-        <span class="hb-program-overlay"><strong>Primaria</strong><small>1.º a 6.º grado</small></span><span class="hb-round-link" aria-hidden="true">→</span>
+      <a class="hb-program-card hb-program-primary" href={`${base}/primaria`} aria-label={t.programs[0].label}>
+        <Image src={primaryPhoto} alt={t.programs[0].alt} widths={[400, 800]} sizes="(max-width: 760px) 100vw, 27vw" loading="lazy" />
+        <span class="hb-program-overlay"><strong>{t.programs[0].title}</strong><small>{t.programs[0].years}</small></span><span class="hb-round-link" aria-hidden="true">→</span>
       </a>
-      <a class="hb-program-card hb-program-secondary" href="/secundaria" aria-label="Conoce Secundaria, de 1.º a 5.º grado">
-        <Image src={secondaryPhoto} alt="Estudiantes de Secundaria en clase" widths={[400, 800]} sizes="(max-width: 760px) 100vw, 27vw" loading="lazy" />
-        <span class="hb-program-overlay"><strong>Secundaria</strong><small>1.º a 5.º grado</small></span><span class="hb-round-link" aria-hidden="true">→</span>
+      <a class="hb-program-card hb-program-secondary" href={`${base}/secundaria`} aria-label={t.programs[1].label}>
+        <Image src={secondaryPhoto} alt={t.programs[1].alt} widths={[400, 800]} sizes="(max-width: 760px) 100vw, 27vw" loading="lazy" />
+        <span class="hb-program-overlay"><strong>{t.programs[1].title}</strong><small>{t.programs[1].years}</small></span><span class="hb-round-link" aria-hidden="true">→</span>
       </a>
     </div>
   </div>
@@ -83,16 +137,16 @@ const news = [
       {testimonials.map((item, i) => <Image src={item.image} alt={item.alt} class={i === 0 ? 'is-active' : ''} data-testimonial-image={i} widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />)}
     </div></div>
     <div class="hb-testimonial-copy">
-      <p class="hb-eyebrow">TESTIMONIOS</p>
-      <h2 id="testimonials-title">Historias que<br />nos <span>inspiran</span></h2>
+      <p class="hb-eyebrow">{t.testimonialsEyebrow}</p>
+      <h2 id="testimonials-title">{t.testimonialsTitle[0]}<br />{t.testimonialsTitle[1]} <span>{t.testimonialsTitle[2]}</span></h2>
       <div class="hb-testimonial-content" aria-live="polite">
         {testimonials.map((item, i) => <div class={`hb-testimonial-item ${i === 0 ? 'is-active' : ''}`} data-testimonial-item={i}>
           <blockquote>“{item.quote}”</blockquote><strong>{item.author}</strong><small>{item.role}</small>
         </div>)}
       </div>
-      <div class="hb-testimonial-bottom"><div class="hb-dots" aria-label="Seleccionar testimonio">
-        {testimonials.map((_, i) => <button type="button" class={i === 0 ? 'is-active' : ''} data-testimonial-dot={i} aria-label={`Mostrar testimonio ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'}></button>)}
-      </div><div class="hb-testimonial-arrows"><button type="button" data-testimonial-prev aria-label="Testimonio anterior">‹</button><button type="button" data-testimonial-next aria-label="Testimonio siguiente">›</button></div></div>
+      <div class="hb-testimonial-bottom"><div class="hb-dots" aria-label={t.selectTestimonial}>
+        {testimonials.map((_, i) => <button type="button" class={i === 0 ? 'is-active' : ''} data-testimonial-dot={i} aria-label={`${t.showTestimonial} ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'}></button>)}
+      </div><div class="hb-testimonial-arrows"><button type="button" data-testimonial-prev aria-label={t.previousTestimonial}>‹</button><button type="button" data-testimonial-next aria-label={t.nextTestimonial}>›</button></div></div>
     </div>
   </div>
 </section>
@@ -100,23 +154,23 @@ const news = [
 <section class="hb-news" id="noticias" aria-labelledby="news-title">
   <div class="hb-wrap">
     <div class="hb-section-head hb-news-head">
-      <div><p class="hb-eyebrow">ACTUALIDAD BBS</p><h2 id="news-title">Blog / Noticias <span>Destacadas</span></h2></div>
-      <div class="hb-head-aside"><p>Conoce las últimas noticias, logros y experiencias de nuestra comunidad.</p><a href="/articulos">Ver todas las noticias <span aria-hidden="true">→</span></a></div>
+      <div><p class="hb-eyebrow">{t.newsEyebrow}</p><h2 id="news-title">{t.newsTitle[0]} <span>{t.newsTitle[1]}</span></h2></div>
+      <div class="hb-head-aside"><p>{t.newsIntro}</p><a href={`${base}/articulos`}>{t.newsLink} <span aria-hidden="true">→</span></a></div>
     </div>
     <div class="hb-news-grid">
       {news.map((item) => <article class="hb-news-card">
         <a class="hb-news-photo" href={item.href} aria-label={item.title}><Image src={item.image} alt={item.alt} widths={[480, 800]} sizes="(max-width: 760px) 100vw, 33vw" loading="lazy" /></a>
-        <div class="hb-news-content"><div class="hb-news-meta"><span class={`hb-badge hb-badge-${item.tone}`}>{item.category}</span><time>{item.date}</time></div><h3><a href={item.href}>{item.title}</a></h3><p>{item.summary}</p><a class="hb-read-link" href={item.href}>Leer más <span aria-hidden="true">→</span></a></div>
+        <div class="hb-news-content"><div class="hb-news-meta"><span class={`hb-badge hb-badge-${item.tone}`}>{item.category}</span><time datetime={item.dateTime}>{item.date}</time></div><h3><a href={item.href}>{item.title}</a></h3><p>{item.summary}</p><a class="hb-read-link" href={item.href}>{t.readMore} <span aria-hidden="true">→</span></a></div>
       </article>)}
     </div>
   </div>
 </section>
 
-<section class="hb-stats" aria-label="Boston Bilingual School en cifras"><div class="hb-wrap hb-stats-grid">
-  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 11 18 5l15 6-15 6L3 11Zm6 5v8c6 5 12 5 18 0v-8M33 11v14"/></svg><strong>+15 años</strong><span>formando líderes globales</span></div>
-  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="10" r="4"/><circle cx="8" cy="13" r="3"/><circle cx="28" cy="13" r="3"/><path d="M10 28v-5a8 8 0 0 1 16 0v5H10ZM3 27v-5a6 6 0 0 1 6-6M33 27v-5a6 6 0 0 0-6-6"/></svg><strong>+1,200</strong><span>estudiantes en nuestra comunidad</span></div>
-  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="13"/><path d="M5 18h26M18 5c-6 7-6 19 0 26M18 5c6 7 6 19 0 26M9 10h18M9 26h18"/></svg><strong>2 idiomas</strong><span>inglés y francés</span></div>
-  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="m18 3 4.4 9 10 1.5-7.2 7 1.7 10L18 26l-8.9 4.5 1.7-10-7.2-7 10-1.5L18 3Z"/></svg><strong>Excelencia</strong><span>académica y valores sólidos</span></div>
+<section class="hb-stats" aria-label={t.statsLabel}><div class="hb-wrap hb-stats-grid">
+  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 11 18 5l15 6-15 6L3 11Zm6 5v8c6 5 12 5 18 0v-8M33 11v14"/></svg><strong>{t.stats[0].value}</strong><span>{t.stats[0].label}</span></div>
+  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="10" r="4"/><circle cx="8" cy="13" r="3"/><circle cx="28" cy="13" r="3"/><path d="M10 28v-5a8 8 0 0 1 16 0v5H10ZM3 27v-5a6 6 0 0 1 6-6M33 27v-5a6 6 0 0 0-6-6"/></svg><strong>{t.stats[1].value}</strong><span>{t.stats[1].label}</span></div>
+  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="13"/><path d="M5 18h26M18 5c-6 7-6 19 0 26M18 5c6 7 6 19 0 26M9 10h18M9 26h18"/></svg><strong>{t.stats[2].value}</strong><span>{t.stats[2].label}</span></div>
+  <div class="hb-stat"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="m18 3 4.4 9 10 1.5-7.2 7 1.7 10L18 26l-8.9 4.5 1.7-10-7.2-7 10-1.5L18 3Z"/></svg><strong>{t.stats[3].value}</strong><span>{t.stats[3].label}</span></div>
 </div></section>
 
 <script>
@@ -241,4 +295,11 @@ const news = [
   @media(max-width:1050px){.hb-wrap{padding-inline:28px}.hb-pillar-grid,.hb-news-grid{gap:18px}.hb-pillar-copy{grid-template-columns:65px 1fr;padding-inline:13px;gap:8px}.hb-pillar-icon{width:65px;height:65px}.hb-pillar-text h3{font-size:1.06rem}.hb-pillar-text p{font-size:.76rem}.hb-program-layout{grid-template-columns:30% 1fr;gap:26px}.hb-program-cards{gap:16px}.hb-program-card{height:360px}.hb-testimonials-layout{gap:35px}}
   @media(max-width:900px){.hb-wrap{padding-inline:22px}.hb-pillars,.hb-programs,.hb-testimonials,.hb-news{padding-block:52px}.hb-section-head{display:block;margin-bottom:30px}.hb-section-head h2,.hb-news-head h2{font-size:clamp(2rem,6vw,3rem)}.hb-head-aside{width:auto;max-width:460px;margin-top:15px}.hb-pillar-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.hb-pillar-card{height:470px}.hb-pillar-card:last-child{grid-column:1/-1;width:calc(50% - 9px);justify-self:center}.hb-pillar-copy{height:185px}.hb-pillar-photo{height:285px}.hb-program-layout{grid-template-columns:1fr;gap:35px}.hb-program-copy h2{max-width:550px}.hb-program-copy>p:not(.hb-eyebrow){max-width:540px}.hb-program-card{height:380px}.hb-testimonials::before{height:450px;width:80px;left:-45px}.hb-testimonials-layout{grid-template-columns:1fr;gap:25px}.hb-testimonial-photo{height:450px}.hb-testimonial-copy{min-height:0;padding:0}.hb-testimonial-content{min-height:175px}.hb-news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hb-news-card:last-child{grid-column:1/-1;width:calc(50% - 9px);justify-self:center}.hb-news-content{min-height:0}.hb-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:15px}.hb-stat:nth-child(3){border-left:0}}
   @media(max-width:520px){.hb-wrap{padding-inline:18px}.hb-pillars,.hb-programs,.hb-testimonials,.hb-news{padding-block:42px}.hb-section-head h2,.hb-news-head h2{font-size:2.15rem}.hb-pillar-grid,.hb-news-grid{grid-template-columns:1fr}.hb-pillar-card:last-child,.hb-news-card:last-child{grid-column:auto;width:100%}.hb-pillar-card{height:auto}.hb-pillar-copy{height:170px;grid-template-columns:78px 1fr;padding-inline:17px}.hb-pillar-icon{width:72px;height:72px}.hb-pillar-text h3{font-size:1.15rem}.hb-pillar-text p{font-size:.81rem}.hb-pillar-photo{height:260px}.hb-program-copy h2{font-size:2.55rem}.hb-program-cards{grid-template-columns:1fr;gap:20px}.hb-program-card{height:345px}.hb-program-cards::before{height:32%;bottom:-14px;left:-12px}.hb-program-cards::after{width:60%;height:27%;right:-12px;top:-14px}.hb-testimonials::before{height:315px;width:70px;left:-45px}.hb-testimonial-photo{height:315px;border-radius:45px 65px 12px 12px}.hb-testimonial-copy h2{font-size:2.55rem}.hb-testimonial-item blockquote{font-size:.97rem}.hb-testimonial-content{min-height:220px}.hb-dots{padding-left:0}.hb-news-photo{height:205px}.hb-news-content h3{font-size:1.2rem}.hb-stats{padding-block:24px}.hb-stat{padding:12px 8px;min-height:125px}.hb-stat svg{width:35px;height:35px}.hb-stat strong{font-size:1.2rem}.hb-stat span{font-size:.75rem}}
+  @media(max-width:420px){
+    .hb-section-head h2,.hb-news-head h2{font-size:clamp(1.85rem,8vw,2.15rem)}
+    .hb-pillar-copy{height:auto;min-height:170px;grid-template-columns:68px minmax(0,1fr);padding:0 14px 18px}
+    .hb-pillar-icon{width:64px;height:64px}
+    .hb-program-copy h2,.hb-testimonial-copy h2{font-size:clamp(2rem,9vw,2.4rem)}
+    .hb-news-meta{flex-wrap:wrap}
+  }
 </style>

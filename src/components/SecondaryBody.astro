@@ -1,4 +1,5 @@
 ---
+import ImageBandShade from "./ImageBandShade.astro";
 interface Props { lang: "es" | "en" }
 const { lang } = Astro.props;
 const admissionHref = `/${lang}/admisiones`;
@@ -109,7 +110,7 @@ const c = copy[lang];
 
 <section class="secondary-programs" id="programas-especiales" aria-labelledby="secondary-programs-title"><div class="container"><div class="secondary-heading"><span></span><h2 id="secondary-programs-title">{c.programsTitle}</h2><p>{c.programsDetail}</p></div><div class="secondary-programs__grid">{c.programs.map((item,index) => <article class="secondary-program"><img src={`/images/secundaria/${item.image}`} alt={item.alt} width="720" height={item.height} loading="lazy" decoding="async" /><div class="secondary-program__body"><h3>{item.title}</h3><p>{item.detail}</p><a href={contactHref} aria-label={`${c.programAction} ${item.title}`} data-tone={index === 0 ? "blue" : "orange"}>›</a></div></article>)}</div></div></section>
 
-<section class="secondary-cta" aria-labelledby="secondary-cta-title"><img src="/images/secundaria/secundaria-cta.webp" alt="" width="1920" height="640" loading="lazy" decoding="async" /><div class="secondary-cta__shade" aria-hidden="true"></div><svg class="secondary-cta__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V39c-166 28-288-19-463-12-166 7-266 47-434 25C329 24 190 62 0 47Z" fill="#f7fbff" /></svg><div class="container secondary-cta__inner"><div class="secondary-cta__copy"><h2 id="secondary-cta-title">{c.ctaFirst} <span>{c.ctaAccent}</span></h2><p>{c.ctaDetail}</p><a href={admissionHref}>{c.ctaButton} <span aria-hidden="true">→</span></a></div></div></section>
+<section class="secondary-cta" aria-labelledby="secondary-cta-title"><img src="/images/secundaria/secundaria-cta.webp" alt="" width="1920" height="640" loading="lazy" decoding="async" /><ImageBandShade /><div class="container secondary-cta__inner"><div class="secondary-cta__copy"><h2 id="secondary-cta-title">{c.ctaFirst} <span>{c.ctaAccent}</span></h2><p>{c.ctaDetail}</p><a href={admissionHref}>{c.ctaButton} <span aria-hidden="true">→</span></a></div></div></section>
 
 <style>
   :global(main.secondary-page){overflow-x:clip}
@@ -160,8 +161,6 @@ const c = copy[lang];
   .secondary-program a:hover{transform:translateX(2px)}
   .secondary-cta{position:relative;isolation:isolate;display:flex;align-items:center;min-height:395px;overflow:hidden;background:#003d82;color:#fff}
   .secondary-cta>img{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
-  .secondary-cta__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#00346f 0%,#00468e 30%,rgba(0,61,130,.92) 43%,rgba(0,61,130,.33) 63%,rgba(0,61,130,.04) 90%)}
-  .secondary-cta__wave{position:absolute;z-index:2;top:-1px;left:0;width:100%;height:65px;pointer-events:none}
   .secondary-cta::before,.secondary-cta::after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%}.secondary-cta::before{width:260px;height:260px;left:-165px;bottom:-110px;background:rgba(21,125,225,.22)}.secondary-cta::after{width:230px;height:230px;right:-130px;bottom:-150px;background:#ff9200}
   .secondary-cta__inner{width:100%;padding-block:60px}
   .secondary-cta__copy{max-width:610px}.secondary-cta h2{margin:0 0 12px;font-size:clamp(2.1rem,3.4vw,3.2rem);font-weight:900;line-height:1.12}.secondary-cta h2 span{color:#ff9700}
@@ -170,6 +169,20 @@ const c = copy[lang];
   .secondary-cta a:hover{transform:translateY(-2px)}
   @media(max-width:1000px){.secondary-benefit{padding-inline:11px}.secondary-benefit h2{font-size:.96rem}.secondary-benefit p{font-size:.81rem}.secondary-pre-card{padding:21px 16px}.secondary-pre-card h3{font-size:1.02rem}.secondary-pre-card p{font-size:.8rem}.secondary-program>img{height:180px}.secondary-program__body{padding:15px 15px 43px;min-height:215px}.secondary-program h3{font-size:1rem}.secondary-program p{font-size:.79rem}}
   @media(max-width:900px){.secondary-benefits__grid,.secondary-pre__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-pre-card{min-height:250px}.secondary-study__panel{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-subject,.secondary-subject:nth-child(5n){border-right:1px solid #dce7f4;border-bottom:1px solid #e5edf6}.secondary-subject:nth-child(even){border-right:0}.secondary-subject:nth-last-child(-n+2){border-bottom:0}.secondary-programs__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-program>img{height:220px}.secondary-program__body{min-height:180px}.secondary-cta{min-height:360px}}
-  @media(max-width:540px){.secondary-benefits{padding:18px 0 55px}.secondary-benefits__grid{gap:12px}.secondary-benefit{min-height:178px;padding:16px 10px}.secondary-benefit__icon{width:54px;height:54px;margin-bottom:10px}.secondary-benefit svg{width:29px;height:29px}.secondary-benefit h2{font-size:.88rem}.secondary-benefit p{font-size:.76rem}.secondary-study{padding:28px 0 45px}.secondary-heading h2{font-size:1.78rem}.secondary-heading p{font-size:.9rem}.secondary-study__panel{padding:15px 10px}.secondary-subject{min-height:120px;padding:10px 8px}.secondary-subject__icon{width:52px;height:52px}.secondary-subject svg{width:28px;height:28px}.secondary-subject h3{font-size:.77rem}.secondary-pre{padding:40px 0}.secondary-pre__grid{gap:12px}.secondary-pre-card{min-height:0;padding:17px 13px}.secondary-pre-card__icon{width:49px;height:49px}.secondary-pre-card h3{font-size:.87rem}.secondary-pre-card p{font-size:.75rem}.secondary-programs{padding:42px 0 48px}.secondary-programs__grid{gap:12px}.secondary-program>img{height:135px}.secondary-program__body{min-height:210px;padding:12px 11px 42px}.secondary-program h3{font-size:.84rem}.secondary-program p{font-size:.73rem}.secondary-program a{width:29px;height:29px}.secondary-cta{min-height:480px;align-items:flex-end}.secondary-cta>img{object-position:70% center}.secondary-cta__shade{background:linear-gradient(0deg,#00346f 3%,rgba(0,61,130,.94) 38%,rgba(0,61,130,.08) 100%)}.secondary-cta__inner{padding-top:235px;padding-bottom:55px}.secondary-cta h2{font-size:1.85rem}.secondary-cta p{font-size:.93rem}}
+  @media(max-width:540px){.secondary-benefits{padding:18px 0 55px}.secondary-benefits__grid{gap:12px}.secondary-benefit{min-height:178px;padding:16px 10px}.secondary-benefit__icon{width:54px;height:54px;margin-bottom:10px}.secondary-benefit svg{width:29px;height:29px}.secondary-benefit h2{font-size:.88rem}.secondary-benefit p{font-size:.76rem}.secondary-study{padding:28px 0 45px}.secondary-heading h2{font-size:1.78rem}.secondary-heading p{font-size:.9rem}.secondary-study__panel{padding:15px 10px}.secondary-subject{min-height:120px;padding:10px 8px}.secondary-subject__icon{width:52px;height:52px}.secondary-subject svg{width:28px;height:28px}.secondary-subject h3{font-size:.77rem}.secondary-pre{padding:40px 0}.secondary-pre__grid{gap:12px}.secondary-pre-card{min-height:0;padding:17px 13px}.secondary-pre-card__icon{width:49px;height:49px}.secondary-pre-card h3{font-size:.87rem}.secondary-pre-card p{font-size:.75rem}.secondary-programs{padding:42px 0 48px}.secondary-programs__grid{gap:12px}.secondary-program>img{height:135px}.secondary-program__body{min-height:210px;padding:12px 11px 42px}.secondary-program h3{font-size:.84rem}.secondary-program p{font-size:.73rem}.secondary-program a{width:29px;height:29px}.secondary-cta{min-height:480px;align-items:flex-end}.secondary-cta>img{object-position:70% center}.secondary-cta__inner{padding-top:235px;padding-bottom:55px}.secondary-cta h2{font-size:1.85rem}.secondary-cta p{font-size:.93rem}}
   @media(max-width:360px){.secondary-programs__grid{grid-template-columns:1fr}.secondary-program>img{height:175px}.secondary-program__body{min-height:150px}}
+  @media(max-width:600px){
+    .secondary-programs__grid{grid-template-columns:1fr}
+    .secondary-program>img{height:210px}
+    .secondary-program__body{min-height:0;padding:17px 18px 52px}
+    .secondary-program h3{font-size:1.05rem}
+    .secondary-program p{font-size:.86rem}
+  }
+  @media(max-width:420px){
+    .secondary-pre__grid{grid-template-columns:1fr}
+    .secondary-pre-card{padding:20px;min-height:0}
+    .secondary-pre-card h3{font-size:1.02rem}
+    .secondary-pre-card p{font-size:.85rem}
+    .secondary-benefit{min-height:0}
+  }
 </style>

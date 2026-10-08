@@ -86,7 +86,7 @@ const t = getTranslation(lang);
 
   .level-access__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
     gap: 4rem;
   }
 
@@ -206,5 +206,12 @@ const t = getTranslation(lang);
     .level-card__desc {
       font-size: 1rem;
     }
+  }
+  @media (max-width: 420px) {
+    .level-access__title{font-size:clamp(1.9rem,8vw,2.2rem)}
+    .level-access__header{margin-bottom:2.5rem}
+    .level-access__grid{gap:1.25rem}
+    .level-card{height:360px}
+    .level-card__overlay{padding:2rem 1.25rem}
   }
 </style>

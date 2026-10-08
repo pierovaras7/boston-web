@@ -144,7 +144,7 @@ const t = labels[lang];
       </div>
     </fieldset>
 
-    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="postulacion"></div>}
+    {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="postulacion" data-size="flexible"></div>}
 
     {/* Message */}
     <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
@@ -495,5 +495,11 @@ const t = labels[lang];
     .admissions-form-container--landing {
       padding: 29px 23px 32px;
     }
+  }
+  @media (max-width: 420px) {
+    .admissions-form-container--landing{width:calc(100% + 12px);margin-inline:-6px;padding:26px 18px 30px}
+    .admissions-form-container--landing .form-title{font-size:1.6rem}
+    .admissions-form-container--landing .form-group input,
+    .admissions-form-container--landing .form-group select{font-size:1rem}
   }
 </style>

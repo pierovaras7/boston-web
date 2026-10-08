@@ -1,4 +1,5 @@
 ---
+import ImageBandShade from "./ImageBandShade.astro";
 import AdmissionsFormSimple from "./AdmissionsFormSimple.astro";
 
 interface Props { lang: "es" | "en" }
@@ -140,7 +141,7 @@ const t = copy[lang];
 
 <section class="admissions-final">
   <img src="/images/admisiones/admisiones-cta.webp" alt="" width="1920" height="600" loading="lazy" decoding="async" />
-  <div class="admissions-final__shade" aria-hidden="true"></div>
+  <ImageBandShade />
   <div class="admissions-final__orb" aria-hidden="true"></div>
   <div class="container admissions-final__inner">
     <h2>{t.finalStart} <span>{t.finalAccent}</span></h2>
@@ -203,7 +204,6 @@ const t = copy[lang];
   .admissions-contact:focus-visible,.admissions-final a:focus-visible{outline:3px solid #ff9900;outline-offset:4px}
   .admissions-final{position:relative;isolation:isolate;display:flex;align-items:center;min-height:320px;overflow:hidden;background:#06417f;color:#fff}
   .admissions-final>img{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
-  .admissions-final__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#003a7c 0%,#00468f 35%,rgba(0,61,130,.88) 52%,rgba(0,61,130,.05) 83%)}
   .admissions-final__orb{position:absolute;z-index:-1;left:-110px;bottom:-150px;width:350px;height:350px;border-radius:50%;background:rgba(19,114,220,.5)}
   .admissions-final__inner{width:100%;padding-top:40px;padding-bottom:43px}
   .admissions-final h2{max-width:580px;margin:0 0 13px;color:#fff;font-size:clamp(2rem,3vw,2.75rem);font-weight:800;line-height:1.2}
@@ -212,5 +212,10 @@ const t = copy[lang];
   .admissions-final a{display:inline-flex;align-items:center;gap:13px;min-height:51px;padding:12px 22px;border-radius:6px;background:#fff;color:#073f80;font-family:var(--font-accent);font-size:.91rem;font-weight:800;text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.12)}
   .admissions-final a:hover{background:#ecf6ff;transform:translateY(-2px)}
   @media(max-width:900px){.admissions-benefits__grid,.admissions-process__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admissions-step{min-height:280px}.admissions-requirements__grid{grid-template-columns:1fr 1fr}.admissions-requirements__card{padding:27px}.admissions-questions__grid{gap:14px}.admissions-contact strong{font-size:.95rem}}
-  @media(max-width:640px){.admissions-benefits{padding-bottom:38px}.admissions-benefits__grid{gap:12px}.admissions-benefit{min-height:202px;padding:22px 11px}.admissions-benefit__icon{width:59px;height:59px;margin-bottom:13px}.admissions-benefit__icon svg{width:29px;height:29px}.admissions-benefit h2{font-size:.86rem}.admissions-benefit p{font-size:.76rem}.admissions-process{padding:42px 0 48px}.admissions-heading{margin-bottom:28px}.admissions-heading p{font-size:.9rem}.admissions-process__grid{grid-template-columns:1fr;gap:14px}.admissions-step{min-height:auto;padding:24px}.admissions-step h3{min-height:0}.admissions-step__icon{margin:13px 0}.admissions-requirements{padding:44px 0 51px}.admissions-requirements__grid{grid-template-columns:1fr;gap:17px}.admissions-requirements__card{padding:25px 22px}.admissions-requirements__card li{font-size:.85rem}.admissions-requirements__photo{height:240px;min-height:0}.admissions-apply{padding:20px 0 54px}.admissions-questions{padding:0 0 54px}.admissions-questions__grid{grid-template-columns:1fr;gap:13px}.admissions-contact{min-height:130px;padding:16px}.admissions-contact__icon{width:50px;height:50px;margin-bottom:6px}.admissions-contact__icon svg{width:26px;height:26px}.admissions-final{min-height:470px;align-items:flex-end}.admissions-final>img{object-position:71% 14%}.admissions-final__shade{background:linear-gradient(0deg,#003a7c 2%,rgba(0,61,130,.96) 43%,rgba(0,61,130,.08) 95%)}.admissions-final__inner{padding-top:200px;padding-bottom:42px}.admissions-final h2{font-size:2rem}.admissions-final p{font-size:.9rem}}
+  @media(max-width:640px){.admissions-benefits{padding-bottom:38px}.admissions-benefits__grid{gap:12px}.admissions-benefit{min-height:202px;padding:22px 11px}.admissions-benefit__icon{width:59px;height:59px;margin-bottom:13px}.admissions-benefit__icon svg{width:29px;height:29px}.admissions-benefit h2{font-size:.86rem}.admissions-benefit p{font-size:.76rem}.admissions-process{padding:42px 0 48px}.admissions-heading{margin-bottom:28px}.admissions-heading p{font-size:.9rem}.admissions-process__grid{grid-template-columns:1fr;gap:14px}.admissions-step{min-height:auto;padding:24px}.admissions-step h3{min-height:0}.admissions-step__icon{margin:13px 0}.admissions-requirements{padding:44px 0 51px}.admissions-requirements__grid{grid-template-columns:1fr;gap:17px}.admissions-requirements__card{padding:25px 22px}.admissions-requirements__card li{font-size:.85rem}.admissions-requirements__photo{height:240px;min-height:0}.admissions-apply{padding:20px 0 54px}.admissions-questions{padding:0 0 54px}.admissions-questions__grid{grid-template-columns:1fr;gap:13px}.admissions-contact{min-height:130px;padding:16px}.admissions-contact__icon{width:50px;height:50px;margin-bottom:6px}.admissions-contact__icon svg{width:26px;height:26px}.admissions-final{min-height:470px;align-items:flex-end}.admissions-final>img{object-position:71% 14%}.admissions-final__inner{padding-top:200px;padding-bottom:42px}.admissions-final h2{font-size:2rem}.admissions-final p{font-size:.9rem}}
+  @media(max-width:420px){
+    .admissions-benefit{min-height:0}
+    .admissions-heading h2{font-size:clamp(1.8rem,8vw,2.1rem)}
+    .admissions-contact strong{overflow-wrap:anywhere}
+  }
 </style>

@@ -1,9 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import homeImage from "../assets/images/propuesta_academica/primaria/nia_primaria.jpg";
-import aboutImage from "../assets/images/identidad/banners/sliders_1.jpg";
-import contactImage from "../assets/images/home/pilares/alumna_con_laptop.jpg";
-
 type Page = "inicio" | "nosotros" | "primaria" | "secundaria" | "admisiones" | "contacto";
 interface Props {
   page: Page;
@@ -31,17 +26,24 @@ const copy = {
   },
 } as const;
 const content = copy[lang][page];
-const image = { inicio: homeImage, nosotros: aboutImage, contacto: contactImage }[page];
+const backgroundFile = page === "contacto"
+  ? "contacto-background-updated.webp"
+  : ["inicio", "primaria", "secundaria"].includes(page)
+    ? `${page}-background-sharp.webp`
+    : `${page}-background.webp`;
+const foregroundFile = page === "contacto" ? "contacto-foreground-updated.webp" : `${page}-foreground.webp`;
+const backgroundSrc = page === "nosotros" ? "/images/nosotros/campus-boston-hero.webp" : `/images/heroes/${backgroundFile}`;
 ---
 
 <section class="site-hero" data-page={page} data-lang={lang} aria-labelledby={`${page}-hero-title`}>
   <div class="site-hero__photo">
-    {page === "primaria" || page === "secundaria" || page === "admisiones"
-      ? <img src={page === "primaria" ? "/images/primaria/primaria-hero.webp" : page === "secundaria" ? "/images/secundaria/secundaria-hero.webp" : "/images/admisiones/admisiones-hero.webp"} alt="" width="1920" height={page === "primaria" || page === "admisiones" ? 768 : 768} loading="eager" fetchpriority="high" />
-      : <Image src={image!} alt="" loading="eager" fetchpriority="high" />}
+    <img src={backgroundSrc} alt="" loading="eager" fetchpriority="high" />
   </div>
   <div class="site-hero__shade" aria-hidden="true"></div>
   <div class="site-hero__orb" aria-hidden="true"></div>
+  {page !== "nosotros" && <div class="site-hero__foreground" aria-hidden="true">
+    <img src={`/images/heroes/${foregroundFile}`} alt="" loading="eager" />
+  </div>}
   <div class="container site-hero__inner">
     <div class="site-hero__copy">
       <p class="site-hero__eyebrow">{content.eyebrow}</p>
@@ -64,30 +66,25 @@ const image = { inicio: homeImage, nosotros: aboutImage, contacto: contactImage 
 
 <style>
   .site-hero{position:relative;isolation:isolate;min-height:570px;display:flex;align-items:center;background:#003d82;color:#fff;overflow:hidden}
-  .site-hero__photo{position:absolute;z-index:-3;inset:0 0 0 35%;overflow:hidden}
-  .site-hero__photo :global(img){width:100%;height:100%;object-fit:cover;object-position:center 35%}
-  .site-hero[data-page="inicio"] .site-hero__photo :global(img){object-position:center 40%}
-  .site-hero[data-page="nosotros"] .site-hero__photo :global(img){object-position:right center;transform:scale(1.5);transform-origin:right center}
-  .site-hero[data-page="nosotros"][data-lang="es"] .site-hero__photo :global(img){transform:scale(2)}
-  .site-hero[data-page="admisiones"] .site-hero__photo{inset:0}
-  .site-hero[data-page="admisiones"] .site-hero__photo :global(img){object-position:68% center}
-  .site-hero[data-page="admisiones"] .site-hero__shade{background:linear-gradient(90deg,#00346f 0%,#00468d 28%,rgba(0,61,130,.91) 38%,rgba(0,61,130,.3) 56%,rgba(0,61,130,.02) 81%)}
+  .site-hero__photo{position:absolute;z-index:-3;inset:0;overflow:hidden}
+  .site-hero__photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+  .site-hero[data-page="nosotros"] .site-hero__photo img{object-position:right center}
+  .site-hero__shade{position:absolute;z-index:-2;inset:0 auto 0 0;width:56%;background:#003d82;border-bottom-right-radius:45% 70%}
+  .site-hero__orb{position:absolute;z-index:-1;left:-105px;top:-180px;width:360px;height:440px;border-radius:50%;background:rgba(35,124,214,.18)}
+  .site-hero__foreground{position:absolute;z-index:0;inset:0;pointer-events:none;overflow:hidden}
+  .site-hero__foreground img{width:100%;height:100%;object-fit:cover;object-position:center}
+  .site-hero[data-page="nosotros"] .site-hero__foreground{left:31%}
+  .site-hero[data-page="contacto"] .site-hero__foreground{left:31%}
+  .site-hero[data-page="nosotros"] .site-hero__foreground img,
+  .site-hero[data-page="contacto"] .site-hero__foreground img{object-position:25% center}
+  .site-hero[data-page="inicio"] .site-hero__foreground img{object-position:center 38%}
   .site-hero[data-page="admisiones"] h1{max-width:none;white-space:nowrap;font-size:clamp(3.2rem,4.6vw,4.25rem)}
   .site-hero[data-page="nosotros"] h1{max-width:16ch;font-size:clamp(2.6rem,4vw,4.15rem)}
-  .site-hero[data-page="primaria"] .site-hero__photo :global(img){object-position:70% center}
-  .site-hero[data-page="secundaria"] .site-hero__photo :global(img){object-position:72% center}
-  .site-hero[data-page="contacto"] .site-hero__photo{inset:0 0 0 38%}
-  .site-hero[data-page="contacto"] .site-hero__photo :global(img){object-position:50% center}
-  .site-hero[data-page="contacto"] .site-hero__shade{width:63%;background:linear-gradient(115deg,#00346f 0%,#034b94 100%);border-bottom-right-radius:58% 78%}
   .site-hero[data-page="contacto"] .site-hero__eyebrow{color:#ff9900}
   .site-hero[data-page="contacto"] .site-hero__button--primary{background:#ff9900}
   .site-hero[data-page="contacto"] .site-hero__button--primary:hover{background:#ec8500}
   .site-hero__calendar{width:16px;height:16px;flex:none}
-  .site-hero__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#00346f 0%,#00468d 29%,rgba(0,61,130,.96) 39%,rgba(0,61,130,.70) 54%,rgba(0,61,130,.12) 83%)}
-  .site-hero[data-page="primaria"] .site-hero__shade{background:linear-gradient(90deg,#00346f 0%,#00468d 29%,rgba(0,61,130,.94) 39%,rgba(0,61,130,.42) 54%,rgba(0,61,130,.03) 76%)}
-  .site-hero[data-page="secundaria"] .site-hero__shade{background:linear-gradient(90deg,#00346f 0%,#00468d 29%,rgba(0,61,130,.96) 39%,rgba(0,61,130,.49) 56%,rgba(0,61,130,.04) 80%)}
-  .site-hero__orb{position:absolute;z-index:-1;left:-105px;top:-180px;width:360px;height:440px;border-radius:50%;background:rgba(35,124,214,.18)}
-  .site-hero__inner{width:100%;position:relative;padding-top:80px;padding-bottom:115px}
+  .site-hero__inner{width:100%;position:relative;z-index:1;padding-top:80px;padding-bottom:115px}
   .site-hero__copy{max-width:570px}
   .site-hero__eyebrow{margin:0 0 14px;font-family:var(--font-accent);font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#dceaff}
   .site-hero__eyebrow::before{content:"";display:inline-block;width:28px;height:3px;margin:0 12px 3px 0;background:var(--color-accent)}
@@ -100,18 +97,71 @@ const image = { inicio: homeImage, nosotros: aboutImage, contacto: contactImage 
   .site-hero__button--primary{border-color:var(--color-accent);background:linear-gradient(120deg,var(--color-accent),#ff8100);box-shadow:0 7px 18px rgba(255,145,0,.2)}
   .site-hero__button:hover{transform:translateY(-2px)}
   .site-hero__button--outline:hover{background:#fff;color:var(--color-primary)}
-  .site-hero__orange{position:absolute;right:-83px;bottom:6px;width:210px;height:140px;background:#ff9200;border-radius:100% 0 0 0;transform:rotate(-10deg)}
-  .site-hero__dots{position:absolute;right:32px;bottom:34px;width:91px;height:76px;opacity:.8;background-image:radial-gradient(#ff9200 1.5px,transparent 1.5px);background-size:14px 14px}
-  .site-hero__wave{position:absolute;right:0;bottom:-1px;left:0;width:100%;height:100px;pointer-events:none}
-  @media(max-width:900px){.site-hero{min-height:540px}.site-hero__photo{left:24%}.site-hero__shade{background:linear-gradient(90deg,#00346f 0%,rgba(0,61,130,.98) 38%,rgba(0,61,130,.48) 100%)}.site-hero__copy{max-width:520px}.site-hero__inner{padding-top:65px}}
-  @media(max-width:900px){.site-hero[data-page="primaria"] .site-hero__photo{left:0}.site-hero[data-page="primaria"] .site-hero__photo :global(img){object-position:78% center}}
-  @media(max-width:900px){.site-hero[data-page="secundaria"] .site-hero__photo{left:0}.site-hero[data-page="secundaria"] .site-hero__photo :global(img){object-position:80% center}}
-  @media(max-width:900px){.site-hero[data-page="admisiones"] .site-hero__photo :global(img){object-position:72% center}.site-hero[data-page="admisiones"] .site-hero__shade{background:linear-gradient(90deg,#00346f 0%,rgba(0,61,130,.96) 41%,rgba(0,61,130,.19) 100%)}.site-hero[data-page="admisiones"] h1{white-space:normal}}
-  @media(max-width:900px){.site-hero[data-page="contacto"] .site-hero__shade{width:73%}.site-hero[data-page="contacto"] .site-hero__photo{left:27%}}
-  @media(max-width:640px){.site-hero{min-height:630px;align-items:flex-end}.site-hero__photo{inset:0}.site-hero__photo :global(img){object-position:center 30%}.site-hero__shade{background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.97) 34%,rgba(0,61,130,.55) 72%,rgba(0,61,130,.18) 100%)}.site-hero[data-page="primaria"] .site-hero__shade{background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.97) 34%,rgba(0,61,130,.48) 72%,rgba(0,61,130,.08) 100%)}.site-hero__inner{padding-top:220px;padding-bottom:118px}.site-hero__eyebrow{font-size:.7rem}.site-hero h1{font-size:clamp(2.25rem,9vw,3.2rem);max-width:14ch}.site-hero__lead{font-size:1rem}.site-hero__detail{font-size:.9rem}.site-hero__actions{gap:10px}.site-hero__button{font-size:.78rem;padding:10px 13px;min-height:44px}.site-hero__wave{height:70px}.site-hero__orange{width:115px;height:85px;right:-35px}.site-hero__dots{right:8px;bottom:30px;width:55px}}
-  @media(max-width:640px){.site-hero[data-page="primaria"] .site-hero__photo{inset:0 0 auto;height:56%}.site-hero[data-page="primaria"] .site-hero__photo :global(img){object-position:77% center}}
-  @media(max-width:640px){.site-hero[data-page="secundaria"] .site-hero__photo{inset:0 0 auto;height:56%}.site-hero[data-page="secundaria"] .site-hero__photo :global(img){object-position:76% center}.site-hero[data-page="secundaria"] .site-hero__shade{background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.97) 34%,rgba(0,61,130,.48) 72%,rgba(0,61,130,.08) 100%)}}
-  @media(max-width:640px){.site-hero[data-page="contacto"] .site-hero__photo{inset:0 0 auto;height:55%}.site-hero[data-page="contacto"] .site-hero__photo :global(img){object-position:56% center}.site-hero[data-page="contacto"] .site-hero__shade{inset:0;width:100%;border-radius:0;background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.97) 35%,rgba(0,61,130,.35) 75%,rgba(0,61,130,.06) 100%)}}
-  @media(max-width:640px){.site-hero[data-page="admisiones"] .site-hero__photo{inset:0 0 auto;height:55%}.site-hero[data-page="admisiones"] .site-hero__photo :global(img){object-position:73% center}.site-hero[data-page="admisiones"] .site-hero__shade{background:linear-gradient(0deg,#00346f 5%,rgba(0,61,130,.96) 34%,rgba(0,61,130,.38) 71%,rgba(0,61,130,.04) 100%)}}
+  .site-hero__orange{position:absolute;z-index:2;right:-83px;bottom:6px;width:210px;height:140px;background:#ff9200;border-radius:100% 0 0 0;transform:rotate(-10deg)}
+  .site-hero__dots{position:absolute;z-index:2;right:32px;bottom:34px;width:91px;height:76px;opacity:.8;background-image:radial-gradient(#ff9200 1.5px,transparent 1.5px);background-size:14px 14px}
+  .site-hero__wave{position:absolute;z-index:3;right:0;bottom:-1px;left:0;width:100%;height:100px;pointer-events:none}
+  @media(min-width:901px){
+    .site-hero[data-page="primaria"] .site-hero__foreground img{position:absolute;right:4%;bottom:0;width:auto;max-width:none;height:clamp(330px,30vw,540px);object-fit:contain;object-position:right bottom}
+    .site-hero[data-page="inicio"] .site-hero__foreground img,
+    .site-hero[data-page="secundaria"] .site-hero__foreground img,
+    .site-hero[data-page="admisiones"] .site-hero__foreground img,
+    .site-hero[data-page="contacto"] .site-hero__foreground img{position:absolute;bottom:0;width:auto;max-width:none;object-fit:contain;object-position:right bottom}
+    .site-hero[data-page="inicio"] .site-hero__foreground img{right:6%;height:clamp(360px,33vw,590px)}
+    .site-hero[data-page="secundaria"] .site-hero__foreground img{right:2.5%;height:clamp(360px,33vw,590px)}
+    .site-hero[data-page="admisiones"] .site-hero__foreground img{right:3%;height:clamp(340px,32vw,560px)}
+    .site-hero[data-page="contacto"] .site-hero__foreground img{right:10%;bottom:0;height:clamp(360px,32vw,570px)}
+  }
+  @media(max-width:900px){
+    .site-hero{min-height:540px}
+    .site-hero__shade{width:70%;border-bottom-right-radius:34% 55%}
+    .site-hero__copy{max-width:400px}
+    .site-hero__inner{padding-top:65px}
+    .site-hero__foreground img{transform:scale(.8);transform-origin:right bottom}
+    .site-hero[data-page="nosotros"] .site-hero__foreground img,
+    .site-hero[data-page="contacto"] .site-hero__foreground img{transform:none}
+    .site-hero[data-page="admisiones"] h1{white-space:normal}
+    .site-hero[data-page="nosotros"] .site-hero__foreground,
+    .site-hero[data-page="contacto"] .site-hero__foreground{left:25%}
+  }
+  @media(max-width:640px){
+    .site-hero{min-height:630px;align-items:flex-end}
+    .site-hero__photo{inset:0 0 auto;height:58%}
+    .site-hero__photo img{object-position:72% center}
+    .site-hero[data-page="nosotros"] .site-hero__photo img{object-position:74% center}
+    .site-hero__shade{inset:0;width:100%;border-radius:0 72% 0 0 / 0 35% 0 0}
+    .site-hero__foreground{inset:0 0 auto;height:58%}
+    .site-hero__foreground img{object-position:72% center;transform:none}
+    .site-hero[data-page="inicio"] .site-hero__foreground img{object-position:72% center}
+    .site-hero[data-page="nosotros"] .site-hero__foreground,
+    .site-hero[data-page="contacto"] .site-hero__foreground{left:0}
+    .site-hero__inner{padding-top:220px;padding-bottom:118px}
+    .site-hero__eyebrow{font-size:.7rem}
+    .site-hero h1{font-size:clamp(2.25rem,9vw,3.2rem);max-width:14ch}
+    .site-hero__lead{font-size:1rem}
+    .site-hero__detail{font-size:.9rem}
+    .site-hero__actions{gap:10px}
+    .site-hero__button{font-size:.78rem;padding:10px 13px;min-height:44px}
+    .site-hero__wave{height:70px}
+    .site-hero__orange{width:115px;height:85px;right:-35px}
+    .site-hero__dots{right:8px;bottom:30px;width:55px}
+  }
+  @media(max-width:640px){
+    .site-hero__copy{max-width:100%}
+    .site-hero__photo,.site-hero__foreground{height:clamp(300px,88vw,360px)}
+    .site-hero__inner{padding-top:clamp(320px,calc(88vw + 20px),380px);padding-bottom:100px}
+    .site-hero:not([data-page="nosotros"]) .site-hero__foreground{display:none}
+    .site-hero:not([data-page="nosotros"]) .site-hero__photo{height:clamp(190px,56vw,270px)}
+    .site-hero:not([data-page="nosotros"]) .site-hero__inner{padding-top:clamp(210px,calc(56vw + 20px),290px)}
+    .site-hero[data-page="nosotros"] h1,
+    .site-hero[data-page="admisiones"] h1{font-size:clamp(2.15rem,9vw,3rem);white-space:normal}
+    .site-hero__eyebrow{letter-spacing:.13em}
+    .site-hero__lead,.site-hero__detail{max-width:40ch}
+  }
+  @media(max-width:420px){
+    .site-hero__inner{padding-inline:18px;padding-bottom:92px}
+    .site-hero h1{font-size:clamp(2.15rem,9vw,2.65rem)}
+    .site-hero__actions{margin-top:18px}
+    .site-hero__button{max-width:100%}
+  }
   @media(max-width:390px){.site-hero__actions{flex-direction:column;align-items:stretch}.site-hero__button{justify-content:center}}
 </style>

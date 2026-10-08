@@ -6,18 +6,22 @@ interface Props {
 	title?: string;
 	description?: string;
 	lang?: "es" | "en";
+	alternateLanguageHref?: string;
 }
 
 const {
 	title = "Boston Bilingual School",
-	description = "Formamos ciudadanos globales con excelencia académica y certificación internacional en idiomas.",
 	lang = "es",
+	alternateLanguageHref,
 } = Astro.props;
 
 const langAttr = lang === "en" ? "en" : "es";
+const pageDescription = Astro.props.description ?? (lang === "en"
+	? "Developing global citizens through academic excellence and internationally certified language education."
+	: "Formamos ciudadanos globales con excelencia académica y certificación internacional en idiomas.");
 ---
 
-<script define:vars={{ lang }}>
+<script define:vars={{ lang, alternateLanguageHref }}>
 	// Manejar cambio de idioma con toggle switch
 	document.addEventListener('DOMContentLoaded', () => {
 		const langSwitcher = document.getElementById('lang-toggle');
@@ -59,7 +63,7 @@ const langAttr = lang === "en" ? "en" : "es";
 					}
 
 					// Redirigir
-					window.location.href = newPath;
+					window.location.href = alternateLanguageHref || newPath;
 				});
 			});
 		}
@@ -71,7 +75,7 @@ const langAttr = lang === "en" ? "en" : "es";
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content={description} />
+		<meta name="description" content={pageDescription} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#ff9900" />
 		<title>{title}</title>

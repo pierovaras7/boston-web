@@ -19,7 +19,7 @@ const links = [
 ];
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const hrefFor = (href: string) => href === "/secundaria" ? href : `/${lang}${href === "/" ? "" : href}`;
+const hrefFor = (href: string) => `/${lang}${href === "/" ? "" : href}`;
 const isActive = (href: string) => currentPath === hrefFor(href) || currentPath === href;
 ---
 
@@ -39,7 +39,7 @@ const isActive = (href: string) => currentPath === hrefFor(href) || currentPath 
 
     <div class="header__actions">
       <a href={`/${lang}/admisiones`} class="header__cta">{lang === "es" ? "Admisión 2027" : "Admissions 2027"} <span aria-hidden="true">→</span></a>
-      <div class="header__lang-switcher" id="lang-toggle" data-lang={lang} title="Toggle language">
+      <div class="header__lang-switcher" id="lang-toggle" data-lang={lang} title={lang === "es" ? "Cambiar idioma" : "Change language"}>
         <button class="lang-btn lang-btn--es" data-lang="es">ES</button>
         <button class="lang-btn lang-btn--en" data-lang="en">EN</button>
       </div>
@@ -186,7 +186,7 @@ const isActive = (href: string) => currentPath === hrefFor(href) || currentPath 
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1080px) {
     .header__nav {
       display: none;
     }
@@ -208,5 +208,9 @@ const isActive = (href: string) => currentPath === hrefFor(href) || currentPath 
     .header__lang-switcher{padding:2px}
     .lang-btn{padding:5px 7px;font-size:10px}
     .header__cta{display:none}
+  }
+  @media (max-width: 420px) {
+    .header__inner{padding-inline:16px}
+    .header__mobile nav{right:-7px}
   }
 </style>

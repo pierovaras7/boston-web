@@ -389,4 +389,22 @@ const testimonials = [
       bottom: 1.5rem;
     }
   }
+  @media (max-width: 768px) {
+    .testimonials__carousel{height:clamp(470px,68vw,550px)}
+    .testimonial-hero{height:100%}
+  }
+  @media (max-width: 420px) {
+    .testimonials__header{margin-bottom:2rem}
+    .testimonials__title{font-size:clamp(1.9rem,8vw,2.2rem)}
+    .testimonials__carousel{height:clamp(490px,135vw,560px)}
+    .hero-overlay{padding:1.5rem 1.3rem 4.5rem}
+    .hero-text{font-size:.94rem;line-height:1.5;margin-bottom:1rem}
+    .hero-author{font-size:1.05rem}
+    .hero-role{font-size:.85rem}
+    .carousel-arrow{top:auto;bottom:1rem;width:38px;height:38px;transform:none}
+    .carousel-arrow:hover{transform:scale(1.05)}
+    .carousel-arrow.prev{left:1rem}
+    .carousel-arrow.next{right:1rem}
+    .carousel-dots{bottom:1.8rem;gap:.5rem}
+  }
 </style>

@@ -6,15 +6,9 @@ import AboutBody from "../../components/AboutBody.astro";
 ---
 
 <Layout title="Sobre Nosotros - Boston Bilingual School" lang="es">
-  <main class="about-es-page">
+  <main class="about-page">
     <SiteHero page="nosotros" lang="es" />
-    <AboutBody />
+    <AboutBody lang="es" />
   </main>
   <Footer lang="es" />
 </Layout>
-
-<style>
-  .about-es-page :global(.site-hero__photo){background:url('/images/nosotros/campus-boston-hero.webp') right center / cover no-repeat}
-  .about-es-page :global(.site-hero__photo img){visibility:hidden}
-  @media(max-width:640px){.about-es-page :global(.site-hero__photo){background-position:74% center}}
-</style>
