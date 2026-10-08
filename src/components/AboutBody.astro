@@ -104,10 +104,10 @@ const team = [
     </div>
   </section>
 
-  <section class="diversity" aria-labelledby="diversity-title">
+  <section class="diversity image-band" aria-labelledby="diversity-title">
     <img src="/images/nosotros/diversidad-cultural.webp" alt={t.diversityAlt} width="1920" height="686" loading="lazy" decoding="async" />
-    <ImageBandShade mobile="side" />
-    <div class="about-wrap diversity__content">
+    <ImageBandShade />
+    <div class="about-wrap diversity__content image-band__content">
       <p class="diversity__eyebrow">Boston Bilingual School</p>
       <h2 id="diversity-title">{t.diversityTitle[0]}<br />{t.diversityTitle[1]}</h2>
       <div class="orange-rule" aria-hidden="true"></div>
@@ -242,5 +242,10 @@ const team = [
     .history__visual{min-height:335px}
     .history__image{height:315px}
     .team-card{padding-left:104px;padding-right:20px}
+  }
+  @media(max-width:640px){
+    .diversity{display:block;min-height:0}
+    .diversity :global(img){position:relative;z-index:0;inset:auto;display:block;height:var(--image-band-photo-height);object-position:75% center}
+    .diversity__content{position:relative;z-index:2;padding-block:26px 42px}
   }
 </style>
