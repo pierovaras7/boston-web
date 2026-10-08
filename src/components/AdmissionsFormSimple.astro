@@ -1,9 +1,10 @@
 ---
 interface Props {
   lang?: 'es' | 'en';
+  variant?: 'default' | 'landing';
 }
 
-const { lang = 'es' } = Astro.props;
+const { lang = 'es', variant = 'default' } = Astro.props;
 
 const apiBaseUrl = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '');
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
@@ -50,7 +51,7 @@ const labels = {
 const t = labels[lang];
 ---
 
-<div class="admissions-form-container">
+<div class:list={["admissions-form-container", { "admissions-form-container--landing": variant === "landing" }]}>
   <h3 class="form-title">{t.title}</h3>
 
   <form id="admissionsForm" class="admissions-form">
@@ -384,6 +385,104 @@ const t = labels[lang];
     cursor: not-allowed;
   }
 
+  .admissions-form-container--landing {
+    max-width: 760px;
+    padding: 36px 56px 40px;
+    border-radius: 22px;
+    box-shadow: 0 16px 42px rgba(4, 64, 130, 0.09);
+  }
+
+  .admissions-form-container--landing .form-title {
+    margin: 0 0 28px;
+    color: #06417f;
+    font-size: clamp(1.65rem, 2.7vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .admissions-form-container--landing .form-title::after {
+    content: "";
+    display: block;
+    width: 47px;
+    height: 3px;
+    margin: 13px auto 0;
+    background: #ff9900;
+  }
+
+  .admissions-form-container--landing .admissions-form {
+    gap: 19px;
+  }
+
+  .admissions-form-container--landing .form-section {
+    gap: 13px;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .admissions-form-container--landing .section-title {
+    padding: 0;
+    margin-bottom: 7px;
+    color: #06417f;
+    font-size: 1.02rem;
+    font-weight: 800;
+  }
+
+  .admissions-form-container--landing .form-group {
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .admissions-form-container--landing .form-row {
+    gap: 16px;
+  }
+
+  .admissions-form-container--landing .form-group label {
+    color: #424b58;
+    font-size: .87rem;
+    font-weight: 700;
+  }
+
+  .admissions-form-container--landing .form-group input,
+  .admissions-form-container--landing .form-group select {
+    width: 100%;
+    min-height: 45px;
+    padding: 10px 13px;
+    border: 1px solid #d9e0e8;
+    border-radius: 6px;
+    background: #fff;
+    color: #243547;
+    font-size: .91rem;
+  }
+
+  .admissions-form-container--landing .form-group input::placeholder {
+    color: #8a939e;
+  }
+
+  .admissions-form-container--landing .submit-button {
+    width: 100%;
+    min-height: 52px;
+    padding: 13px 20px;
+    border-radius: 6px;
+    background: #ff9900;
+    background-image: none;
+    color: #fff;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    transition: background-color .2s ease, box-shadow .2s ease;
+  }
+
+  .admissions-form-container--landing .submit-button:hover:not(:disabled) {
+    background: #ec8500;
+    transform: none;
+    box-shadow: 0 7px 16px rgba(255, 153, 0, .22);
+  }
+
+  .admissions-form-container--landing .submit-button:focus-visible {
+    outline: 3px solid #084b92;
+    outline-offset: 3px;
+  }
+
   @media (max-width: 768px) {
     .form-row {
       grid-template-columns: 1fr;
@@ -391,6 +490,10 @@ const t = labels[lang];
 
     .admissions-form-container {
       padding: 1.5rem;
+    }
+
+    .admissions-form-container--landing {
+      padding: 29px 23px 32px;
     }
   }
 </style>

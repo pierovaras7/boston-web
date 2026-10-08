@@ -4,9 +4,10 @@ import contactImage from '../assets/images/home/pilares/alumna_con_laptop.jpg';
 
 interface Props {
   lang?: 'es' | 'en';
+  variant?: 'default' | 'landing';
 }
 
-const { lang = 'es' } = Astro.props;
+const { lang = 'es', variant = 'default' } = Astro.props;
 
 const apiBaseUrl = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '');
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
@@ -23,6 +24,7 @@ const labels = {
     submit: 'Enviar Mensaje',
     success: '¡Mensaje enviado! Nos contactaremos pronto.',
     error: 'Error al enviar el mensaje. Intenta nuevamente.',
+    notice: 'Recibirás una confirmación aquí cuando el mensaje se haya enviado.',
     placeholder: {
       name: 'Ej: Juan Pérez',
       email: 'tu@email.com',
@@ -42,6 +44,7 @@ const labels = {
     submit: 'Send Message',
     success: 'Message sent! We will contact you soon.',
     error: 'Error sending message. Please try again.',
+    notice: 'A confirmation will appear here after your message has been sent.',
     placeholder: {
       name: 'Ex: John Doe',
       email: 'your@email.com',
@@ -55,10 +58,10 @@ const labels = {
 const t = labels[lang];
 ---
 
-<div class="contact-form-wrapper">
-  <div class="contact-form-image">
+<div class:list={["contact-form-wrapper", { "contact-form-wrapper--landing": variant === "landing" }]}>
+  {variant === 'default' && <div class="contact-form-image">
     <Image src={contactImage} alt="Profesional trabajando" />
-  </div>
+  </div>}
 
   <div class="contact-form-container">
     <div class="contact-form-header">
@@ -127,6 +130,8 @@ const t = labels[lang];
 
     {/* Message */}
     <div id="formMessage" class="form-message" role="status" aria-live="polite" style="display: none;"></div>
+
+    {variant === 'landing' && <p class="contact-form-notice"><span aria-hidden="true">✓</span>{t.notice}</p>}
 
     {/* Submit Button */}
     <button type="submit" class="submit-button" id="submitBtn">
@@ -384,6 +389,134 @@ const t = labels[lang];
     cursor: not-allowed;
   }
 
+  .contact-form-wrapper--landing {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .contact-form-wrapper--landing .contact-form-container {
+    min-height: 855px;
+    height: 100%;
+    padding: 40px 37px 35px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 13px 37px rgba(3, 58, 126, .075);
+  }
+
+  .contact-form-wrapper--landing .contact-form-header {
+    margin-bottom: 23px;
+    text-align: left;
+  }
+
+  .contact-form-wrapper--landing .contact-form-header h2 {
+    margin: 0 0 9px;
+    color: #06417f;
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .contact-form-wrapper--landing .contact-form-header p {
+    max-width: 51ch;
+    margin: 0;
+    color: #596371;
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  .contact-form-wrapper--landing .contact-form {
+    gap: 16px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .contact-form-wrapper--landing .form-group {
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .contact-form-wrapper--landing .form-row {
+    gap: 16px;
+  }
+
+  .contact-form-wrapper--landing .form-group label {
+    color: #414b59;
+    font-size: .87rem;
+    font-weight: 700;
+  }
+
+  .contact-form-wrapper--landing .form-group input,
+  .contact-form-wrapper--landing .form-group textarea {
+    min-height: 45px;
+    padding: 10px 13px;
+    border: 1px solid #d9e0e8;
+    border-radius: 6px;
+    background: #fff;
+    color: #243547;
+    font-size: .91rem;
+  }
+
+  .contact-form-wrapper--landing .form-group textarea {
+    min-height: 174px;
+    resize: vertical;
+  }
+
+  .contact-form-wrapper--landing .contact-form-notice {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 53px;
+    padding: 11px 12px;
+    margin: 0;
+    border: 1px solid #e2e8ed;
+    border-radius: 7px;
+    background: #fafcfe;
+    color: #596371;
+    font-size: .78rem;
+    line-height: 1.35;
+  }
+
+  .contact-form-wrapper--landing .contact-form-notice span {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    background: #28ad62;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .contact-form-wrapper--landing .submit-button {
+    width: 100%;
+    min-height: 52px;
+    padding: 13px 20px;
+    border-radius: 6px;
+    background: #ff9900;
+    background-image: none;
+    color: #fff;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    transition: background-color .2s ease, box-shadow .2s ease;
+  }
+
+  .contact-form-wrapper--landing .submit-button:hover:not(:disabled) {
+    background: #ec8500;
+    transform: none;
+    box-shadow: 0 7px 16px rgba(255, 153, 0, .22);
+  }
+
+  .contact-form-wrapper--landing .submit-button:focus-visible {
+    outline: 3px solid #084b92;
+    outline-offset: 3px;
+  }
+
   @media (max-width: 968px) {
     .contact-form-wrapper {
       grid-template-columns: 1fr;
@@ -400,6 +533,14 @@ const t = labels[lang];
 
     .contact-form-header h2 {
       font-size: 1.75rem;
+    }
+
+    .contact-form-wrapper--landing .contact-form-header {
+      text-align: left;
+    }
+
+    .contact-form-wrapper--landing .contact-form-container {
+      min-height: 0;
     }
   }
 
@@ -418,6 +559,10 @@ const t = labels[lang];
 
     .contact-form-wrapper {
       gap: 1.5rem;
+    }
+
+    .contact-form-wrapper--landing .contact-form-container {
+      padding: 29px 22px;
     }
   }
 </style>

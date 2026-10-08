@@ -1,0 +1,206 @@
+---
+import { Image } from "astro:assets";
+import contactImage from "../assets/images/home/pilares/alumna_con_laptop.jpg";
+import ContactFormSimple from "./ContactFormSimple.astro";
+
+interface Props { lang: "es" | "en" }
+const { lang } = Astro.props;
+const copy = {
+  es: {
+    benefits: [
+      { icon: "phone", tone: "blue", title: "Atención directa", text: "Respuesta clara por teléfono para tus consultas." },
+      { icon: "whatsapp", tone: "green", title: "Respuesta rápida", text: "Contáctanos por WhatsApp de forma ágil." },
+      { icon: "mail", tone: "orange", title: "Canal formal", text: "Escríbenos por correo para más información." },
+      { icon: "calendar", tone: "blue", title: "Horario flexible", text: "Te orientamos dentro de nuestro horario de atención." },
+    ],
+    supportTitle: "Estamos para acompañarte",
+    supportText: "Nuestro equipo de admisiones está listo para orientarte y brindarte toda la información que necesites.",
+    supportAlt: "Joven con polo de Boston Bilingual School",
+    support: [
+      { icon: "people", tone: "blue", title: "Asesoría personalizada", text: "Te orientamos según tus necesidades." },
+      { icon: "shield", tone: "orange", title: "Respuesta confiable", text: "Información clara y actualizada sobre nuestros programas." },
+      { icon: "clock", tone: "blue", title: "Acompañamiento continuo", text: "Te apoyamos en todo el proceso de admisión." },
+    ],
+    channelsTitle: "Canales de Atención",
+    channelsIntro: "Elige el medio más cómodo para comunicarte con nosotros.",
+    channels: [
+      { icon: "phone", tone: "blue", title: "Teléfono", value: "+51 976 586 016", text: "Llámanos para una atención directa.", href: "tel:+51976586016" },
+      { icon: "whatsapp", tone: "green", title: "WhatsApp", value: "+51 976 586 016", text: "Escríbenos por WhatsApp de forma rápida.", href: "https://wa.me/51976586016" },
+      { icon: "mail", tone: "orange", title: "Email", value: "info@boston.edu.pe", text: "Envíanos un correo con tu consulta.", href: "mailto:info@boston.edu.pe" },
+    ],
+    scheduleTitle: "Horario de Atención",
+    hours: [
+      { day: "Lunes – Viernes", time: "8:00 AM - 5:00 PM" },
+      { day: "Sábado", time: "9:00 AM - 1:00 PM" },
+      { day: "Domingo", time: "Cerrado" },
+    ],
+    visitTitle: "¿Prefieres visitarnos?",
+    visitText: "Agenda una visita y conoce de cerca el entorno educativo de Boston Bilingual School.",
+    visitButton: "Agenda una visita",
+  },
+  en: {
+    benefits: [
+      { icon: "phone", tone: "blue", title: "Direct assistance", text: "Clear answers to your questions by phone." },
+      { icon: "whatsapp", tone: "green", title: "Quick response", text: "Contact us easily through WhatsApp." },
+      { icon: "mail", tone: "orange", title: "Formal channel", text: "Email us for more information." },
+      { icon: "calendar", tone: "blue", title: "Flexible hours", text: "We're here to guide you during our opening hours." },
+    ],
+    supportTitle: "We're here to guide you",
+    supportText: "Our admissions team is ready to help and provide all the information you need.",
+    supportAlt: "Young woman wearing a Boston Bilingual School polo",
+    support: [
+      { icon: "people", tone: "blue", title: "Personalized guidance", text: "Advice tailored to your family's needs." },
+      { icon: "shield", tone: "orange", title: "Reliable answers", text: "Clear, up-to-date information about our programs." },
+      { icon: "clock", tone: "blue", title: "Ongoing support", text: "We're with you through the admissions process." },
+    ],
+    channelsTitle: "Contact Channels",
+    channelsIntro: "Choose the most convenient way to get in touch with us.",
+    channels: [
+      { icon: "phone", tone: "blue", title: "Phone", value: "+51 976 586 016", text: "Call us for direct assistance.", href: "tel:+51976586016" },
+      { icon: "whatsapp", tone: "green", title: "WhatsApp", value: "+51 976 586 016", text: "Message us on WhatsApp for a quick response.", href: "https://wa.me/51976586016" },
+      { icon: "mail", tone: "orange", title: "Email", value: "info@boston.edu.pe", text: "Email us with your question.", href: "mailto:info@boston.edu.pe" },
+    ],
+    scheduleTitle: "Opening Hours",
+    hours: [
+      { day: "Monday – Friday", time: "8:00 AM - 5:00 PM" },
+      { day: "Saturday", time: "9:00 AM - 1:00 PM" },
+      { day: "Sunday", time: "Closed" },
+    ],
+    visitTitle: "Would You Prefer to Visit Us?",
+    visitText: "Schedule a visit and discover Boston Bilingual School's learning environment firsthand.",
+    visitButton: "Schedule a Visit",
+  },
+} as const;
+const t = copy[lang];
+---
+
+<svg class="contact-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ct-phone" viewBox="0 0 32 32"><path d="M7 3 3 7c0 10 12 22 22 22l4-4-7-7-4 4c-4-2-6-4-8-8l4-4-7-7Z"/></symbol>
+  <symbol id="ct-whatsapp" viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11 20L3 29l6-2a13 13 0 1 0 7-24Z"/><path d="M10 10c0 6 6 12 12 12l2-3-4-3-2 2c-2-1-3-2-4-4l-3 2Z"/></symbol>
+  <symbol id="ct-mail" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="18" rx="2"/><path d="m4 9 12 9L28 9"/></symbol>
+  <symbol id="ct-calendar" viewBox="0 0 32 32"><rect x="4" y="7" width="24" height="22" rx="2"/><path d="M4 13h24M10 3v8M22 3v8M10 19h4M18 19h4M10 24h4"/></symbol>
+  <symbol id="ct-people" viewBox="0 0 32 32"><circle cx="16" cy="9" r="4"/><path d="M8 26v-4a8 8 0 0 1 16 0v4H8ZM6 13a3 3 0 1 1-1-6M4 26H2v-4a6 6 0 0 1 5-6M26 13a3 3 0 1 0 1-6M28 26h2v-4a6 6 0 0 0-5-6"/></symbol>
+  <symbol id="ct-shield" viewBox="0 0 32 32"><path d="m16 2 11 4v8c0 8-4.5 12.5-11 16C9.5 26.5 5 22 5 14V6l11-4Z"/><path d="m11 16 3.5 3.5L22 12"/></symbol>
+  <symbol id="ct-clock" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13"/><path d="M16 8v9l6 4"/></symbol>
+  <symbol id="ct-chat" viewBox="0 0 32 32"><path d="M5 6h22v17H14l-7 5v-5H5V6Z"/><path d="M10 14h12M10 19h8"/></symbol>
+</svg>
+
+<section class="contact-benefits" aria-label={lang === "es" ? "Formas de atención" : "Ways we can help"}>
+  <div class="container contact-benefits__grid">
+    {t.benefits.map((item) => <article class="contact-benefit">
+      <span class="contact-round-icon" data-tone={item.tone}><svg aria-hidden="true"><use href={`#ct-${item.icon}`}></use></svg></span>
+      <h2>{item.title}</h2><p>{item.text}</p>
+    </article>)}
+  </div>
+</section>
+
+<section id="formulario" class="contact-main">
+  <div class="container contact-main__grid">
+    <div class="contact-support">
+      <div class="contact-support__intro"><span class="contact-accent" aria-hidden="true"></span><h2>{t.supportTitle}</h2><p>{t.supportText}</p></div>
+      <div class="contact-support__portrait">
+        <Image src={contactImage} width={440} alt={t.supportAlt} loading="lazy" />
+        <span class="contact-support__bubble"><svg aria-hidden="true"><use href="#ct-chat"></use></svg></span>
+      </div>
+      <div class="contact-support__list">
+        {t.support.map((item) => <div class="contact-support__item"><span class="contact-round-icon" data-tone={item.tone}><svg aria-hidden="true"><use href={`#ct-${item.icon}`}></use></svg></span><div><h3>{item.title}</h3><p>{item.text}</p></div></div>)}
+      </div>
+    </div>
+    <ContactFormSimple lang={lang} variant="landing" />
+  </div>
+</section>
+
+<section class="contact-channels">
+  <div class="container">
+    <div class="contact-heading"><span class="contact-accent" aria-hidden="true"></span><h2>{t.channelsTitle}</h2><p>{t.channelsIntro}</p></div>
+    <div class="contact-channels__grid">
+      {t.channels.map((item) => <a class="contact-channel" href={item.href} target={item.icon === "whatsapp" ? "_blank" : undefined} rel={item.icon === "whatsapp" ? "noopener noreferrer" : undefined}><span class="contact-round-icon" data-tone={item.tone}><svg aria-hidden="true"><use href={`#ct-${item.icon}`}></use></svg></span><h3>{item.title}</h3><strong>{item.value}</strong><p>{item.text}</p></a>)}
+    </div>
+  </div>
+</section>
+
+<section class="contact-hours">
+  <div class="container">
+    <div class="contact-heading"><span class="contact-accent" aria-hidden="true"></span><h2>{t.scheduleTitle}</h2></div>
+    <div class="contact-hours__grid">
+      {t.hours.map((item) => <div class="contact-hour"><svg aria-hidden="true"><use href="#ct-calendar"></use></svg><h3>{item.day}</h3><p>{item.time}</p></div>)}
+    </div>
+  </div>
+</section>
+
+<section class="contact-visit">
+  <div class="container">
+    <div class="contact-visit__banner">
+      <img src="/images/contacto/contacto-visita.webp" alt="" width="1920" height="640" loading="lazy" decoding="async" />
+      <div class="contact-visit__shade" aria-hidden="true"></div><div class="contact-visit__orange" aria-hidden="true"></div><div class="contact-visit__dots" aria-hidden="true"></div>
+      <div class="contact-visit__copy"><span class="contact-accent" aria-hidden="true"></span><h2>{t.visitTitle}</h2><p>{t.visitText}</p><a href="#formulario">{t.visitButton}<span aria-hidden="true">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-icons{position:absolute;width:0;height:0;overflow:hidden}
+  .contact-benefits,.contact-main,.contact-channels,.contact-hours,.contact-visit{position:relative;isolation:isolate}
+  .contact-benefits{padding:10px 0 67px;background:#fff}
+  .contact-benefits__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+  .contact-benefit{min-height:224px;padding:24px 21px;text-align:center;background:#fff;border-radius:18px;box-shadow:0 11px 30px rgba(3,59,127,.08)}
+  .contact-round-icon{display:grid;place-items:center;flex:none;width:68px;height:68px;margin:0 auto 15px;border-radius:50%;background:#1673d2;color:#fff}
+  .contact-round-icon[data-tone="green"]{background:#24b961}.contact-round-icon[data-tone="orange"]{background:#ff9200}
+  .contact-round-icon svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .contact-benefit h2{margin:0 0 9px;color:#133c70;font-size:1.04rem;font-weight:800;line-height:1.3}
+  .contact-benefit p{margin:0;color:#505763;font-size:.9rem;line-height:1.47}
+  .contact-main{padding:0 0 71px;background:#fff;scroll-margin-top:90px}
+  .contact-main__grid{display:grid;grid-template-columns:.91fr 1.09fr;gap:30px;align-items:stretch}
+  .contact-support{position:relative;display:flex;flex-direction:column;min-height:855px;padding:40px 38px 31px;border-radius:20px;background:linear-gradient(135deg,#fff 0%,#f2f8ff 100%);box-shadow:0 13px 37px rgba(3,58,126,.075);overflow:hidden}
+  .contact-support::before{content:"";position:absolute;right:-75px;top:-65px;width:225px;height:225px;border-radius:50%;background:#eaf4ff}
+  .contact-support::after{content:"";position:absolute;right:-65px;bottom:-60px;width:170px;height:170px;border-radius:50%;background:#eaf4ff}
+  .contact-accent{display:block;width:50px;height:4px;background:#ff9700}
+  .contact-support__intro{position:relative;z-index:1}
+  .contact-support__intro h2{max-width:14ch;margin:13px 0 10px;color:#06417f;font-size:clamp(1.9rem,2.7vw,2.65rem);font-weight:800;line-height:1.08}
+  .contact-support__intro p{max-width:39ch;margin:0;color:#505969;font-size:1.08rem;line-height:1.42}
+  .contact-support__portrait{position:relative;display:grid;place-items:center;align-self:center;width:292px;height:278px;margin:23px 0 12px;border-radius:50%;background:#fff3e6}
+  .contact-support__portrait::before{content:"";position:absolute;inset:21px;border-radius:50%;background:#fff}
+  .contact-support__portrait :global(img){position:relative;display:block;width:219px;height:219px;border-radius:50%;object-fit:cover;object-position:56% 30%}
+  .contact-support__bubble{position:absolute;top:13px;right:2px;display:grid;place-items:center;width:66px;height:66px;border:8px solid #fff;border-radius:50%;background:#ff9200;color:#fff;box-shadow:0 8px 21px rgba(3,59,127,.1)}
+  .contact-support__bubble svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linejoin:round}
+  .contact-support__list{position:relative;z-index:1;display:grid;gap:10px;margin-top:auto}
+  .contact-support__item{display:flex;align-items:center;gap:16px;min-height:86px;padding:12px 15px;background:#fff;border-radius:13px;box-shadow:0 5px 17px rgba(3,59,127,.06)}
+  .contact-support__item .contact-round-icon{width:55px;height:55px;margin:0}
+  .contact-support__item .contact-round-icon svg{width:28px;height:28px}
+  .contact-support__item h3{margin:0 0 2px;color:#06417f;font-size:.94rem;font-weight:800;line-height:1.3}
+  .contact-support__item p{margin:0;color:#56606e;font-size:.85rem;line-height:1.34}
+  .contact-channels{padding:62px 0 73px;background:#fff}
+  .contact-heading{text-align:center;margin-bottom:36px}
+  .contact-heading .contact-accent{margin:0 auto 16px}
+  .contact-heading h2{margin:0;color:#06417f;font-size:clamp(1.9rem,2.7vw,2.55rem);font-weight:800;line-height:1.18}
+  .contact-heading p{margin:13px 0 0;color:#606b78;font-size:1rem}
+  .contact-channels__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+  .contact-channel{display:flex;flex-direction:column;align-items:center;min-height:238px;padding:27px 22px 22px;background:#fff;border-radius:18px;box-shadow:0 10px 32px rgba(3,59,127,.075);text-align:center;text-decoration:none}
+  .contact-channel .contact-round-icon{width:74px;height:74px;margin-bottom:16px}
+  .contact-channel h3{margin:0 0 4px;color:#073f7c;font-size:1.13rem;font-weight:800}
+  .contact-channel strong{color:#00458c;font-family:var(--font-heading);font-size:1.33rem;font-weight:800;line-height:1.25}
+  .contact-channel p{max-width:27ch;margin:13px auto 0;color:#5b6570;font-size:.93rem;line-height:1.42}
+  .contact-channel:hover{transform:translateY(-3px);box-shadow:0 15px 34px rgba(3,59,127,.12)}
+  .contact-hours{padding:55px 0 72px;background:linear-gradient(180deg,#f7fbff,#ecf6ff)}
+  .contact-hours::before,.contact-hours::after{content:"";position:absolute;z-index:-1;width:450px;height:260px;border-radius:50%;background:#e3f1ff}
+  .contact-hours::before{left:-180px;top:-75px}.contact-hours::after{right:-160px;bottom:-100px}
+  .contact-hours__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+  .contact-hour{min-height:180px;padding:22px;text-align:center;background:#fff;border-left:4px solid #ff9200;border-radius:12px;box-shadow:0 8px 25px rgba(3,59,127,.07)}
+  .contact-hour svg{width:35px;height:35px;margin-bottom:8px;fill:none;stroke:#ff9200;stroke-width:2.4;stroke-linejoin:round}
+  .contact-hour h3{margin:0 0 8px;color:#06417f;font-size:1.06rem;font-weight:800}
+  .contact-hour p{margin:0;color:#4f5865;font-size:.95rem}
+  .contact-visit{padding:40px 0 47px;background:#fff}
+  .contact-visit__banner{position:relative;isolation:isolate;display:flex;align-items:center;min-height:320px;border-radius:27px;overflow:hidden;background:#003d82;color:#fff}
+  .contact-visit__banner>img{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+  .contact-visit__shade{position:absolute;z-index:-2;inset:0;width:62%;border-bottom-right-radius:56% 85%;background:linear-gradient(115deg,#00346f,#00509b)}
+  .contact-visit__orange{position:absolute;z-index:-1;right:28%;top:-80px;width:190px;height:420px;border-radius:50%;border:42px solid rgba(255,153,0,.9);transform:rotate(17deg)}
+  .contact-visit__dots{position:absolute;right:28px;top:30px;width:90px;height:85px;background-image:radial-gradient(#ff9900 1.5px,transparent 1.5px);background-size:15px 15px}
+  .contact-visit__copy{position:relative;z-index:1;max-width:570px;padding:44px 60px}
+  .contact-visit__copy h2{margin:14px 0 13px;color:#fff;font-size:clamp(2rem,2.7vw,2.65rem);font-weight:800;line-height:1.15}
+  .contact-visit__copy p{max-width:46ch;margin:0 0 24px;font-size:1.02rem;line-height:1.42}
+  .contact-visit__copy a{display:inline-flex;align-items:center;gap:13px;min-height:49px;padding:12px 21px;border-radius:6px;background:#ff9900;color:#fff;font-family:var(--font-accent);font-size:.91rem;font-weight:700;text-decoration:none}
+  .contact-visit__copy a:hover{background:#ec8500}
+  .contact-channel:focus-visible,.contact-visit__copy a:focus-visible{outline:3px solid #ff9900;outline-offset:4px}
+  @media(max-width:900px){.contact-benefits__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-main__grid{grid-template-columns:1fr}.contact-support{min-height:0}.contact-channels__grid,.contact-hours__grid{gap:14px}.contact-channel strong{font-size:1rem}.contact-visit__copy{padding:40px}}
+  @media(max-width:640px){.contact-benefits__grid{gap:12px}.contact-benefit{padding:18px 12px;min-height:205px}.contact-round-icon{width:54px;height:54px}.contact-round-icon svg{width:28px;height:28px}.contact-benefit h2{font-size:.85rem}.contact-benefit p{font-size:.75rem}.contact-main{padding-bottom:40px}.contact-support{padding:29px 22px}.contact-support__intro h2{font-size:2rem}.contact-support__intro p{font-size:.95rem}.contact-support__portrait{width:250px;height:240px}.contact-support__portrait :global(img){width:190px;height:190px}.contact-channels{padding:45px 0}.contact-channels__grid,.contact-hours__grid{grid-template-columns:1fr}.contact-channel{min-height:190px;padding:20px}.contact-hours{padding:45px 0}.contact-visit{padding:35px 0}.contact-visit__banner{min-height:430px;align-items:flex-end}.contact-visit__banner>img{object-position:74% center}.contact-visit__shade{inset:0;width:100%;border-radius:0;background:linear-gradient(0deg,#00346f 0%,rgba(0,61,130,.95) 44%,rgba(0,61,130,.05) 100%)}.contact-visit__orange{right:-80px;top:-180px}.contact-visit__copy{padding:190px 25px 33px}.contact-visit__copy h2{font-size:1.9rem}}
+</style>

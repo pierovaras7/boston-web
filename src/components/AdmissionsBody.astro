@@ -1,0 +1,216 @@
+---
+import AdmissionsFormSimple from "./AdmissionsFormSimple.astro";
+
+interface Props { lang: "es" | "en" }
+const { lang } = Astro.props;
+
+const copy = {
+  es: {
+    benefits: [
+      { icon: "people", title: "Atención personalizada", text: "Acompañamiento cercano durante todo el proceso." },
+      { icon: "document", title: "Proceso claro", text: "Etapas simples y bien definidas para postular." },
+      { icon: "shield", title: "Matrícula segura", text: "Documentación y validación ordenada." },
+      { icon: "chat", title: "Respuesta oportuna", text: "Nuestro equipo resuelve tus dudas con rapidez." },
+    ],
+    processTitle: "Proceso de Admisión",
+    processIntro: "Conoce las etapas para formar parte de Boston Bilingual School.",
+    steps: [
+      { icon: "document", title: "Solicitud de Vacante", text: "Consulta disponibilidad por grado y sección. Contacta con nuestro equipo para conocer los lugares disponibles." },
+      { icon: "people", title: "Entrevista o Evaluación", text: "Entrevista con la familia y/o evaluación de admisión para conocer el perfil del estudiante." },
+      { icon: "folder", title: "Documentación", text: "Presentación de documentación y requisitos necesarios para completar el proceso." },
+      { icon: "contract", title: "Matrícula", text: "Matrícula y firma del contrato de servicio educativo para formalizar tu ingreso." },
+    ],
+    requirementsTitle: "Requisitos y Documentación",
+    transfers: "Para Traslados",
+    requested: "Se solicita la siguiente documentación:",
+    requirements: ["Libreta de notas", "Foto del DNI del estudiante", "Foto del DNI de ambos padres", "Constancia de no adeudo del colegio de procedencia"],
+    interviewAlt: "Asesora de admisiones atendiendo a una familia",
+    questionsTitle: "¿Tienes Preguntas?",
+    questionsIntro: "Nuestro equipo de admisiones está disponible para resolver todas tus dudas.",
+    phone: "Teléfono",
+    email: "Email",
+    finalStart: "¿Listo para dar",
+    finalAccent: "el siguiente paso?",
+    finalText: "Agenda una visita o inicia tu postulación y descubre todo lo que Boston puede ofrecer a tu familia.",
+    finalButton: "Inicia tu proceso",
+  },
+  en: {
+    benefits: [
+      { icon: "people", title: "Personalized support", text: "Close guidance throughout the entire process." },
+      { icon: "document", title: "Clear process", text: "Simple, well-defined steps to apply." },
+      { icon: "shield", title: "Secure enrollment", text: "Documents and validation handled in an orderly way." },
+      { icon: "chat", title: "Timely response", text: "Our team answers your questions promptly." },
+    ],
+    processTitle: "Admissions Process",
+    processIntro: "Explore the steps to become part of Boston Bilingual School.",
+    steps: [
+      { icon: "document", title: "Request a Place", text: "Check availability by grade and class. Contact our team to learn about available places." },
+      { icon: "people", title: "Interview or Assessment", text: "An interview with the family and/or an admissions assessment helps us understand the student." },
+      { icon: "folder", title: "Documentation", text: "Submit the documents and requirements needed to complete the process." },
+      { icon: "contract", title: "Enrollment", text: "Enroll and sign the educational services agreement to formalize admission." },
+    ],
+    requirementsTitle: "Requirements and Documentation",
+    transfers: "For Transfers",
+    requested: "The following documents are required:",
+    requirements: ["Report card", "Photo of the student's DNI", "Photos of both parents' DNI documents", "Certificate of no outstanding debt from the previous school"],
+    interviewAlt: "Admissions advisor speaking with a family",
+    questionsTitle: "Have Questions?",
+    questionsIntro: "Our admissions team is here to answer all your questions.",
+    phone: "Phone",
+    email: "Email",
+    finalStart: "Ready to take",
+    finalAccent: "the next step?",
+    finalText: "Schedule a visit or start your application and discover what Boston can offer your family.",
+    finalButton: "Start your application",
+  },
+} as const;
+const t = copy[lang];
+---
+
+<svg class="admissions-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ad-people" viewBox="0 0 32 32"><circle cx="16" cy="9" r="4"/><path d="M8 25v-3a8 8 0 0 1 16 0v3H8Z"/><path d="M7 13a3 3 0 1 0-2-5.3M5 25H2v-3a6 6 0 0 1 5-6M25 13a3 3 0 1 0 2-5.3M27 25h3v-3a6 6 0 0 0-5-6"/></symbol>
+  <symbol id="ad-document" viewBox="0 0 32 32"><path d="M8 3h12l5 5v21H8V3Z"/><path d="M20 3v6h5M12 15h9M12 20h9M12 25h6"/></symbol>
+  <symbol id="ad-shield" viewBox="0 0 32 32"><path d="m16 2 11 4v8c0 8-4.5 12.5-11 16C9.5 26.5 5 22 5 14V6l11-4Z"/><path d="m11 16 3.5 3.5L22 12"/></symbol>
+  <symbol id="ad-chat" viewBox="0 0 32 32"><path d="M5 6h22v16H14l-7 5v-5H5V6Z"/><path d="M10 14h12M10 18h8"/></symbol>
+  <symbol id="ad-folder" viewBox="0 0 32 32"><path d="M3 8h10l3 3h13v17H3V8Z"/><path d="M3 15h26"/></symbol>
+  <symbol id="ad-contract" viewBox="0 0 32 32"><path d="M7 2h15l4 4v24H7V2Z"/><path d="M22 2v5h4M11 12h11M11 17h11M11 22h6"/><path d="m19 24 2 2 5-5"/></symbol>
+  <symbol id="ad-phone" viewBox="0 0 32 32"><path d="M7 3 3 7c0 10 12 22 22 22l4-4-7-7-4 4c-4-2-6-4-8-8l4-4-7-7Z"/></symbol>
+  <symbol id="ad-whatsapp" viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11 20L3 29l6-2a13 13 0 1 0 7-24Z"/><path d="M10 10c0 6 6 12 12 12l2-3-4-3-2 2c-2-1-3-2-4-4l2-2-3-4-3 2Z"/></symbol>
+  <symbol id="ad-mail" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="18" rx="2"/><path d="m4 9 12 9L28 9"/></symbol>
+</svg>
+
+<section class="admissions-benefits" aria-label={lang === "es" ? "Beneficios del proceso de admisión" : "Admissions benefits"}>
+  <div class="container admissions-benefits__grid">
+    {t.benefits.map((item, index) => (
+      <article class="admissions-benefit" data-tone={index % 2 === 0 ? "blue" : "orange"}>
+        <span class="admissions-benefit__icon"><svg aria-hidden="true"><use href={`#ad-${item.icon}`}></use></svg></span>
+        <h2>{item.title}</h2>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="admissions-process">
+  <div class="container">
+    <div class="admissions-heading"><h2>{t.processTitle}</h2><span aria-hidden="true"></span><p>{t.processIntro}</p></div>
+    <div class="admissions-process__grid">
+      {t.steps.map((step, index) => (
+        <article class="admissions-step">
+          <span class="admissions-step__number">{String(index + 1).padStart(2, "0")}</span>
+          <h3>{step.title}</h3>
+          <span class="admissions-step__icon"><svg aria-hidden="true"><use href={`#ad-${step.icon}`}></use></svg></span>
+          <p>{step.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="admissions-requirements">
+  <div class="container">
+    <div class="admissions-heading"><h2>{t.requirementsTitle}</h2><span aria-hidden="true"></span></div>
+    <div class="admissions-requirements__grid">
+      <div class="admissions-requirements__card">
+        <h3>{t.transfers}</h3>
+        <p>{t.requested}</p>
+        <ul>{t.requirements.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+      </div>
+      <div class="admissions-requirements__photo">
+        <img src="/images/admisiones/admisiones-entrevista.webp" alt={t.interviewAlt} width="900" height="600" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="postulacion" class="admissions-apply">
+  <div class="container"><AdmissionsFormSimple lang={lang} variant="landing" /></div>
+</section>
+
+<section class="admissions-questions">
+  <div class="container">
+    <div class="admissions-heading"><h2>{t.questionsTitle}</h2><span aria-hidden="true"></span><p>{t.questionsIntro}</p></div>
+    <div class="admissions-questions__grid">
+      <a class="admissions-contact" href="tel:+51976586016" data-tone="blue"><span class="admissions-contact__icon"><svg aria-hidden="true"><use href="#ad-phone"></use></svg></span><h3>{t.phone}</h3><strong>+51 976 586 016</strong></a>
+      <a class="admissions-contact" href="https://wa.me/51976586016" target="_blank" rel="noopener noreferrer" data-tone="green"><span class="admissions-contact__icon"><svg aria-hidden="true"><use href="#ad-whatsapp"></use></svg></span><h3>WhatsApp</h3><strong>+51 976 586 016</strong></a>
+      <a class="admissions-contact" href="mailto:info@boston.edu.pe" data-tone="orange"><span class="admissions-contact__icon"><svg aria-hidden="true"><use href="#ad-mail"></use></svg></span><h3>{t.email}</h3><strong>info@boston.edu.pe</strong></a>
+    </div>
+  </div>
+</section>
+
+<section class="admissions-final">
+  <img src="/images/admisiones/admisiones-cta.webp" alt="" width="1920" height="600" loading="lazy" decoding="async" />
+  <div class="admissions-final__shade" aria-hidden="true"></div>
+  <div class="admissions-final__orb" aria-hidden="true"></div>
+  <div class="container admissions-final__inner">
+    <h2>{t.finalStart} <span>{t.finalAccent}</span></h2>
+    <p>{t.finalText}</p>
+    <a href="#postulacion">{t.finalButton}<span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .admissions-icons{position:absolute;width:0;height:0;overflow:hidden}
+  .admissions-benefits,.admissions-process,.admissions-requirements,.admissions-apply,.admissions-questions{position:relative;isolation:isolate}
+  .admissions-benefits{padding:0 0 70px;background:#fff}
+  .admissions-benefits__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+  .admissions-benefit{min-height:226px;padding:29px 21px 26px;text-align:center;background:#fff;border-radius:24px;box-shadow:0 13px 35px rgba(16,91,164,.09)}
+  .admissions-benefit__icon,.admissions-step__icon,.admissions-contact__icon{display:grid;place-items:center;border-radius:50%;flex:none}
+  .admissions-benefit__icon{width:74px;height:74px;margin:0 auto 17px;background:#e9f3ff;color:#0870d8}
+  .admissions-benefit[data-tone="orange"] .admissions-benefit__icon{background:#fff0df;color:#ff9000}
+  .admissions-benefit__icon svg{width:37px;height:37px;fill:none;stroke:currentColor;stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}
+  .admissions-benefit h2{margin:0 0 11px;color:#063c7e;font-size:1.04rem;font-weight:800;line-height:1.25}
+  .admissions-benefit p{max-width:24ch;margin:auto;color:#4e5360;font-size:.87rem;line-height:1.48}
+  .admissions-process{padding:48px 0 75px;background:linear-gradient(180deg,#f4f9ff,#f8fbff)}
+  .admissions-process::before,.admissions-apply::before{content:"";position:absolute;z-index:-1;width:390px;height:390px;border-radius:50%;background:#e8f3ff;left:-270px;top:-52px}
+  .admissions-heading{text-align:center;margin:0 auto 41px}
+  .admissions-heading h2{margin:0;color:#06417f;font-size:clamp(1.8rem,2.8vw,2.65rem);font-weight:800;line-height:1.16}
+  .admissions-heading>span{display:block;width:47px;height:3px;background:#ff9700;margin:13px auto 14px}
+  .admissions-heading p{margin:0;color:#5f6e80;font-size:1rem;line-height:1.45}
+  .admissions-process__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+  .admissions-step{min-height:349px;padding:28px 26px 24px;background:#fff;border-radius:15px;box-shadow:0 12px 30px rgba(4,62,126,.065)}
+  .admissions-step__number{display:block;margin-bottom:8px;color:#ff9000;font-family:var(--font-heading);font-size:2.8rem;font-weight:800;line-height:1}
+  .admissions-step h3{min-height:51px;margin:0;color:#043d7d;font-size:1.14rem;font-weight:800;line-height:1.22}
+  .admissions-step__icon{width:63px;height:63px;margin:12px 0 17px;color:#f89000;background:#fff0df}
+  .admissions-step__icon svg{width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+  .admissions-step p{margin:0;color:#424b58;font-size:.93rem;line-height:1.52}
+  .admissions-requirements{padding:70px 0 73px;background:#f8fbff}
+  .admissions-requirements::after{content:"";position:absolute;z-index:-1;width:450px;height:360px;border-radius:50%;background:#e8f3ff;right:-310px;top:20px}
+  .admissions-requirements__grid{display:grid;grid-template-columns:1.07fr .93fr;gap:25px;align-items:stretch}
+  .admissions-requirements__card{padding:32px 39px 24px;background:#fff;border-radius:22px;box-shadow:0 12px 34px rgba(3,62,126,.075)}
+  .admissions-requirements__card h3{margin:0 0 5px;color:#063e7f;font-size:1.35rem;font-weight:800}
+  .admissions-requirements__card>p{margin:0 0 16px;color:#ff8900;font-weight:700;font-size:.99rem}
+  .admissions-requirements__card ul{list-style:none;margin:0;padding:0}
+  .admissions-requirements__card li{display:flex;align-items:center;gap:16px;min-height:50px;border-bottom:1px solid #e7ebf0;color:#4a4e55;font-size:.96rem;line-height:1.3}
+  .admissions-requirements__card li:last-child{border:0}
+  .admissions-requirements__card li span{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:#ff9800;color:#fff;font-size:.95rem;font-weight:800}
+  .admissions-requirements__photo{position:relative;min-height:344px}
+  .admissions-requirements__photo::after{content:"";position:absolute;z-index:-1;right:-22px;bottom:-11px;width:100px;height:100px;background:#ff9900;border-radius:50%}
+  .admissions-requirements__photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:22px}
+  .admissions-apply{padding:24px 0 66px;background:#f8fbff;scroll-margin-top:90px}
+  .admissions-apply::before{top:150px;left:-220px;width:500px;height:500px}
+  .admissions-apply::after{content:"";position:absolute;z-index:-1;right:-280px;bottom:15%;width:500px;height:500px;border-radius:50%;background:#eaf4ff}
+  .admissions-questions{padding:10px 0 77px;background:#fff}
+  .admissions-questions__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .admissions-contact{display:flex;flex-direction:column;align-items:center;min-height:168px;padding:20px;text-align:center;text-decoration:none;background:#fff;border-radius:23px;box-shadow:0 11px 34px rgba(4,63,128,.08)}
+  .admissions-contact__icon{width:63px;height:63px;margin-bottom:11px;background:#1474d5;color:#fff}
+  .admissions-contact[data-tone="green"] .admissions-contact__icon{background:#28b963}
+  .admissions-contact[data-tone="orange"] .admissions-contact__icon{background:#ff9000}
+  .admissions-contact__icon svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .admissions-contact h3{margin:0 0 3px;color:#073f81;font-size:1.05rem;font-weight:800}
+  .admissions-contact strong{color:#034080;font-family:var(--font-heading);font-size:1.13rem;font-weight:800}
+  .admissions-contact:hover{transform:translateY(-3px);box-shadow:0 15px 32px rgba(4,63,128,.13)}
+  .admissions-contact:focus-visible,.admissions-final a:focus-visible{outline:3px solid #ff9900;outline-offset:4px}
+  .admissions-final{position:relative;isolation:isolate;display:flex;align-items:center;min-height:320px;overflow:hidden;background:#06417f;color:#fff}
+  .admissions-final>img{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
+  .admissions-final__shade{position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,#003a7c 0%,#00468f 35%,rgba(0,61,130,.88) 52%,rgba(0,61,130,.05) 83%)}
+  .admissions-final__orb{position:absolute;z-index:-1;left:-110px;bottom:-150px;width:350px;height:350px;border-radius:50%;background:rgba(19,114,220,.5)}
+  .admissions-final__inner{width:100%;padding-top:40px;padding-bottom:43px}
+  .admissions-final h2{max-width:580px;margin:0 0 13px;color:#fff;font-size:clamp(2rem,3vw,2.75rem);font-weight:800;line-height:1.2}
+  .admissions-final h2 span{color:#ff9600}
+  .admissions-final p{max-width:515px;margin:0 0 24px;font-size:1.07rem;line-height:1.45}
+  .admissions-final a{display:inline-flex;align-items:center;gap:13px;min-height:51px;padding:12px 22px;border-radius:6px;background:#fff;color:#073f80;font-family:var(--font-accent);font-size:.91rem;font-weight:800;text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  .admissions-final a:hover{background:#ecf6ff;transform:translateY(-2px)}
+  @media(max-width:900px){.admissions-benefits__grid,.admissions-process__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admissions-step{min-height:280px}.admissions-requirements__grid{grid-template-columns:1fr 1fr}.admissions-requirements__card{padding:27px}.admissions-questions__grid{gap:14px}.admissions-contact strong{font-size:.95rem}}
+  @media(max-width:640px){.admissions-benefits{padding-bottom:38px}.admissions-benefits__grid{gap:12px}.admissions-benefit{min-height:202px;padding:22px 11px}.admissions-benefit__icon{width:59px;height:59px;margin-bottom:13px}.admissions-benefit__icon svg{width:29px;height:29px}.admissions-benefit h2{font-size:.86rem}.admissions-benefit p{font-size:.76rem}.admissions-process{padding:42px 0 48px}.admissions-heading{margin-bottom:28px}.admissions-heading p{font-size:.9rem}.admissions-process__grid{grid-template-columns:1fr;gap:14px}.admissions-step{min-height:auto;padding:24px}.admissions-step h3{min-height:0}.admissions-step__icon{margin:13px 0}.admissions-requirements{padding:44px 0 51px}.admissions-requirements__grid{grid-template-columns:1fr;gap:17px}.admissions-requirements__card{padding:25px 22px}.admissions-requirements__card li{font-size:.85rem}.admissions-requirements__photo{height:240px;min-height:0}.admissions-apply{padding:20px 0 54px}.admissions-questions{padding:0 0 54px}.admissions-questions__grid{grid-template-columns:1fr;gap:13px}.admissions-contact{min-height:130px;padding:16px}.admissions-contact__icon{width:50px;height:50px;margin-bottom:6px}.admissions-contact__icon svg{width:26px;height:26px}.admissions-final{min-height:470px;align-items:flex-end}.admissions-final>img{object-position:71% 14%}.admissions-final__shade{background:linear-gradient(0deg,#003a7c 2%,rgba(0,61,130,.96) 43%,rgba(0,61,130,.08) 95%)}.admissions-final__inner{padding-top:200px;padding-bottom:42px}.admissions-final h2{font-size:2rem}.admissions-final p{font-size:.9rem}}
+</style>
