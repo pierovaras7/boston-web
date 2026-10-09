@@ -22,55 +22,6 @@ const pageDescription = Astro.props.description ?? (lang === "en"
 	: "Formamos ciudadanos globales con excelencia académica y certificación internacional en idiomas.");
 ---
 
-<script define:vars={{ lang, alternateLanguageHref }}>
-	// Manejar cambio de idioma con toggle switch
-	document.addEventListener('DOMContentLoaded', () => {
-		const langSwitcher = document.getElementById('lang-toggle');
-		if (langSwitcher) {
-			const currentLang = lang;
-			const esBtn = langSwitcher.querySelector('[data-lang="es"]');
-			const enBtn = langSwitcher.querySelector('[data-lang="en"]');
-
-			// Establecer estado inicial
-			if (currentLang === 'es') {
-				esBtn.setAttribute('data-active', 'true');
-				enBtn.removeAttribute('data-active');
-			} else {
-				enBtn.setAttribute('data-active', 'true');
-				esBtn.removeAttribute('data-active');
-			}
-
-			// Agregar evento a cada botón
-			[esBtn, enBtn].forEach(btn => {
-				btn.addEventListener('click', (e) => {
-					e.stopPropagation();
-					const targetLang = btn.getAttribute('data-lang');
-					if (targetLang === currentLang) return;
-
-					// Guardar preferencia
-					localStorage.setItem('preferredLang', targetLang);
-
-					// Obtener ruta actual
-					const pathname = window.location.pathname;
-					let newPath = pathname;
-
-					// Reemplazar idioma en la ruta
-					if (currentLang === 'es') {
-						newPath = newPath.replace(/^\/es\//, '/en/');
-						if (newPath === '/es') newPath = '/en';
-					} else {
-						newPath = newPath.replace(/^\/en\//, '/es/');
-						if (newPath === '/en') newPath = '/es';
-					}
-
-					// Redirigir
-					window.location.href = alternateLanguageHref || newPath;
-				});
-			});
-		}
-	});
-</script>
-
 <html lang={langAttr}>
 	<head>
 		<meta charset="utf-8" />
@@ -92,5 +43,39 @@ const pageDescription = Astro.props.description ?? (lang === "en"
 	<body>
 		<Header lang={lang} />
 		<slot />
+		<script define:vars={{ lang, alternateLanguageHref }}>
+			document.addEventListener('DOMContentLoaded', () => {
+				const langSwitcher = document.getElementById('lang-toggle');
+				if (!langSwitcher) return;
+				const currentLang = lang;
+				const esBtn = langSwitcher.querySelector('[data-lang="es"]');
+				const enBtn = langSwitcher.querySelector('[data-lang="en"]');
+				if (currentLang === 'es') {
+					esBtn.setAttribute('data-active', 'true');
+					enBtn.removeAttribute('data-active');
+				} else {
+					enBtn.setAttribute('data-active', 'true');
+					esBtn.removeAttribute('data-active');
+				}
+				[esBtn, enBtn].forEach(btn => {
+					btn.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const targetLang = btn.getAttribute('data-lang');
+						if (targetLang === currentLang) return;
+						localStorage.setItem('preferredLang', targetLang);
+						let newPath = window.location.pathname;
+						if (currentLang === 'es') {
+							newPath = newPath.replace(/^\/es\//, '/en/');
+							if (newPath === '/es') newPath = '/en';
+						} else {
+							newPath = newPath.replace(/^\/en\//, '/es/');
+							if (newPath === '/en') newPath = '/es';
+						}
+						window.location.href = alternateLanguageHref || newPath;
+					});
+				});
+			});
+		</script>
+		<script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"199f252fc0be4505b9dffec3493a56bc"}'></script>
 	</body>
 </html>

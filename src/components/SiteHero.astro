@@ -1,4 +1,16 @@
 ---
+import inicioBackground from "../assets/images/heroes/inicio-background-sharp.webp";
+import inicioForeground from "../assets/images/heroes/inicio-foreground.webp";
+import nosotrosBackground from "../assets/images/nosotros/campus-boston-hero.webp";
+import primariaBackground from "../assets/images/heroes/primaria-background-sharp.webp";
+import primariaForeground from "../assets/images/heroes/primaria-foreground.webp";
+import secundariaBackground from "../assets/images/heroes/secundaria-background-sharp.webp";
+import secundariaForeground from "../assets/images/heroes/secundaria-foreground.webp";
+import admisionesBackground from "../assets/images/heroes/admisiones-background.webp";
+import admisionesForeground from "../assets/images/heroes/admisiones-foreground.webp";
+import contactoBackground from "../assets/images/heroes/contacto-background-updated.webp";
+import contactoForeground from "../assets/images/heroes/contacto-foreground-updated.webp";
+
 type Page = "inicio" | "nosotros" | "primaria" | "secundaria" | "admisiones" | "contacto";
 interface Props {
   page: Page;
@@ -26,13 +38,22 @@ const copy = {
   },
 } as const;
 const content = copy[lang][page];
-const backgroundFile = page === "contacto"
-  ? "contacto-background-updated.webp"
-  : ["inicio", "primaria", "secundaria"].includes(page)
-    ? `${page}-background-sharp.webp`
-    : `${page}-background.webp`;
-const foregroundFile = page === "contacto" ? "contacto-foreground-updated.webp" : `${page}-foreground.webp`;
-const backgroundSrc = page === "nosotros" ? "/images/nosotros/campus-boston-hero.webp" : `/images/heroes/${backgroundFile}`;
+const backgroundSrc = {
+  inicio: inicioBackground.src,
+  nosotros: nosotrosBackground.src,
+  primaria: primariaBackground.src,
+  secundaria: secundariaBackground.src,
+  admisiones: admisionesBackground.src,
+  contacto: contactoBackground.src,
+}[page];
+const foregroundSrc = {
+  inicio: inicioForeground.src,
+  nosotros: "",
+  primaria: primariaForeground.src,
+  secundaria: secundariaForeground.src,
+  admisiones: admisionesForeground.src,
+  contacto: contactoForeground.src,
+}[page];
 const emptyImage = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 ---
 
@@ -43,7 +64,7 @@ const emptyImage = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
   <div class="site-hero__shade" aria-hidden="true"></div>
   <div class="site-hero__orb" aria-hidden="true"></div>
   {page !== "nosotros" && <div class="site-hero__foreground" aria-hidden="true">
-    <picture><source media="(min-width: 641px)" srcset={`/images/heroes/${foregroundFile}`} /><img src={emptyImage} alt="" loading="eager" /></picture>
+    <picture><source media="(min-width: 641px)" srcset={foregroundSrc} /><img src={emptyImage} alt="" loading="eager" /></picture>
   </div>}
   <div class="container site-hero__inner">
     <div class="site-hero__copy">
@@ -150,8 +171,7 @@ const emptyImage = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
   @media(max-width:420px){
     .site-hero__inner{padding-inline:18px;padding-bottom:92px}
     .site-hero h1{font-size:clamp(2.15rem,9vw,2.65rem)}
-    .site-hero__actions{margin-top:18px}
-    .site-hero__button{max-width:100%}
+    .site-hero__actions{margin-top:18px;flex-direction:column;align-items:stretch}
+    .site-hero__button{max-width:100%;justify-content:center}
   }
-  @media(max-width:390px){.site-hero__actions{flex-direction:column;align-items:stretch}.site-hero__button{justify-content:center}}
 </style>
