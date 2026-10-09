@@ -43,21 +43,24 @@ function MarcoCRM() {
     { a: '/metricas', nombre: 'Métricas', icono: 'metricas' },
   ] as const;
   return <div className="aplicacion">
+    <a className="salto-contenido" href="#contenido">Saltar al contenido</a>
     <aside className="lateral">
-      <Link className="marca" to="/"><span className="marca-icono">B</span><span><strong>Boston</strong><small>Bilingual School</small></span></Link>
+      <Link className="marca" to="/" aria-label="Boston Bilingual School · Inicio">
+        <img src="/boston-logo.svg" alt="Boston Bilingual School" width="192" height="77" />
+      </Link>
       <div className="lateral-etiqueta">ESPACIO DE TRABAJO</div>
       <nav aria-label="Principal">{enlaces.map((enlace) =>
         <NavLink key={enlace.a} end={enlace.a === '/'} to={enlace.a}>
           <Icono nombre={enlace.icono} /><span>{enlace.nombre}</span>
         </NavLink>)}</nav>
-      <div className="lateral-pie"><span className={`punto-conexion ${conexion === 'en-vivo' ? 'activo' : ''}`} />
+      <div className="lateral-pie" role="status"><span className={`punto-conexion ${conexion === 'en-vivo' ? 'activo' : ''}`} />
         {conexion === 'en-vivo' ? 'Actualización en vivo' : 'Reconectando…'}</div>
     </aside>
     <div className="area-principal">
-      <header className="barra"><span className="barra-titulo">Admisiones <span>/ CRM</span></span>
+      <header className="barra"><span className="barra-titulo">Centro de admisiones <span>/ CRM</span></span>
         <div className="usuario"><span className="avatar">{usuario?.nombre?.charAt(0).toUpperCase()}</span>
           <span className="usuario-nombre">{usuario?.nombre}</span><a href="/cdn-cgi/access/logout">Salir</a></div></header>
-      <main className="contenido"><Outlet /></main>
+      <main className="contenido" id="contenido"><Outlet /></main>
     </div>
   </div>;
 }

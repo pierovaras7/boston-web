@@ -41,12 +41,12 @@ export function Contactos() {
       <p className="subtitulo">Personas que solicitaron información al colegio.</p></div>
       <span className="contador-cabecera">{registros.length} {registros.length === 1 ? 'contacto' : 'contactos'}</span></div>
     {error && <p className="alerta" role="alert">{error}</p>}
-    {cargando ? <p>Cargando...</p> : <div className="tabla-scroll"><table>
+    {cargando ? <p className="panel estado-carga" role="status">Cargando contactos…</p> : <div className="tabla-scroll"><table className="tabla-movil tabla-contactos">
       <thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Asunto y mensaje</th><th>Fecha</th><th>Estado</th></tr></thead>
       <tbody>{registros.map((c) => <tr key={c.id}>
-        <td>{c.nombre}</td><td><a href={`mailto:${c.correo}`}>{c.correo}</a></td><td>{c.telefono || '—'}</td>
-        <td><strong>{c.asunto}</strong><details><summary>Ver mensaje</summary><p>{c.mensaje}</p></details></td>
-        <td>{fecha(c.fecha_creacion)}</td><td><select aria-label={`Estado de ${c.nombre}`} disabled={guardando === c.id}
+        <td data-label="Nombre" className="contacto-nombre">{c.nombre}</td><td data-label="Correo"><a href={`mailto:${c.correo}`}>{c.correo}</a></td><td data-label="Teléfono">{c.telefono || '—'}</td>
+        <td data-label="Consulta" className="contacto-consulta"><strong>{c.asunto}</strong><details><summary>Ver mensaje</summary><p>{c.mensaje}</p></details></td>
+        <td data-label="Fecha" className="fecha-tabla">{fecha(c.fecha_creacion)}</td><td data-label="Estado"><select className={`select-estado estado-${c.estado}`} aria-label={`Estado de ${c.nombre}`} disabled={guardando === c.id}
           value={c.estado} onChange={(e) => { void cambiar(c, e.target.value as EstadoContacto); }}>
           {estadosContacto.map((valor) => <option key={valor} value={valor}>{estado(valor)}</option>)}
         </select></td>

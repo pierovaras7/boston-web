@@ -63,15 +63,15 @@ export function Postulaciones() {
         }}>Limpiar filtros</button></div>
     </div></div>
     {error && <p className="alerta" role="alert">{error}</p>}
-    <div className="tabla-scroll"><table><thead><tr><th>Estudiante</th><th>Grado</th><th>Apoderado</th><th>Teléfono</th><th>Ingreso</th><th>Estado</th><th><span className="sr-only">Detalle</span></th></tr></thead>
+    <div className="tabla-scroll"><table className="tabla-movil"><thead><tr><th>Estudiante</th><th>Grado</th><th>Apoderado</th><th>Teléfono</th><th>Ingreso</th><th>Estado</th><th><span className="sr-only">Detalle</span></th></tr></thead>
       <tbody>{!cargando && registros.map((p) => <tr key={p.id}>
-        <td><Link className="enlace-fuerte" to={`/postulaciones/${p.id}`}>{p.nombre_estudiante}</Link></td>
-        <td>{grado(p.grado)}</td><td>{p.nombre_apoderado}</td><td>{p.telefono_apoderado}</td>
-        <td className="fecha-tabla">{fecha(p.fecha_creacion)}</td>
-        <td><span className={`badge badge-${p.estado}`}>{estado(p.estado)}</span></td>
-        <td><Link className="abrir-fila" to={`/postulaciones/${p.id}`} aria-label={`Abrir postulación de ${p.nombre_estudiante}`}><Icono nombre="flecha" /></Link></td>
+        <td data-label="Estudiante"><Link className="enlace-fuerte" to={`/postulaciones/${p.id}`}>{p.nombre_estudiante}</Link></td>
+        <td data-label="Grado">{grado(p.grado)}</td><td data-label="Apoderado">{p.nombre_apoderado}</td><td data-label="Teléfono">{p.telefono_apoderado}</td>
+        <td data-label="Ingreso" className="fecha-tabla">{fecha(p.fecha_creacion)}</td>
+        <td data-label="Estado"><span className={`badge badge-${p.estado}`}>{estado(p.estado)}</span></td>
+        <td className="celda-accion"><Link className="abrir-fila" to={`/postulaciones/${p.id}`} aria-label={`Abrir postulación de ${p.nombre_estudiante}`}><Icono nombre="flecha" /></Link></td>
       </tr>)}</tbody></table>
-      {cargando && <p className="vacio">Cargando postulaciones…</p>}
+      {cargando && <p className="vacio" role="status">Cargando postulaciones…</p>}
       {!cargando && !registros.length && <div className="estado-vacio"><Icono nombre="postulaciones" /><strong>No hay postulaciones para mostrar</strong><p>{activos ? 'Prueba con otros filtros.' : 'Las nuevas solicitudes aparecerán aquí.'}</p></div>}
     </div><p className="ayuda">{total > 500 ? 'Se muestran las 500 más recientes de la selección.' : 'Fechas según la hora de Lima.'}</p>
   </section>;

@@ -64,26 +64,30 @@ export function DetallePostulacion() {
 
   return <section>
     <p><Link className="volver" to="/postulaciones"><Icono nombre="volver" /> Volver a postulaciones</Link></p>
-    {cargando && <p>Cargando...</p>}
+    {cargando && <p className="panel estado-carga" role="status">Cargando postulación…</p>}
     {error && <p className="alerta" role="alert">{error}</p>}
     {postulacion && <>
       <div className="titulo-detalle"><div><p className="ceja">FICHA DE POSTULACIÓN · #{postulacion.id}</p><h1>{postulacion.nombre_estudiante}</h1><span className={`badge badge-${postulacion.estado}`}>{estado(postulacion.estado)}</span></div><label>Estado actual
         <select value={postulacion.estado} disabled={guardando} onChange={(e) => { void cambiarEstado(e.target.value as EstadoPostulacion); }}>
           {estadosPostulacion.map((valor) => <option key={valor} value={valor}>{estado(valor)}</option>)}
         </select></label></div>
-      <div className="panel datos">
-        <dl>
+      <div className="detalle-resumen">
+        <section className="panel datos"><h2>Estudiante</h2><dl>
           <div><dt>Edad</dt><dd>{postulacion.edad_estudiante}</dd></div>
           <div><dt>Grado</dt><dd>{grado(postulacion.grado)}</dd></div>
+          <div><dt>Idioma</dt><dd>{postulacion.idioma}</dd></div>
+          <div><dt>Origen</dt><dd>{postulacion.origen}</dd></div>
+        </dl></section>
+        <section className="panel datos"><h2>Apoderado y contacto</h2><dl>
           <div><dt>Apoderado</dt><dd>{postulacion.nombre_apoderado}</dd></div>
           <div><dt>Teléfono</dt><dd>{postulacion.telefono_apoderado}</dd></div>
           <div><dt>Correo</dt><dd><a href={`mailto:${postulacion.correo_apoderado}`}>{postulacion.correo_apoderado}</a></dd></div>
           <div><dt>Medio preferido</dt><dd>{postulacion.medio_contacto}</dd></div>
-          <div><dt>Idioma</dt><dd>{postulacion.idioma}</dd></div>
-          <div><dt>Origen</dt><dd>{postulacion.origen}</dd></div>
+        </dl></section>
+        <section className="panel datos detalle-fechas"><h2>Seguimiento</h2><dl>
           <div><dt>Creación</dt><dd>{fecha(postulacion.fecha_creacion)}</dd></div>
           <div><dt>Última actualización</dt><dd>{fecha(postulacion.fecha_actualizacion)}</dd></div>
-        </dl>
+        </dl></section>
       </div>
       <div className="dos-columnas">
         <div className="panel">
