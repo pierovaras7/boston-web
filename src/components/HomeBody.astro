@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import pillarBilingual from '../assets/images/home/pilares/miss_y_alumno.png';
 import pillarInnovation from '../assets/images/home/pilares/robotica_con_lego.png';
 import pillarValues from '../assets/images/home/pilares/alumna_con_laptop.jpg';
@@ -81,6 +81,10 @@ const copy = {
 const t = copy[lang];
 const pillars = t.pillars.map((item, i) => ({ ...item, image: [pillarBilingual, pillarInnovation, pillarValues][i], icon: ['globe', 'light', 'people'][i], href: i === 2 ? `${base}/sobre-nosotros` : `${base}/primaria` }));
 const testimonials = t.testimonials.map((item, i) => ({ ...item, image: [familyPhoto1, familyPhoto2, familyPhoto3, familyPhoto4][i] }));
+const deferredTestimonialPhotos = await Promise.all(testimonials.map((item, i) =>
+  i === 0 ? null : getImage({ src: item.image, width: 1000, format: 'webp' })
+));
+const emptyImage = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const newsSlugs = lang === 'es'
   ? ['olimpiada-robotica-2024', 'viaje-estudio-naturaleza', 'bilingüismo-ciudadania-global']
   : ['robotics-olympiad-2024', 'amazon-study-trip', 'bilingualism-global-citizenship'];
@@ -104,7 +108,7 @@ const news = t.news.map((item, i) => ({ ...item, image: [newsRobotics, newsTrip,
           <div class="hb-pillar-text"><h3>{pillar.title}</h3><p>{pillar.description}</p></div>
           <a class="hb-round-link hb-pillar-link" href={pillar.href} aria-label={`${t.learnAbout} ${pillar.title}`}>→</a>
         </div>
-        <div class="hb-pillar-photo"><Image src={pillar.image} alt={pillar.alt} widths={[480, 800]} sizes="(max-width: 760px) 100vw, 33vw" loading="lazy" /></div>
+        <div class="hb-pillar-photo"><Image src={pillar.image} alt={pillar.alt} widths={[360, 640, 800]} sizes="(max-width: 760px) calc(100vw - 36px), 33vw" loading="lazy" /></div>
       </article>)}
     </div>
   </div>
@@ -134,7 +138,9 @@ const news = t.news.map((item, i) => ({ ...item, image: [newsRobotics, newsTrip,
 <section class="hb-testimonials" id="testimonios" aria-labelledby="testimonials-title">
   <div class="hb-wrap hb-testimonials-layout">
     <div class="hb-testimonial-photo"><div class="hb-testimonial-images">
-      {testimonials.map((item, i) => <Image src={item.image} alt={item.alt} class={i === 0 ? 'is-active' : ''} data-testimonial-image={i} widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />)}
+      {testimonials.map((item, i) => i === 0
+        ? <Image src={item.image} alt={item.alt} class="is-active" data-testimonial-image={i} widths={[600, 800, 1000]} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" />
+        : <img src={emptyImage} data-src={deferredTestimonialPhotos[i]?.src} alt={item.alt} data-testimonial-image={i} width={item.image.width} height={item.image.height} decoding="async" />)}
     </div></div>
     <div class="hb-testimonial-copy">
       <p class="hb-eyebrow">{t.testimonialsEyebrow}</p>
@@ -180,14 +186,35 @@ const news = t.news.map((item, i) => ({ ...item, image: [newsRobotics, newsTrip,
     const items = [...section.querySelectorAll<HTMLElement>('[data-testimonial-item]')];
     const dots = [...section.querySelectorAll<HTMLElement>('[data-testimonial-dot]')];
     let active = 0;
-    const show = (next: number) => {
-      active = (next + items.length) % items.length;
-      images.forEach((image, i) => image.classList.toggle('is-active', i === active));
-      items.forEach((item, i) => item.classList.toggle('is-active', i === active));
-      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+    let requested = 0;
+    const load = (image: HTMLImageElement) => {
+      if (!image.dataset.src) return;
+      image.src = image.dataset.src;
+      delete image.dataset.src;
     };
-    section.querySelector('[data-testimonial-prev]')?.addEventListener('click', () => show(active - 1));
-    section.querySelector('[data-testimonial-next]')?.addEventListener('click', () => show(active + 1));
+    const show = (next: number) => {
+      requested = (next + items.length) % items.length;
+      const target = requested;
+      const incoming = images[target] as HTMLImageElement;
+      load(incoming);
+      const activate = () => {
+        if (requested !== target) return;
+        active = target;
+        images.forEach((image, i) => image.classList.toggle('is-active', i === active));
+        items.forEach((item, i) => item.classList.toggle('is-active', i === active));
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+      };
+      if (incoming.complete && incoming.naturalWidth > 1) activate();
+      else incoming.addEventListener('load', activate, { once: true });
+    };
+    section.querySelector('[data-testimonial-prev]')?.addEventListener('click', () => show(requested - 1));
+    section.querySelector('[data-testimonial-next]')?.addEventListener('click', () => show(requested + 1));
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      load(images[1] as HTMLImageElement);
+      observer.disconnect();
+    }, { rootMargin: '200px' });
+    observer.observe(section);
   }
 </script>
 

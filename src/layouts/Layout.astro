@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "../components/Header.astro";
+import { Font } from "astro:assets";
 
 interface Props {
 	title?: string;
@@ -78,6 +79,9 @@ const pageDescription = Astro.props.description ?? (lang === "en"
 		<meta name="description" content={pageDescription} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#ff9900" />
+		<Font cssVariable="--astro-font-heading" preload={[{ weight: 900, subset: "latin" }]} />
+		<Font cssVariable="--astro-font-body" />
+		<Font cssVariable="--astro-font-accent" />
 		<title>{title}</title>
 		<style>
 			html {

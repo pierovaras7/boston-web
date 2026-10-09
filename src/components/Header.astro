@@ -25,20 +25,20 @@ const isActive = (href: string) => currentPath === hrefFor(href) || currentPath 
 
 <header class="header">
   <div class="container header__inner">
-    <a href={`/${lang}`} class="header__logo">
+    <a href={`/${lang}`} class="header__logo" data-astro-prefetch>
       <img src="/logo.svg" alt="Boston Bilingual School" class="logo__img" />
     </a>
 
     <nav class="header__nav" aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}>
       {links.map((link) => (
-        <a href={hrefFor(link.href)} class:list={["nav-link", { "nav-link--active": isActive(link.href) }]} aria-current={isActive(link.href) ? "page" : undefined}>
+        <a href={hrefFor(link.href)} data-astro-prefetch class:list={["nav-link", { "nav-link--active": isActive(link.href) }]} aria-current={isActive(link.href) ? "page" : undefined}>
           {link.label}
         </a>
       ))}
     </nav>
 
     <div class="header__actions">
-      <a href={`/${lang}/admisiones`} class="header__cta">{lang === "es" ? "Admisión 2027" : "Admissions 2027"} <span aria-hidden="true">→</span></a>
+      <a href={`/${lang}/admisiones`} class="header__cta" data-astro-prefetch>{lang === "es" ? "Admisión 2027" : "Admissions 2027"} <span aria-hidden="true">→</span></a>
       <div class="header__lang-switcher" id="lang-toggle" data-lang={lang} title={lang === "es" ? "Cambiar idioma" : "Change language"}>
         <button class="lang-btn lang-btn--es" data-lang="es">ES</button>
         <button class="lang-btn lang-btn--en" data-lang="en">EN</button>
@@ -46,7 +46,7 @@ const isActive = (href: string) => currentPath === hrefFor(href) || currentPath 
       <details class="header__mobile">
         <summary aria-label={lang === "es" ? "Abrir menú" : "Open menu"}><span></span><span></span><span></span></summary>
         <nav aria-label={lang === "es" ? "Navegación móvil" : "Mobile navigation"}>
-          {links.map((link) => <a href={hrefFor(link.href)} aria-current={isActive(link.href) ? "page" : undefined}>{link.label}</a>)}
+          {links.map((link) => <a href={hrefFor(link.href)} data-astro-prefetch aria-current={isActive(link.href) ? "page" : undefined}>{link.label}</a>)}
         </nav>
       </details>
     </div>

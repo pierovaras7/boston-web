@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @view-transition {
 	navigation: auto;
 }
@@ -39,9 +37,9 @@
 	--radius-card: 16px;
 	--shadow-card: 0 12px 32px rgba(0, 55, 115, 0.09);
 
-	--font-heading: 'Montserrat', sans-serif;
-	--font-body: 'Inter', sans-serif;
-	--font-accent: 'Poppins', sans-serif;
+	--font-heading: var(--astro-font-heading);
+	--font-body: var(--astro-font-body);
+	--font-accent: var(--astro-font-accent);
 }
 
 * {

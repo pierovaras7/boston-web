@@ -2,6 +2,7 @@
 import ImageBandShade from "./ImageBandShade.astro";
 import { Image } from "astro:assets";
 import classroom from "../assets/images/propuesta_academica/infraestructura_y_vida_bbs/instalaciones/aula_primaria.png";
+import diversityPhoto from "../assets/images/nosotros/diversidad-cultural.webp";
 
 interface Props { lang?: "es" | "en" }
 const { lang = "es" } = Astro.props;
@@ -105,7 +106,7 @@ const team = [
   </section>
 
   <section class="diversity image-band" aria-labelledby="diversity-title">
-    <img src="/images/nosotros/diversidad-cultural.webp" alt={t.diversityAlt} width="1920" height="686" loading="lazy" decoding="async" />
+    <Image src={diversityPhoto} alt={t.diversityAlt} widths={[640, 960, 1440, 1920]} sizes="100vw" loading="lazy" decoding="async" />
     <ImageBandShade />
     <div class="about-wrap diversity__content image-band__content">
       <p class="diversity__eyebrow">Boston Bilingual School</p>

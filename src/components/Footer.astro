@@ -15,7 +15,7 @@ const privacyHref = lang === "es" ? "/es/privacidad" : "/en/privacidad";
   <div class="container site-footer__container">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        <a class="site-footer__logo" href={`/${lang}`} aria-label={`Boston Bilingual School — ${lang === "es" ? "inicio" : "home"}`}><img src="/logo-white.svg" alt="Boston Bilingual School" width="140" height="58" loading="lazy" /></a>
+        <a class="site-footer__logo" href={`/${lang}`} data-astro-prefetch aria-label={`Boston Bilingual School — ${lang === "es" ? "inicio" : "home"}`}><img src="/logo-white.svg" alt="Boston Bilingual School" width="140" height="58" loading="lazy" /></a>
         <p>{t.footer.description}.</p>
         <address>
           <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>{address}</span>
@@ -25,17 +25,17 @@ const privacyHref = lang === "es" ? "/es/privacidad" : "/en/privacidad";
       </div>
       <nav class="site-footer__column" aria-label={t.footer.academic}>
         <h2>{t.footer.academic}</h2>
-        <a href={`/${lang}/primaria`}>{t.nav.primaria}</a>
-        <a href={`/${lang}/secundaria`}>{t.nav.secundaria}</a>
-        <a href={`/${lang}/#programas`}>{lang === "es" ? "Programas" : "Programs"}</a>
-        <a href={`/${lang}/articulos`}>Blog</a>
+        <a href={`/${lang}/primaria`} data-astro-prefetch>{t.nav.primaria}</a>
+        <a href={`/${lang}/secundaria`} data-astro-prefetch>{t.nav.secundaria}</a>
+        <a href={`/${lang}/#programas`} data-astro-prefetch>{lang === "es" ? "Programas" : "Programs"}</a>
+        <a href={`/${lang}/articulos`} data-astro-prefetch>Blog</a>
       </nav>
       <nav class="site-footer__column" aria-label={t.footer.institutional}>
         <h2>{t.footer.institutional}</h2>
-        <a href={`/${lang}/sobre-nosotros`}>{t.nav.about}</a>
-        <a href={`/${lang}/admisiones`}>{t.nav.admisiones}</a>
-        <a href={`/${lang}/contacto`}>{t.nav.contacto}</a>
-        <a href={`/${lang}/#testimonios`}>{lang === "es" ? "Testimonios" : "Testimonials"}</a>
+        <a href={`/${lang}/sobre-nosotros`} data-astro-prefetch>{t.nav.about}</a>
+        <a href={`/${lang}/admisiones`} data-astro-prefetch>{t.nav.admisiones}</a>
+        <a href={`/${lang}/contacto`} data-astro-prefetch>{t.nav.contacto}</a>
+        <a href={`/${lang}/#testimonios`} data-astro-prefetch>{lang === "es" ? "Testimonios" : "Testimonials"}</a>
       </nav>
       <div class="site-footer__column site-footer__social">
         <h2>{t.footer.followUs}</h2>
