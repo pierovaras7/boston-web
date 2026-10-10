@@ -1,0 +1,123 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "./Footer.astro";
+import { nexoRoutes, type NexoDocumentKey, type NexoLanguage } from "../data/nexoLegal";
+import { nexoLegalEs } from "../data/nexoLegal.es";
+import { nexoLegalEn } from "../data/nexoLegal.en";
+
+interface Props {
+  lang: NexoLanguage;
+  document: NexoDocumentKey;
+}
+
+const { lang, document } = Astro.props;
+const content = lang === "es" ? nexoLegalEs[document] : nexoLegalEn[document];
+const routes = nexoRoutes[lang];
+const otherLang = lang === "es" ? "en" : "es";
+const labels = lang === "es"
+  ? {
+      eyebrow: "Nexo — Tecnología de Boston Bilingual School",
+      updated: "Última actualización: 10 de octubre de 2026",
+      documents: "Documentos legales de Nexo",
+      back: "Volver al sitio de Boston Bilingual School",
+    }
+  : {
+      eyebrow: "Nexo — Technology by Boston Bilingual School",
+      updated: "Last updated: October 10, 2026",
+      documents: "Nexo legal documents",
+      back: "Return to the Boston Bilingual School website",
+    };
+---
+
+<Layout
+  title={`${content.title} | Boston Bilingual School`}
+  description={content.description}
+  lang={lang}
+  alternateLanguageHref={nexoRoutes[otherLang][document].href}
+>
+  <main class="nexo-legal">
+    <header class="nexo-legal__intro">
+      <div class="nexo-legal__wrap">
+        <p class="nexo-legal__eyebrow">{labels.eyebrow}</p>
+        <h1>{content.title}</h1>
+        <p class="nexo-legal__description">{content.description}</p>
+        <p class="nexo-legal__updated">{labels.updated}</p>
+      </div>
+    </header>
+
+    <div class="nexo-legal__wrap nexo-legal__body">
+      <nav class="nexo-legal__nav" aria-label={labels.documents}>
+        <p class="nexo-legal__nav-title">{labels.documents}</p>
+        <ul>
+          {(Object.keys(routes) as NexoDocumentKey[]).map((key) => (
+            <li><a href={routes[key].href} aria-current={key === document ? "page" : undefined}>{routes[key].label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <article class="nexo-legal__article" aria-label={content.title}>
+        {content.sections.map((section, index) => (
+          <section aria-labelledby={`nexo-section-${index + 1}`}>
+            <h2 id={`nexo-section-${index + 1}`}>{index + 1}. {section.title}</h2>
+            {section.blocks.map((block) => (
+              block.kind === "paragraph" ? <p>{block.text}</p> :
+              block.kind === "list" ? (
+                block.ordered
+                  ? <ol>{block.items.map((item) => <li>{item}</li>)}</ol>
+                  : <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+              ) :
+              <p>{block.before}<a href={block.href}>{block.label}</a>{block.after}</p>
+            ))}
+          </section>
+        ))}
+        <p class="nexo-legal__return"><a href={`/${lang}/`}>{labels.back} <span aria-hidden="true">→</span></a></p>
+      </article>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Layout>
+
+<style>
+  .nexo-legal { background: #f6f9fd; color: #253c5b; }
+  .nexo-legal__wrap { width: min(1060px, calc(100% - 48px)); margin-inline: auto; }
+  .nexo-legal__intro { background: linear-gradient(120deg, #00346f, #003d82 68%, #0b5aa7); color: #fff; }
+  .nexo-legal__intro .nexo-legal__wrap { padding-block: clamp(60px, 8vw, 100px); }
+  .nexo-legal__eyebrow { margin: 0 0 20px; color: #dbeafa; font-family: var(--font-accent); font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .nexo-legal__eyebrow::before { content: ""; display: inline-block; width: 26px; height: 3px; margin: 0 10px 3px 0; background: var(--color-accent); }
+  .nexo-legal h1 { max-width: 19ch; margin: 0 0 18px; font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1.08; letter-spacing: -.04em; }
+  .nexo-legal__description { max-width: 66ch; margin: 0; font-size: clamp(1rem, 1.5vw, 1.15rem); line-height: 1.65; color: #eef5ff; }
+  .nexo-legal__updated { display: inline-block; margin: 26px 0 0; padding: 7px 13px; border: 1px solid #a8c6e7; border-radius: 999px; font-size: .84rem; color: #f4f8ff; }
+  .nexo-legal__body { display: grid; grid-template-columns: 225px minmax(0, 1fr); align-items: start; gap: clamp(24px, 4vw, 52px); padding-block: clamp(40px, 6vw, 72px) 90px; }
+  .nexo-legal__nav { position: sticky; top: 110px; padding: 22px; border: 1px solid #e0eaf5; border-radius: 14px; background: #fff; }
+  .nexo-legal__nav-title { margin: 0 0 14px; color: var(--color-primary); font-size: .92rem; font-weight: 700; }
+  .nexo-legal__nav ul { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+  .nexo-legal__nav a { display: block; padding: 9px 10px; border-radius: 7px; color: #315778; font-size: .9rem; line-height: 1.35; text-decoration: none; }
+  .nexo-legal__nav a[aria-current="page"] { background: #eaf3ff; color: var(--color-primary); font-weight: 700; }
+  .nexo-legal__article { min-width: 0; padding: clamp(25px, 4vw, 52px); border: 1px solid #e0eaf5; border-radius: 18px; background: #fff; box-shadow: 0 12px 35px rgba(0, 55, 115, .055); }
+  .nexo-legal__article section + section { margin-top: 34px; padding-top: 34px; border-top: 1px solid #e6edf5; }
+  .nexo-legal__article h2 { margin: 0 0 17px; color: var(--color-primary); font-size: clamp(1.22rem, 2vw, 1.55rem); line-height: 1.3; }
+  .nexo-legal__article p, .nexo-legal__article li { margin: 0; font-size: 1rem; line-height: 1.75; overflow-wrap: anywhere; }
+  .nexo-legal__article p + p, .nexo-legal__article p + ul, .nexo-legal__article p + ol, .nexo-legal__article :is(ul, ol) + p { margin-top: 14px; }
+  .nexo-legal__article ul, .nexo-legal__article ol { padding-left: 24px; }
+  .nexo-legal__article li + li { margin-top: 9px; }
+  .nexo-legal__article a { color: #0059ae; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .nexo-legal__article a:hover, .nexo-legal__nav a:hover { color: #a65100; }
+  .nexo-legal a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  .nexo-legal__return { margin-top: 40px !important; padding-top: 24px; border-top: 1px solid #e6edf5; }
+  .nexo-legal__return a { display: inline-flex; align-items: center; gap: 8px; }
+  @media (max-width: 760px) {
+    .nexo-legal__body { grid-template-columns: 1fr; gap: 18px; padding-bottom: 65px; }
+    .nexo-legal__nav { position: static; padding: 16px; }
+    .nexo-legal__nav ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .nexo-legal__nav a { height: 100%; text-align: center; }
+  }
+  @media (max-width: 520px) {
+    .nexo-legal__wrap { width: calc(100% - 36px); }
+    .nexo-legal__intro .nexo-legal__wrap { padding-block: 48px 55px; }
+    .nexo-legal__eyebrow { font-size: .68rem; line-height: 1.5; }
+    .nexo-legal__nav ul { grid-template-columns: 1fr; }
+    .nexo-legal__nav a { text-align: left; }
+    .nexo-legal__article { padding: 25px 20px; border-radius: 12px; }
+    .nexo-legal__article section + section { margin-top: 27px; padding-top: 27px; }
+  }
+</style>
